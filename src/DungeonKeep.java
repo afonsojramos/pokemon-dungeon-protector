@@ -7,7 +7,7 @@ public class DungeonKeep {
 	int xg = 8, yg = 1; //posicao do guarda
 	int it = 0; //iterador do array
 	public void update(int new_x, int new_y){
-		if(it == 23){
+		if(it == 24){
 			it = 0;
 		}
 		board[y][x] = ' ';
