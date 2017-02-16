@@ -72,7 +72,7 @@ public class DungeonKeep {
 		d.run();
 	}
 	private void run() {
-		while(x != 0 && (y != 5 || y != 6) && ((y != yg || (y != yg-1) || (y != yg+1)) && (x != xg || x != (xg-1) || x != (xg+1)))){
+		while((x != 0 && (y != 5 || y != 6)) && ((y != yg || (y != yg-1) || (y != yg+1)) && (x != xg || x != (xg-1) || x != (xg+1)))){
 			move();
 			display();
 		}
