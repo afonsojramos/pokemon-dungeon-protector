@@ -7,7 +7,7 @@ public class DungeonKeep {
 	int xg = 8, yg = 1; //posicao do guarda
 	int it = 0; //iterador do array
 	public void update(int new_x, int new_y){
-		if(it == 23){
+		if(it == 24){
 			it = 0;
 		}
 		board[y][x] = ' ';
@@ -72,7 +72,7 @@ public class DungeonKeep {
 		d.run();
 	}
 	private void run() {
-		while(x != 0 && (y != 5 || y != 6) && ((y != yg || (y != yg-1) || (y != yg+1)) && (x != xg || x != (xg-1) || x != (xg+1)))){
+		while((x != 0 && (y != 5 || y != 6)) && ((y != yg || (y != yg-1) || (y != yg+1)) && (x != xg || x != (xg-1) || x != (xg+1)))){
 			move();
 			display();
 		}
