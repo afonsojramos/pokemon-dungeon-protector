@@ -9,7 +9,7 @@ public class DungeonKeep {
 			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' }, { 'X', ' ', 'I', ' ', 'I', ' ', 'X', 'k', ' ', 'X' },
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
 	char board2[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-			{ 'I', ' ', ' ', ' ', 'O', ' ', ' ', 'k', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'I', ' ', ' ', ' ', 'O', '*', ' ', 'k', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
 			{ 'X', 'H', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
@@ -19,6 +19,7 @@ public class DungeonKeep {
 						// posicao inicial do heroi
 	int xg = 8, yg = 1; // posicao do guarda
 	int xo = 4, yo = 1; // posicao do ogre
+	int xc = 5, yc = 1; // posição taco (club)
 	int it = 0; // iterador do array
 	Random rand = new Random();
 	boolean possibleMove = true;
@@ -79,6 +80,7 @@ public class DungeonKeep {
 					possibleMove = false;
 				} else {
 					board2[yo][xo] = ' ';
+					board2[yc][xc] = (board2[yc][xc] == '$') ? 'k' : ' ';
 					yo--;
 					if((xo == 7) && (yo == 1))
 						board2[yo][xo] = '$';
@@ -92,6 +94,7 @@ public class DungeonKeep {
 					possibleMove = false;
 				} else {
 					board2[yo][xo] = (board2[yo][xo] == '$') ? 'k' : ' ';
+					board2[yc][xc] = (board2[yc][xc] == '$') ? 'k' : ' ';
 					yo++;
 					board2[yo][xo] = 'O';
 					possibleMove = true;
@@ -102,6 +105,7 @@ public class DungeonKeep {
 					possibleMove = false;
 				} else {
 					board2[yo][xo] = (board2[yo][xo] == '$') ? 'k' : ' ';
+					board2[yc][xc] = (board2[yc][xc] == '$') ? 'k' : ' ';
 					xo--;
 					board2[yo][xo] = 'O';
 					possibleMove = true;
@@ -112,11 +116,65 @@ public class DungeonKeep {
 					possibleMove = false;
 				} else {
 					board2[yo][xo] = ' ';
+					board2[yc][xc] = (board2[yc][xc] == '$') ? 'k' : ' ';
 					xo++;
 					if((xo == 7) && (yo == 1))
 						board2[yo][xo] = '$';
 					else
 						board2[yo][xo] = 'O';
+					possibleMove = true;
+				}
+				break;
+			}
+		} while (!possibleMove);
+		
+		possibleMove=false;
+		do {
+			int randomNum2 = rand.nextInt(4); // random entre [min, max] : int randomNum = rand.nextInt((max - min) + 1) + min;
+			switch (randomNum2) {
+			case 0: // Taco apontado para cima
+				if ((board2[yo - 1][xo] == 'I') || (board2[yo - 1][xo] == 'X')) {
+					possibleMove = false;
+				} else {
+					xc = xo;
+					yc = yo-1;
+					if((xc == 7) && (yc == 1))
+						board2[yc][xc] = '$';
+					else
+						board2[yc][xc] = '*';
+					possibleMove = true;
+				}
+				break;
+			case 1: // Taco apontado para baixo
+				if ((board2[yo + 1][xo] == 'I') || (board2[yo + 1][xo] == 'X')) {
+					possibleMove = false;
+				} else {
+					xc = xo;
+					yc = yo+1;
+					board2[yc][xc] = '*';
+					possibleMove = true;
+				}
+				break;
+			case 2: // Taco apontado para a esquerda
+				if ((board2[yo][xo - 1] == 'I') || (board2[yo][xo - 1] == 'X')) {
+					possibleMove = false;
+				} else {
+					xc = xo-1;
+					yc = yo;
+					board2[yc][xc] = '*';
+					possibleMove = true;
+				}
+				break;
+			case 3: // Taco apontado para a direita
+				if ((board2[yo][xo + 1] == 'I') || (board2[yo][xo + 1] == 'X')) {
+					possibleMove = false;
+				} else {
+					xc = xo+1;
+					yc = yo;
+					if((xc == 7) && (yc == 1))
+						board2[yc][xc] = '$';
+					else
+						board2[yc][xc] = '*';
 					possibleMove = true;
 				}
 				break;
@@ -195,6 +253,12 @@ public class DungeonKeep {
 			while(!((x == 0) && (y == 1))){
 				if (((y == yo) || (y == (yo - 1)) || (y == (yo + 1)))
 						&& ((x == xo) || (x == (xo - 1)) || (x == (xo + 1)))) {
+					System.out.println("\n\nGAME OVER\n\n");
+					endOfGame = true;
+					break;
+				}
+				if (((y == yc) || (y == (yc - 1)) || (y == (yc + 1)))
+						&& ((x == xc) || (x == (xc - 1)) || (x == (xc + 1)))) {
 					System.out.println("\n\nGAME OVER\n\n");
 					endOfGame = true;
 					break;
