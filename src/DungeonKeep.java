@@ -193,6 +193,12 @@ public class DungeonKeep {
 			System.out.print("\n\n");
 			display2();
 			while(!((x == 0) && (y == 1))){
+				if (((y == yo) || (y == (yo - 1)) || (y == (yo + 1)))
+						&& ((x == xo) || (x == (xo - 1)) || (x == (xo + 1)))) {
+					System.out.println("\n\nGAME OVER\n\n");
+					endOfGame = true;
+					break;
+				}
 				move2();
 				display2();
 			}
