@@ -66,16 +66,22 @@ public class DungeonKeep {
 		}
 		
 	}
+
+	private void run() {
+		while((x != 0 && (y != 5 || y != 6))){
+			if(((y == yg) || (y == (yg-1)) || (y == (yg+1))) && ((x == xg) || (x == (xg-1)) || (x == (xg+1)))){
+				System.out.println("\n\nGAME OVER\n\n");
+				break;
+			}
+			move();
+			display();
+		}
+	}
+	
 	public static void main(String[] args){
 		DungeonKeep d = new DungeonKeep();
 		d.display();
 		d.run();
-	}
-	private void run() {
-		while((x != 0 && (y != 5 || y != 6)) && ((y != yg || (y != yg-1) || (y != yg+1)) && (x != xg || x != (xg-1) || x != (xg+1)))){
-			move();
-			display();
-		}
 	}
 	
 }
