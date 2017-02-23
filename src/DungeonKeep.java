@@ -249,6 +249,7 @@ public class DungeonKeep {
 			x = 1; // atualizar coordenadas do guarda no tabuleiro
 			y = 7;
 			System.out.print("\n\n");
+			
 			display2();
 			while(!((x == 0) && (y == 1))){
 				if (((y == yo) && ((x == (xo - 1)) || (x == (xo + 1)))) || ((x == xo) && ((y == (yo - 1)) || (y == (yo + 1))))) {
