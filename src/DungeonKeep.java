@@ -82,7 +82,7 @@ public class DungeonKeep {
 					board2[yo][xo] = ' ';
 					board2[yc][xc] = (board2[yc][xc] == '$') ? 'k' : ' ';
 					yo--;
-					if((xo == 7) && (yo == 1))
+					if((xo == 7) && (yo == 1) && !keyFound)
 						board2[yo][xo] = '$';
 					else
 						board2[yo][xo] = 'O';
@@ -118,7 +118,7 @@ public class DungeonKeep {
 					board2[yo][xo] = ' ';
 					board2[yc][xc] = (board2[yc][xc] == '$') ? 'k' : ' ';
 					xo++;
-					if((xo == 7) && (yo == 1))
+					if((xo == 7) && (yo == 1) && !keyFound)
 						board2[yo][xo] = '$';
 					else
 						board2[yo][xo] = 'O';
@@ -138,7 +138,7 @@ public class DungeonKeep {
 				} else {
 					xc = xo;
 					yc = yo-1;
-					if((xc == 7) && (yc == 1))
+					if((xc == 7) && (yc == 1) && !keyFound)
 						board2[yc][xc] = '$';
 					else
 						board2[yc][xc] = '*';
@@ -171,7 +171,7 @@ public class DungeonKeep {
 				} else {
 					xc = xo+1;
 					yc = yo;
-					if((xc == 7) && (yc == 1))
+					if((xc == 7) && (yc == 1) && !keyFound)
 						board2[yc][xc] = '$';
 					else
 						board2[yc][xc] = '*';
