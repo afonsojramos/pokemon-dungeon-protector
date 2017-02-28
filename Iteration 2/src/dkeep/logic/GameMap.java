@@ -1,9 +1,4 @@
 package dkeep.logic;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.Random;
 import java.util.*;
 
 public class GameMap {
@@ -17,9 +12,8 @@ public class GameMap {
 
 	private Person hero;
 
-	private Club c;
-
-	private HashMap<Integer, HashMap<String, Person>> levels;
+	private Vector<Vector<Ogre>> ogres;
+	private Vector<Vector<Guard>> guards;
 
 	private boolean possibleMove;
 	private boolean keyFound;
@@ -30,10 +24,9 @@ public class GameMap {
 		possibleMove = true;
 		keyFound = false;
 		endOfGame = false;
-
+		
 		hero = new Hero("hero", 1, 1);
-		c = new Club(5, 1);
-
+		
 		currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
 				{ 'X', 'H', ' ', ' ', 'I', ' ', 'X', ' ', 'G', 'X' },
 				{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
@@ -49,42 +42,49 @@ public class GameMap {
 																		// 1
 		width = 10;
 		height = 10;
-		Person guardState1 = new Guard("guard1", 8, 1);
-		Person crazyOgre = new Ogre("ogre1", 4, 1);
-		HashMap<String, Person> characters1 = new HashMap<String, Person>();
-		characters1.put(guardState1.getName(), guardState1);
-		HashMap<String, Person> characters2 = new HashMap<String, Person>();
-		characters2.put(crazyOgre.getName(), crazyOgre);
-		levels.put(new Integer(1), characters1);
-		levels.put(new Integer(2), characters2);
+		ogres = new Vector<Vector<Ogre>>(3);//vetor do index 0 fica vazio
+		guards = new Vector<Vector<Guard>>(3);
+		Vector<Guard> glevel0 = new Vector<Guard>();Vector<Guard> glevel1 = new Vector<Guard>();
+		Vector<Guard> glevel2 = new Vector<Guard>();
+		Vector<Ogre> olevel0 = new Vector<Ogre>();Vector<Ogre> olevel1 = new Vector<Ogre>();
+		Vector<Ogre> olevel2 = new Vector<Ogre>();
+		Guard guardState1 = new Guard("guard1", 8, 1);
+		Ogre crazyOgre = new Ogre("ogre1", 4, 1);
+		glevel1.add(guardState1);
+		olevel2.add(crazyOgre);
+		ogres.add(olevel0);ogres.add(olevel1);ogres.add(olevel2);
+		guards.add(glevel0);guards.add(glevel1);guards.add(glevel2);
+		
 	}
 
-	public void addCharacterToLevel(int level, Person character) {
-		String name = character.getName();
-		levels.get(level).put(name, character);
+	public void addOgreToLevel(int level, Ogre ogre) {
+		Vector<Ogre> auxOgres = ogres.get(2);
+		auxOgres.add(ogre);
+	}
+	
+	public void addGuardToLevel(int level, Guard guard) {
+		Vector<Guard> auxGuards = guards.get(2);
+		auxGuards.add(guard);
 	}
 
-	public int getState() {
-		return state;
-	}
+	public int getState() { return state; }
 
 	public boolean isEndOfGame() {
 		int x = hero.getX(), y = hero.getY();
 		switch(state){
 		case 1:
-			int xg = levels.get(1).get("guard1").getX(), yg = levels.get(1).get("guard1").getY();
+			int xg = guards.get(1).get(0).getX(), yg = guards.get(1).get(0).getY();
 			if(((y == yg) || (y == (yg - 1)) || (y == (yg + 1)))
 					&& ((x == xg) || (x == (xg - 1)) || (x == (xg + 1)))){
 				endOfGame = true;
 			}
 			break;
 		case 2:
-			int xo = levels.get(2).get("ogre1").getX(), yo = levels.get(2).get("ogre1").getY();
+			int xo = ogres.get(2).get(0).getX(), yo = ogres.get(2).get(0).getY(), xc = ogres.get(2).get(0).getClubX(), yc = ogres.get(2).get(0).getClubY();
 			if(((y == yo) && ((x == (xo - 1)) || (x == (xo + 1)))) || ((x == xo) && ((y == (yo - 1)) || (y == (yo + 1))))){
 				endOfGame = true;
 				System.out.println("\n\nGAME OVER\n\n");
 			}
-			int xc = c.getX(), yc = c.getY();
 			if(((y == yc) && ((x == (xc - 1)) || (x == (xc + 1)))) || ((x == xc) && ((y == (yc - 1)) || (y == (yc + 1))))){
 				endOfGame = true;
 				System.out.println("\n\nGAME OVER\n\n");
@@ -113,79 +113,41 @@ public class GameMap {
 	public void moveHero(char input) {
 
 		int x = hero.getX(), y = hero.getY();
+		boolean update = false;
 
 		if (input == 'w' && ((currentMap[y - 1][x] != 'X') && (currentMap[y - 1][x] != 'I'))) {
 			y--;
+			update = true;
 		} else if (input == 's' && ((currentMap[y + 1][x] != 'X') && (currentMap[y + 1][x] != 'I'))) {
 			y++;
+			update = true;
 		} else if (input == 'd' && ((currentMap[y][x + 1] != 'X') && (currentMap[y][x + 1] != 'I'))) {
 			x++;
+			update = true;
 		} else if ((state == 1) && (input == 'a' && ((currentMap[y][x - 1] != 'X') && (currentMap[y][x - 1] != 'I')))) {
 			x--;
+			update = true;
 		} else if ((state == 2) && (input == 'a' && ((currentMap[y][x - 1] != 'X') && (!((currentMap[y][x - 1] == 'I') && !keyFound))))) {
 			x--;
+			update = true;
 		}
 
-		switch (state) {
-		case 1:
-			update1(x, y);
-			break;
-		case 2:
-			update2(x, y);
-			break;
+		if (update) {
+			switch (state) {
+			case 1:
+				update1(x, y);
+				break;
+			case 2:
+				update2(x, y);
+				break;
+			}
 		}
 	}
 
-	public void update1(int new_x, int new_y) {
-		hero.doStep(new_x, new_y);
-		currentMap[hero.getPrevY()][hero.getPrevX()] = ' ';
-		currentMap[hero.getY()][hero.getX()] = 'H';
-		if (new_y == 8 && new_x == 7) {
-			currentMap[1][4] = 'S';
-			currentMap[3][4] = 'S';
-			currentMap[3][2] = 'S';
-			currentMap[5][0] = 'S';
-			currentMap[6][0] = 'S';
-			currentMap[8][2] = 'S';
-			currentMap[8][4] = 'S';
-		}
-
-		int xg = levels.get(1).get("guarda1").getX(), yg = levels.get(1).get("guarda1").getY();
-		int prevXg = levels.get(1).get("guarda1").getPrevX(), prevYg = levels.get(1).get("guarda1").getPrevY();
-
-		currentMap[prevYg][prevXg] = ' ';
-		currentMap[yg][xg] = levels.get(1).get("guarda1").getCh();
+	public void moveOgre(Ogre ogre) {
 		
-		if((hero.getX() == 0) && ((hero.getY() == 5) || (hero.getY() == 6))){
-			this.changeState(2);
-		}
-
-	}
-
-	public void update2(int new_x, int new_y) {
-		hero.doStep(new_x, new_y);
-		int x = hero.getX(), y = hero.getY();
-		currentMap[y][x] = ' ';
-		if ((x == 7) && (y == 1)) // heroi apanhou a chave
-			keyFound = true;
-
-		if ((x == 0) && (y == 1) && (currentMap[y][x] == 'I')) {
-			currentMap[1][0] = 'S';
-			x++; // permanece na posicao anterior
-			hero.setX(x);
-		}
-
-		if (keyFound)
-			currentMap[y][x] = 'K';
-		else
-			currentMap[y][x] = 'H';
-
-		int xo = levels.get(2).get("ogre1").getX(), yo = levels.get(2).get("ogre1").getY();
-		int xc = c.getX(), yc = c.getY();
-
-		/**
-		 * posicionar o Ogre
-		 */
+		int xo = ogre.getX(), yo = ogre.getY(), xc = ogre.getClubX(), yc = ogre.getClubY();
+		
 		do {
 			int randomNum = rand.nextInt(4); // random entre [min, max] : int
 												// randomNum = rand.nextInt((max
@@ -237,14 +199,13 @@ public class GameMap {
 				break;
 			}
 		} while (!possibleMove);
-		levels.get(2).get("ogre1").doStep(xo, yo); // atualizar as coordenadas
+		ogre.doStep(xo, yo); // atualizar as coordenadas
 													// do objeto Ogre
-
-		possibleMove = false;
-
-		/**
-		 * posicionar o Club
-		 */
+	}
+	
+	public void moveClub(Ogre ogre) {
+		int xo = ogre.getX(), yo = ogre.getY(), xc = ogre.getClubX(), yc = ogre.getClubY();
+		
 		do {
 			int randomNum2 = rand.nextInt(4); // random entre [min, max] : int
 												// randomNum = rand.nextInt((max
@@ -292,7 +253,61 @@ public class GameMap {
 				break;
 			}
 		} while (!possibleMove);
-		c.changePos(xc, yc); // atualizar coordenadas do Club
+		
+		ogre.setClubX(xc);
+		ogre.setClubY(yc);
+	}
+	
+	public void update1(int new_x, int new_y) {
+		hero.doStep(new_x, new_y);
+		currentMap[hero.getPrevY()][hero.getPrevX()] = ' ';
+		currentMap[hero.getY()][hero.getX()] = 'H';
+		if (new_y == 8 && new_x == 7) {
+			currentMap[1][4] = 'S';
+			currentMap[3][4] = 'S';
+			currentMap[3][2] = 'S';
+			currentMap[5][0] = 'S';
+			currentMap[6][0] = 'S';
+			currentMap[8][2] = 'S';
+			currentMap[8][4] = 'S';
+		}
+
+		int xg = guards.get(1).get(0).getX(), yg = guards.get(1).get(0).getY();
+		int prevXg = guards.get(1).get(0).getPrevX(), prevYg = guards.get(1).get(0).getPrevY();
+		guards.get(1).get(0).doStep(0, 0);
+		currentMap[prevYg][prevXg] = ' ';
+		currentMap[yg][xg] = guards.get(1).get(0).getCh();
+		
+		if((hero.getX() == 0) && ((hero.getY() == 5) || (hero.getY() == 6))){
+			this.changeState(2);
+		}
+
+	}
+
+	public void update2(int new_x, int new_y) {
+		hero.doStep(new_x, new_y);
+		int x = hero.getX(), y = hero.getY();
+		currentMap[hero.getPrevY()][hero.getPrevX()] = ' ';
+		if ((x == 7) && (y == 1)) // heroi apanhou a chave
+			keyFound = true;
+
+		if ((x == 0) && (y == 1) && (currentMap[y][x] == 'I')) {
+			currentMap[1][0] = 'S';
+			x++; // permanece na posicao anterior
+			hero.setX(x);
+		}
+
+		if (keyFound)
+			hero.setCh('K');
+		
+		currentMap[y][x] = hero.getCh();
+
+		Ogre ogre = ogres.get(2).get(0);
+		int xo = ogre.getX(), yo = ogre.getY();
+		int xc = ogre.getClubX(), yc = ogre.getClubY();
+		
+		this.moveOgre(ogre);
+		this.moveClub(ogre);
 	}
 
 	public void changeState(int nState){
@@ -308,6 +323,7 @@ public class GameMap {
 				width = 10;
 				height = 10;
 				hero.setX(1);hero.setY(1);hero.setPrevX(1);hero.setPrevY(1);
+				state = 1;
 				break;
 		case 2:
 			currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' }, { 'I', ' ', ' ', ' ', 'O', '*', ' ', 'k', 'X' },
@@ -318,6 +334,7 @@ public class GameMap {
 				width = 9;
 				height = 9;
 				hero.setX(1);hero.setY(7);hero.setPrevX(1);hero.setPrevY(7);
+				state = 2;
 				break;
 		}
 	}
