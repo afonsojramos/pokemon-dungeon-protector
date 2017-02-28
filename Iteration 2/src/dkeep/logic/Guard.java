@@ -7,8 +7,6 @@ public class Guard extends Person{
 	private static int numberOfGuards = 0;
 	private int timeSleep, timeAwake;
 	private boolean direction;
-	private char path[] = { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a', 'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w',
-			'w', 'w', 'w', 'w' };
 	
 	int pathX[] = {8,7,7,7,7,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8,8,8,8,8};
 	int pathY[] = {1,1,2,3,4,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,5,4,3,2};

@@ -13,6 +13,7 @@ public class GameMap {
 	private char currentMap[][];
 
 	private Person hero;
+	private Club club;
 
 	private Vector<Vector<Ogre>> ogres;
 	private Vector<Vector<Guard>> guards;
@@ -28,6 +29,7 @@ public class GameMap {
 		endOfGame = false;
 		
 		hero = new Hero("hero", 1, 1);
+		club = new Club(hero.getX()+1, hero.getPrevY());
 		
 		currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
 				{ 'X', 'H', ' ', ' ', 'I', ' ', 'X', ' ', 'G', 'X' },
@@ -44,28 +46,35 @@ public class GameMap {
 																		// 1
 		width = 10;
 		height = 10;
-		ogres = new Vector<Vector<Ogre>>(3);//vetor do index 0 fica vazio
-		guards = new Vector<Vector<Guard>>(3);
+		ogres = new Vector<Vector<Ogre>>(4);//vetor do index 0 fica vazio
+		guards = new Vector<Vector<Guard>>(4);
 		Vector<Guard> glevel0 = new Vector<Guard>();Vector<Guard> glevel1 = new Vector<Guard>();
-		Vector<Guard> glevel2 = new Vector<Guard>();
+		Vector<Guard> glevel2 = new Vector<Guard>();Vector<Guard> glevel3 = new Vector<Guard>();
 		Vector<Ogre> olevel0 = new Vector<Ogre>();Vector<Ogre> olevel1 = new Vector<Ogre>();
-		Vector<Ogre> olevel2 = new Vector<Ogre>();
+		Vector<Ogre> olevel2 = new Vector<Ogre>();Vector<Ogre> olevel3 = new Vector<Ogre>();
 		Guard guardState1 = new Guard("guard1", 8, 1, 'G', Personality.Drunken);
 		Ogre crazyOgre = new Ogre("ogre1", 4, 1);
 		glevel1.add(guardState1);
 		olevel2.add(crazyOgre);
-		ogres.add(olevel0);ogres.add(olevel1);ogres.add(olevel2);
-		guards.add(glevel0);guards.add(glevel1);guards.add(glevel2);
+		ogres.add(olevel0);ogres.add(olevel1);ogres.add(olevel2);ogres.add(olevel3);
+		guards.add(glevel0);guards.add(glevel1);guards.add(glevel2);guards.add(glevel3);
+		int randomNum = rand.nextInt(5) + 1;
+		while(randomNum > 0){
+			this.addOgreToLevel(3);
+			randomNum--;
+		}
 		
 	}
 
-	public void addOgreToLevel(int level, Ogre ogre) {
-		Vector<Ogre> auxOgres = ogres.get(2);
+	public void addOgreToLevel(int level) {
+		Ogre ogre = new Ogre();
+		Vector<Ogre> auxOgres = ogres.get(level);
 		auxOgres.add(ogre);
 	}
 	
-	public void addGuardToLevel(int level, Guard guard) {
-		Vector<Guard> auxGuards = guards.get(2);
+	public void addGuardToLevel(int level) {
+		Guard guard = new Guard();
+		Vector<Guard> auxGuards = guards.get(level);
 		auxGuards.add(guard);
 	}
 
@@ -292,7 +301,7 @@ public class GameMap {
 		if ((x == 7) && (y == 1)) // heroi apanhou a chave
 			keyFound = true;
 
-		if ((x == 0) && (y == 1) && (currentMap[y][x] == 'I')) {
+		if ((x == 0) && (y == 1) && (currentMap[y][x] == 'I')) {//abrir a porta
 			currentMap[1][0] = 'S';
 			x++; // permanece na posicao anterior
 			hero.setX(x);
@@ -304,13 +313,43 @@ public class GameMap {
 		currentMap[y][x] = hero.getCh();
 
 		Ogre ogre = ogres.get(2).get(0);
-		int xo = ogre.getX(), yo = ogre.getY();
-		int xc = ogre.getClubX(), yc = ogre.getClubY();
 		
 		this.moveOgre(ogre);
 		this.moveClub(ogre);
 	}
+	
+	public void update3(int new_x, int new_y){
+		hero.doStep(new_x, new_y);
+		int x = hero.getX(), y = hero.getY();
+		currentMap[hero.getPrevY()][hero.getPrevX()] = ' ';
+		if ((x == 7) && (y == 1)) // heroi apanhou a chave
+			keyFound = true;
 
+		if ((x == 0) && (y == 1) && (currentMap[y][x] == 'I')) {//abrir a porta
+			currentMap[1][0] = 'S';
+			x++; // permanece na posicao anterior
+			hero.setX(x);
+		}
+
+		if (keyFound)
+			hero.setCh('K');
+		
+		currentMap[y][x] = hero.getCh();
+		Ogre heroOgre = new Ogre("tmp", hero.getX(),hero.getY());
+		this.moveClub(heroOgre);
+		club.setX(heroOgre.getClubX());club.setY(heroOgre.getClubY());
+		heroOgre = null;
+		Vector<Ogre> v = ogres.get(state);
+		int size = v.size();
+		size--;
+		while(size >= 0){
+			Ogre ogre = v.get(size);
+			this.moveOgre(ogre);
+			this.moveClub(ogre);
+			size--;
+		}
+	}
+	
 	public void changeState(int nState){
 		
 		switch(nState){
@@ -336,6 +375,18 @@ public class GameMap {
 				height = 9;
 				hero.setX(1);hero.setY(7);hero.setPrevX(1);hero.setPrevY(7);
 				state = 2;
+				break;
+		case 3:
+			currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' }, { 'I', ' ', ' ', ' ', 'O', '*', ' ', 'k', 'X' },
+				{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+				{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+				{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'H', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+				{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; //mapa do nivel 3
+				width = 9;
+				height = 9;
+				hero.setX(1);hero.setY(7);hero.setPrevX(1);hero.setPrevY(7);
+				hero.setCh('A');
+				state = 3;
 				break;
 		}
 	}
