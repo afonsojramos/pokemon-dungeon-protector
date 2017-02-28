@@ -5,7 +5,8 @@ public class Guard extends Person{
 	
 	public enum Personality {Rookie, Drunken, Suspicious} 
 	private static int numberOfGuards = 0;
-	
+	private int timeSleep, timeAwake;
+	private boolean direction;
 	private char path[] = { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a', 'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w',
 			'w', 'w', 'w', 'w' };
 	
@@ -15,9 +16,12 @@ public class Guard extends Person{
 	
 	public Guard(String name, int x, int y, char Ch, Personality personality) {
 		super(name,x,y, Ch);
+		timeSleep=ThreadLocalRandom.current().nextInt(2, 7);
+		timeAwake=ThreadLocalRandom.current().nextInt(1, 7);
 		this.personality = personality;
 		numberOfGuards++;
 		it = 0;
+		direction = true;
 	}
 	
 	public Guard(String name, int x, int y, Personality personality){//construtor default
@@ -50,9 +54,100 @@ public class Guard extends Person{
 		it++;
 		it = it % 24;
 		break;
-		case Drunken:
+		case Drunken:	
+			if (timeSleep != 0 || timeAwake != 0){
+				if (timeAwake > 0){
+					if (path[it] == 'a') {
+						if (direction)
+							this.x--;
+						else
+							this.x++;
+					} else if (path[it] == 'd') {
+						if (direction)
+							this.x++;
+						else
+							this.x--;
+					} else if (path[it] == 'w') {
+						if (direction)
+							this.y--;
+						else
+							this.y++;
+					} else if (path[it] == 's') {
+						if (direction)
+							this.y++;
+						else
+							this.y--;
+					}
+					timeAwake--;
+					if (timeAwake != 0){
+						if (direction)
+							it++;
+						else {
+							it--;
+							if (it == 0)
+								it = 24;
+							}
+					}
+					it = it % 24;
+					
+				}
+				else if (timeSleep > 0){
+					this.setCh('g');
+					timeSleep--;
+				}
+			}
+			else {
+				direction = (ThreadLocalRandom.current().nextInt(0, 2)==0) ? false : true;
+				this.setCh('G');
+				timeSleep=ThreadLocalRandom.current().nextInt(2, 7);
+				timeAwake=ThreadLocalRandom.current().nextInt(1, 7);
+			}
+					
 			break;
 		case Suspicious:
+			if (timeSleep != 0 || timeAwake != 0){
+					if (path[it] == 'a') {
+						if (direction)
+							this.x--;
+						else
+							this.x++;
+					} else if (path[it] == 'd') {
+						if (direction)
+							this.x++;
+						else
+							this.x--;
+					} else if (path[it] == 'w') {
+						if (direction)
+							this.y--;
+						else
+							this.y++;
+					} else if (path[it] == 's') {
+						if (direction)
+							this.y++;
+						else
+							this.y--;
+					}
+					if (timeAwake > 0)
+						timeAwake--;
+					else 
+						timeSleep--;
+					if (timeAwake != 0){
+						if (direction)
+							it++;
+						else {
+							it--;
+							if (it == 0)
+								it = 24;
+							}
+					}
+					it = it % 24;
+					if (timeAwake==0)
+						direction = false;
+			}
+			else {		
+				timeSleep=ThreadLocalRandom.current().nextInt(1, 7);
+				timeAwake=ThreadLocalRandom.current().nextInt(1, 7);
+			}
 			break;
 		}
 	}

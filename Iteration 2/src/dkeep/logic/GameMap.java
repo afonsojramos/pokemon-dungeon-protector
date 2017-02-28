@@ -50,7 +50,7 @@ public class GameMap {
 		Vector<Guard> glevel2 = new Vector<Guard>();
 		Vector<Ogre> olevel0 = new Vector<Ogre>();Vector<Ogre> olevel1 = new Vector<Ogre>();
 		Vector<Ogre> olevel2 = new Vector<Ogre>();
-		Guard guardState1 = new Guard("guard1", 8, 1, 'G', Personality.Rookie);
+		Guard guardState1 = new Guard("guard1", 8, 1, 'G', Personality.Suspicious);
 		Ogre crazyOgre = new Ogre("ogre1", 4, 1);
 		glevel1.add(guardState1);
 		olevel2.add(crazyOgre);
@@ -76,8 +76,7 @@ public class GameMap {
 		switch(state){
 		case 1:
 			int xg = guards.get(1).get(0).getX(), yg = guards.get(1).get(0).getY();
-			if(((y == yg) || (y == (yg - 1)) || (y == (yg + 1)))
-					&& ((x == xg) || (x == (xg - 1)) || (x == (xg + 1)))){
+			if(((y == yg) && ((x == (xg - 1)) || (x == (xg + 1)))) || ((x == xg) && ((y == (yg - 1)) || (y == (yg + 1)))) && (guards.get(1).get(0).getCh() == 'G')){
 				endOfGame = true;
 			}
 			break;
