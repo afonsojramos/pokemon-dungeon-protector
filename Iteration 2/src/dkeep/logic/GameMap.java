@@ -50,7 +50,7 @@ public class GameMap {
 		Vector<Guard> glevel2 = new Vector<Guard>();
 		Vector<Ogre> olevel0 = new Vector<Ogre>();Vector<Ogre> olevel1 = new Vector<Ogre>();
 		Vector<Ogre> olevel2 = new Vector<Ogre>();
-		Guard guardState1 = new Guard("guard1", 8, 1, 'G', Personality.Suspicious);
+		Guard guardState1 = new Guard("guard1", 8, 1, 'G', Personality.Drunken);
 		Ogre crazyOgre = new Ogre("ogre1", 4, 1);
 		glevel1.add(guardState1);
 		olevel2.add(crazyOgre);
@@ -76,7 +76,7 @@ public class GameMap {
 		switch(state){
 		case 1:
 			int xg = guards.get(1).get(0).getX(), yg = guards.get(1).get(0).getY();
-			if(((y == yg) && ((x == (xg - 1)) || (x == (xg + 1)))) || ((x == xg) && ((y == (yg - 1)) || (y == (yg + 1)))) && (guards.get(1).get(0).getCh() == 'G')){
+			if((((y == yg) && ((x == (xg - 1)) || (x == (xg + 1)))) || ((x == xg) && ((y == (yg - 1)) || (y == (yg + 1)))) || ((x == xg) && (y == yg))) && (guards.get(1).get(0).getCh() == 'G')){
 				endOfGame = true;
 			}
 			break;
@@ -272,10 +272,10 @@ public class GameMap {
 			currentMap[8][2] = 'S';
 			currentMap[8][4] = 'S';
 		}
-
+		
+		guards.get(1).get(0).doStep(0, 0);
 		int xg = guards.get(1).get(0).getX(), yg = guards.get(1).get(0).getY();
 		int prevXg = guards.get(1).get(0).getPrevX(), prevYg = guards.get(1).get(0).getPrevY();
-		guards.get(1).get(0).doStep(0, 0);
 		currentMap[prevYg][prevXg] = ' ';
 		currentMap[yg][xg] = guards.get(1).get(0).getCh();
 		

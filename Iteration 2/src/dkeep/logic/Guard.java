@@ -10,6 +10,9 @@ public class Guard extends Person{
 	private char path[] = { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a', 'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w',
 			'w', 'w', 'w', 'w' };
 	
+	int pathX[] = {8,7,7,7,7,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8,8,8,8,8};
+	int pathY[] = {1,1,2,3,4,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,5,4,3,2};
+	
 	private Personality personality;
 	private int it;//iterador que percorre path
 	
@@ -42,112 +45,58 @@ public class Guard extends Person{
 		
 		switch(personality){
 		case Rookie:
-			if (path[it] == 'a') {
-			this.x--;
-		} else if (path[it] == 'd') {
-			this.x++;
-		} else if (path[it] == 'w') {
-			this.y--;
-		} else if (path[it] == 's') {
-			this.y++;
-		}
-		it++;
-		it = it % 24;
-		break;
-		case Drunken:	
-			if (timeSleep != 0 || timeAwake != 0){
-				if (timeAwake > 0){
-					if (path[it] == 'a') {
-						if (direction)
-							this.x--;
-						else
-							this.x++;
-					} else if (path[it] == 'd') {
-						if (direction)
-							this.x++;
-						else
-							this.x--;
-					} else if (path[it] == 'w') {
-						if (direction)
-							this.y--;
-						else
-							this.y++;
-					} else if (path[it] == 's') {
-						if (direction)
-							this.y++;
-						else
-							this.y--;
+			this.x = pathX[it];
+			this.y = pathY[it];
+			it++;
+			it = it % 24;
+			break;
+		case Drunken:
+			if (timeAwake > 0) {
+				timeAwake--;
+				if (direction) {
+					it++;
+				} else {
+					if (it == 0) {
+						it = 23;
+					} else {
+						it--;
 					}
-					timeAwake--;
-					if (timeAwake != 0){
-						if (direction)
-							it++;
-						else {
-							it--;
-							if (it == 0)
-								it = 24;
-							}
-					}
-					it = it % 24;
-					
 				}
-				else if (timeSleep > 0){
-					this.setCh('g');
-					timeSleep--;
+				it = it % 24;
+				this.x = pathX[it];
+				this.y = pathY[it];
+			} else {
+				this.setCh('g');
+				if (timeSleep == 0) {
+					direction = (ThreadLocalRandom.current().nextInt(0, 2) == 0) ? false : true;
+					this.setCh('G');
+					timeSleep = ThreadLocalRandom.current().nextInt(2, 7);
+					timeAwake = ThreadLocalRandom.current().nextInt(1, 7);
 				}
+				timeSleep--;
 			}
-			else {
-				direction = (ThreadLocalRandom.current().nextInt(0, 2)==0) ? false : true;
-				this.setCh('G');
-				timeSleep=ThreadLocalRandom.current().nextInt(2, 7);
-				timeAwake=ThreadLocalRandom.current().nextInt(1, 7);
-			}
-					
 			break;
 		case Suspicious:
-			if (timeSleep != 0 || timeAwake != 0){
-					if (path[it] == 'a') {
-						if (direction)
-							this.x--;
-						else
-							this.x++;
-					} else if (path[it] == 'd') {
-						if (direction)
-							this.x++;
-						else
-							this.x--;
-					} else if (path[it] == 'w') {
-						if (direction)
-							this.y--;
-						else
-							this.y++;
-					} else if (path[it] == 's') {
-						if (direction)
-							this.y++;
-						else
-							this.y--;
+			//timeAwake = sentido certo ; timeSleep = sentido contrario
+				if (timeAwake > 0) {
+					timeAwake--;
+					it++;
+				}
+				else {
+					timeSleep--;
+					if (it == 0) {
+						it = 23;
+					} else {
+						it--;
 					}
-					if (timeAwake > 0)
-						timeAwake--;
-					else 
-						timeSleep--;
-					if (timeAwake != 0){
-						if (direction)
-							it++;
-						else {
-							it--;
-							if (it == 0)
-								it = 24;
-							}
+					if(timeSleep == 0){
+						timeSleep=ThreadLocalRandom.current().nextInt(2, 7);
+						timeAwake=ThreadLocalRandom.current().nextInt(1, 7);
 					}
-					it = it % 24;
-					if (timeAwake==0)
-						direction = false;
-			}
-			else {		
-				timeSleep=ThreadLocalRandom.current().nextInt(1, 7);
-				timeAwake=ThreadLocalRandom.current().nextInt(1, 7);
-			}
+				}
+				it = it % 24;
+				this.x = pathX[it];
+				this.y = pathY[it];			
 			break;
 		}
 	}
