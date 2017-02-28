@@ -1,6 +1,8 @@
 package dkeep.logic;
 import java.util.*;
 
+import dkeep.logic.Guard.Personality;
+
 public class GameMap {
 
 	Random rand = new Random();
@@ -48,7 +50,7 @@ public class GameMap {
 		Vector<Guard> glevel2 = new Vector<Guard>();
 		Vector<Ogre> olevel0 = new Vector<Ogre>();Vector<Ogre> olevel1 = new Vector<Ogre>();
 		Vector<Ogre> olevel2 = new Vector<Ogre>();
-		Guard guardState1 = new Guard("guard1", 8, 1);
+		Guard guardState1 = new Guard("guard1", 8, 1, 'G', Personality.Rookie);
 		Ogre crazyOgre = new Ogre("ogre1", 4, 1);
 		glevel1.add(guardState1);
 		olevel2.add(crazyOgre);
