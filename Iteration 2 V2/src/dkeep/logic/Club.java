@@ -13,6 +13,7 @@ public class Club {
 		prevX = x;
 		prevY = y;
 		this.Ch = Ch;
+		
 	}
 	
 	public Club (int x, int y){ //construtor default
