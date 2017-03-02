@@ -109,11 +109,11 @@ public class GameMap {
 			while(size >= 0){
 				Ogre ogre = v.get(size);
 				int xo3 = ogre.getX(), yo3 = ogre.getY(), xc3 = ogre.getClubX(), yc3 = ogre.getClubY();
-				if(((y == yo3) && ((x == (xo3 - 1)) || (x == (xo3 + 1)))) || ((x == xo3) && ((y == (yo3 - 1)) || (y == (yo3 + 1))))){
+				/*if(((y == yo3) && ((x == (xo3 - 1)) || (x == (xo3 + 1)))) || ((x == xo3) && ((y == (yo3 - 1)) || (y == (yo3 + 1))))){
 					endOfGame = true;
 					System.out.println("\n\nGAME OVER\n\n");
 					break;
-				}
+				}*/
 				if(((y == yc3) && ((x == (xc3 - 1)) || (x == (xc3 + 1)))) || ((x == xc3) && ((y == (yc3 - 1)) || (y == (yc3 + 1))))){
 					endOfGame = true;
 					System.out.println("\n\nGAME OVER\n\n");
@@ -231,6 +231,11 @@ public class GameMap {
 			}
 		} while (!possibleMove);
 		ogre.doStep(xo, yo); // atualizar as coordenadas do objeto Ogre
+		int x = hero.getX(), y = hero.getY();
+		if(((y == yo) && ((x == (xo - 1)) || (x == (xo + 1)))) || ((x == xo) && ((y == (yo - 1)) || (y == (yo + 1)))) && (state == 3)) {
+			ogre.stun();
+			currentMap[yo][xo] = '8';
+		}
 	}
 	
 	public void moveClub(Ogre ogre) {
@@ -378,22 +383,30 @@ public class GameMap {
 		currentMap[y][x] = hero.getCh();
 		
 		overlapedPos = new char[][] { { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'k', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } };
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } };
+		if (!keyFound) {
+			overlapedPos[1][7] = 'k';
+		}
 		Vector<Ogre> v = ogres.get(state);
 		int size = v.size();
 		size--;
 		while(size >= 0){
 			Ogre ogre = v.get(size);
+			if(ogre.isStuned()){
+				this.moveClub(ogre);
+				ogre.lessStuned();
+			}else {
 			this.moveOgre(ogre);
 			this.moveClub(ogre);
+			}
 			size--;
 		}
 		overlapedPos = null;
