@@ -6,7 +6,8 @@ import dkeep.logic.Guard.Personality;
 public class GameMap {
 
 	Random rand = new Random();
-
+	
+	private char overlapedPos [][];
 	private int state; // nivel do jogo
 	private int width, height; //largura e altura do mapa de jogo
 
@@ -26,6 +27,7 @@ public class GameMap {
 		possibleMove = true;
 		keyFound = false;
 		endOfGame = false;
+		overlapedPos = new char [10][10];
 		
 		hero = new Hero("hero", 1, 1);
 		
@@ -180,7 +182,7 @@ public class GameMap {
 	public void moveOgre(Ogre ogre) {
 		
 		int xo = ogre.getX(), yo = ogre.getY(), xc = ogre.getClubX(), yc = ogre.getClubY();
-		
+		currentMap[yo][xo] = overlapedPos[yo][xo];
 		do {
 			int randomNum = rand.nextInt(4); // random entre [min, max] : int
 												// randomNum = rand.nextInt((max
@@ -189,10 +191,9 @@ public class GameMap {
 			case 0: // Ogre anda para cima
 				if ((currentMap[yo - 1][xo] == 'I') || (currentMap[yo - 1][xo] == 'X')) {
 					possibleMove = false;
-				} else {
-					currentMap[yo][xo] = ' ';
-					currentMap[yc][xc] = (currentMap[yc][xc] == '$') ? 'k' : ' ';
+				} else {					
 					yo--;
+					overlapedPos[yo][xo] = ((xo == 7) && (yo == 1) && !keyFound) ? '$' : 'O';
 					currentMap[yo][xo] = ((xo == 7) && (yo == 1) && !keyFound) ? '$' : 'O';
 					possibleMove = true;
 				}
@@ -201,9 +202,8 @@ public class GameMap {
 				if ((currentMap[yo + 1][xo] == 'I') || (currentMap[yo + 1][xo] == 'X')) {
 					possibleMove = false;
 				} else {
-					currentMap[yo][xo] = (currentMap[yo][xo] == '$') ? 'k' : ' ';
-					currentMap[yc][xc] = (currentMap[yc][xc] == '$') ? 'k' : ' ';
 					yo++;
+					overlapedPos[yo][xo] = 'O';
 					currentMap[yo][xo] = 'O';
 					possibleMove = true;
 				}
@@ -212,9 +212,8 @@ public class GameMap {
 				if ((currentMap[yo][xo - 1] == 'I') || (currentMap[yo][xo - 1] == 'X')) {
 					possibleMove = false;
 				} else {
-					currentMap[yo][xo] = (currentMap[yo][xo] == '$') ? 'k' : ' ';
-					currentMap[yc][xc] = (currentMap[yc][xc] == '$') ? 'k' : ' ';
 					xo--;
+					overlapedPos[yo][xo] = 'O';
 					currentMap[yo][xo] = 'O';
 					possibleMove = true;
 				}
@@ -223,22 +222,20 @@ public class GameMap {
 				if ((currentMap[yo][xo + 1] == 'I') || (currentMap[yo][xo + 1] == 'X')) {
 					possibleMove = false;
 				} else {
-					currentMap[yo][xo] = ' ';
-					currentMap[yc][xc] = (currentMap[yc][xc] == '$') ? 'k' : ' ';
 					xo++;
+					overlapedPos[yo][xo] = ((xo == 7) && (yo == 1) && !keyFound) ? '$' : 'O';
 					currentMap[yo][xo] = ((xo == 7) && (yo == 1) && !keyFound) ? '$' : 'O';
 					possibleMove = true;
 				}
 				break;
 			}
 		} while (!possibleMove);
-		ogre.doStep(xo, yo); // atualizar as coordenadas
-													// do objeto Ogre
+		ogre.doStep(xo, yo); // atualizar as coordenadas do objeto Ogre
 	}
 	
 	public void moveClub(Ogre ogre) {
 		int xo = ogre.getX(), yo = ogre.getY(), xc = ogre.getClubX(), yc = ogre.getClubY();
-		
+		currentMap[yc][xc] = overlapedPos[yc][xc];//apagar club antigo
 		do {
 			int randomNum2 = rand.nextInt(4); // random entre [min, max] : int
 												// randomNum = rand.nextInt((max
@@ -250,7 +247,10 @@ public class GameMap {
 				} else {
 					xc = xo;
 					yc = yo - 1;
+					if(overlapedPos[yc][xc] != 'O') {
+					overlapedPos[yc][xc] = ((xc == 7) && (yc == 1) && !keyFound) ? '$' : '*';
 					currentMap[yc][xc] = ((xc == 7) && (yc == 1) && !keyFound) ? '$' : '*';
+					}
 					possibleMove = true;
 				}
 				break;
@@ -260,7 +260,10 @@ public class GameMap {
 				} else {
 					xc = xo;
 					yc = yo + 1;
+					if(overlapedPos[yc][xc] != 'O') {
+					overlapedPos[yc][xc] = '*';
 					currentMap[yc][xc] = '*';
+					}
 					possibleMove = true;
 				}
 				break;
@@ -270,7 +273,10 @@ public class GameMap {
 				} else {
 					xc = xo - 1;
 					yc = yo;
+					if(overlapedPos[yc][xc] != 'O') {
+					overlapedPos[yc][xc] = '*';
 					currentMap[yc][xc] = '*';
+					}
 					possibleMove = true;
 				}
 				break;
@@ -280,7 +286,10 @@ public class GameMap {
 				} else {
 					xc = xo + 1;
 					yc = yo;
+					if(overlapedPos[yc][xc] != 'O'){
+					overlapedPos[yc][xc] = ((xc == 7) && (yc == 1) && !keyFound) ? '$' : '*';
 					currentMap[yc][xc] = ((xc == 7) && (yc == 1) && !keyFound) ? '$' : '*';
+					}
 					possibleMove = true;
 				}
 				break;
@@ -333,10 +342,20 @@ public class GameMap {
 		}
 		currentMap[y][x] = hero.getCh();
 
+		overlapedPos = new char[][] { { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'k', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } };
 		Ogre ogre = ogres.get(2).get(0);
 		this.moveOgre(ogre);
 		this.moveClub(ogre);
-		
+		overlapedPos = null;
 		if((x == 0) && (y == 1)){
 			this.changeState(3);
 		}
@@ -358,6 +377,16 @@ public class GameMap {
 		}
 		currentMap[y][x] = hero.getCh();
 		
+		overlapedPos = new char[][] { { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'k', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } };
 		Vector<Ogre> v = ogres.get(state);
 		int size = v.size();
 		size--;
@@ -367,6 +396,7 @@ public class GameMap {
 			this.moveClub(ogre);
 			size--;
 		}
+		overlapedPos = null;
 	}
 	
 	public void changeState(int nState){
@@ -420,6 +450,8 @@ public class GameMap {
 				break;
 		}
 	}
+	
+	
 	
 	
 }
