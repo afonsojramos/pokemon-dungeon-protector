@@ -56,16 +56,4 @@ public class TestLevel1 {
 		Game.moveHero('a');
 		assertTrue(Game.isEndOfGame());	
 	}
-	
-	@Test
-	public void testDoorsOpen() {
-		
-		GameMap Game = new GameMap();
-		Game.changeState(1);
-		assertEquals(1, Game.getHeroX()); assertEquals(1, Game.getHeroY()); 
-		Game.moveHero('s');
-		Game.moveHero('s');
-		assertEquals('S',Game.getMapPos(2,0));	
-		assertEquals('S',Game.getMapPos(3,0));	
-	}
 }
