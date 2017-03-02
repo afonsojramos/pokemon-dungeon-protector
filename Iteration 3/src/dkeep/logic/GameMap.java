@@ -23,7 +23,6 @@ public class GameMap {
 	private boolean endOfGame;	
 	
 	public GameMap() {
-		state = 0;
 		possibleMove = true;
 		keyFound = false;
 		endOfGame = false;
@@ -36,8 +35,10 @@ public class GameMap {
 		Vector<Guard> glevel2 = new Vector<Guard>();Vector<Guard> glevel3 = new Vector<Guard>();
 		Vector<Ogre> olevel0 = new Vector<Ogre>();Vector<Ogre> olevel1 = new Vector<Ogre>();
 		Vector<Ogre> olevel2 = new Vector<Ogre>();Vector<Ogre> olevel3 = new Vector<Ogre>();
+		Guard guardState0 = new Guard("guard0", 3, 1, 'G', Personality.Rookie);
 		Guard guardState1 = new Guard("guard1", 8, 1, 'G', Personality.Rookie);
 		Ogre crazyOgre = new Ogre("ogre1", 4, 1);
+		glevel0.add(guardState0);
 		glevel1.add(guardState1);
 		olevel2.add(crazyOgre);
 		ogres.add(olevel0);ogres.add(olevel1);ogres.add(olevel2);ogres.add(olevel3);
@@ -48,7 +49,6 @@ public class GameMap {
 			this.addOgreToLevel(3);
 			randomNum--;
 		}
-		this.changeState(state);
 	}
 
 	public void addOgreToLevel(int level) {
@@ -68,6 +68,16 @@ public class GameMap {
 	public boolean isEndOfGame() {
 		int x = hero.getX(), y = hero.getY();
 		switch(state){
+		case 0:
+			int xg0 = guards.get(0).get(0).getX(), yg0 = guards.get(0).get(0).getY();
+			if((((y == yg0) && ((x == (xg0 - 1)) || (x == (xg0 + 1)))) || ((x == xg0) && ((y == (yg0 - 1)) || (y == (yg0 + 1)))) || ((x == xg0) && (y == yg0))) && (guards.get(0).get(0).getCh() == 'G')){
+				endOfGame = true;
+			}
+			if((x == 0) && ((y == 2) || (y == 3))){
+				endOfGame = true;
+				System.out.println("\n\nVICTORY\n\n");
+			}
+			break;
 		case 1:
 			int xg = guards.get(1).get(0).getX(), yg = guards.get(1).get(0).getY();
 			if((((y == yg) && ((x == (xg - 1)) || (x == (xg + 1)))) || ((x == xg) && ((y == (yg - 1)) || (y == (yg + 1)))) || ((x == xg) && (y == yg))) && (guards.get(1).get(0).getCh() == 'G')){
@@ -126,6 +136,11 @@ public class GameMap {
 		return tmp.toString();
 	}
 	
+	public char getMapPos(int y, int x) {
+		char w = currentMap[y][x];
+		return w;
+	}
+	
 	public void moveHero(char input) {
 
 		int x = hero.getX(), y = hero.getY();
@@ -139,6 +154,9 @@ public class GameMap {
 			update = true;
 		} else if (input == 'd' && ((currentMap[y][x + 1] != 'X') && (currentMap[y][x + 1] != 'I'))) {
 			x++;
+			update = true;
+		} else if ((state == 0) && (input == 'a' && ((currentMap[y][x - 1] != 'X') && (currentMap[y][x - 1] != 'I')))) {
+			x--;
 			update = true;
 		} else if ((state == 1) && (input == 'a' && ((currentMap[y][x - 1] != 'X') && (currentMap[y][x - 1] != 'I')))) {
 			x--;
