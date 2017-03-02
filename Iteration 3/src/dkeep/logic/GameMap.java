@@ -23,29 +23,13 @@ public class GameMap {
 	private boolean endOfGame;	
 	
 	public GameMap() {
-		state = 1;
+		state = 0;
 		possibleMove = true;
 		keyFound = false;
 		endOfGame = false;
 		overlapedPos = new char [10][10];
 		
 		hero = new Hero("hero", 1, 1);
-		
-		currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-				{ 'X', 'H', ' ', ' ', 'I', ' ', 'X', ' ', 'G', 'X' },
-				{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-				{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' },
-				{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-				{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' },
-				{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', 'k', ' ', 'X' },
-				{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa
-																		// do
-																		// nivel
-																		// 1
-		width = 10;
-		height = 10;
 		ogres = new Vector<Vector<Ogre>>(4);//vetor do index 0 fica vazio
 		guards = new Vector<Vector<Guard>>(4);
 		Vector<Guard> glevel0 = new Vector<Guard>();Vector<Guard> glevel1 = new Vector<Guard>();
@@ -64,7 +48,7 @@ public class GameMap {
 			this.addOgreToLevel(3);
 			randomNum--;
 		}
-		
+		this.changeState(state);
 	}
 
 	public void addOgreToLevel(int level) {
@@ -166,6 +150,9 @@ public class GameMap {
 
 		if (update) {
 			switch (state) {
+			case 0:
+				update0(x, y);
+				break;
 			case 1:
 				update1(x, y);
 				break;
@@ -305,6 +292,27 @@ public class GameMap {
 		ogre.setClubY(yc);
 	}
 	
+	public int getHeroX() {
+		return hero.getX();
+	}
+	
+	public int getHeroY() {
+		return hero.getY();
+	}
+	
+	public void update0(int new_x, int new_y) {
+		hero.doStep(new_x, new_y);
+		currentMap[hero.getPrevY()][hero.getPrevX()] = ' ';
+		currentMap[hero.getY()][hero.getX()] = 'H';
+		if (new_y ==3 && new_x == 1) {
+			currentMap[2][0] = 'S';
+			currentMap[3][0] = 'S';
+		}		
+		if((hero.getX() == 0) && ((hero.getY() == 2) || (hero.getY() == 3))){
+			this.endOfGame = true;
+		}
+	}
+	
 	public void update1(int new_x, int new_y) {
 		hero.doStep(new_x, new_y);
 		currentMap[hero.getPrevY()][hero.getPrevX()] = ' ';
@@ -415,6 +423,14 @@ public class GameMap {
 	public void changeState(int nState){
 		
 		switch(nState){
+		case 0:
+			currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},
+				{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
+				width = 5;
+				height = 5;
+				hero.setX(1);hero.setY(1);hero.setPrevX(1);hero.setPrevY(1);
+				state = 0;
+				break;
 		case 1:
 			currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
 				{ 'X', 'H', ' ', ' ', 'I', ' ', 'X', ' ', 'G', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },

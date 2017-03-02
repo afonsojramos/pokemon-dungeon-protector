@@ -31,19 +31,6 @@ public class GameMap {
 		
 		hero = new Hero("hero", 1, 1);
 		
-		currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-				{ 'X', 'H', ' ', ' ', 'I', ' ', 'X', ' ', 'G', 'X' },
-				{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-				{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' },
-				{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-				{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' },
-				{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', 'k', ' ', 'X' },
-				{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa
-																		// do
-																		// nivel
-																		// 1
 		width = 10;
 		height = 10;
 		ogres = new Vector<Vector<Ogre>>(4);//vetor do index 0 fica vazio
@@ -64,7 +51,7 @@ public class GameMap {
 			this.addOgreToLevel(3);
 			randomNum--;
 		}
-		
+		this.changeState(state);
 	}
 
 	public void addOgreToLevel(int level) {
