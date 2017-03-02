@@ -6,7 +6,7 @@ import org.junit.Test;
 import dkeep.logic.*;
 public class TestLevel1 {
 	
-	@Test
+	/*@Test
 	public void testMoveHeroToFreeCell() {
 		GameMap Game = new GameMap();
 		Game.changeState(1);
@@ -55,5 +55,5 @@ public class TestLevel1 {
 		Game.moveHero('s');
 		Game.moveHero('a');
 		assertTrue(Game.isEndOfGame());	
-	}
+	}*/
 }

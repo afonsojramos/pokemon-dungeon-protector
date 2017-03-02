@@ -49,6 +49,7 @@ public class GameMap {
 			this.addOgreToLevel(3);
 			randomNum--;
 		}
+		this.changeState(1);
 	}
 
 	public void addOgreToLevel(int level) {
@@ -102,7 +103,7 @@ public class GameMap {
 			size--;
 			while(size >= 0){
 				Ogre ogre = v.get(size);
-				int xo3 = ogre.getX(), yo3 = ogre.getY(), xc3 = ogre.getClubX(), yc3 = ogre.getClubY();
+				int xc3 = ogre.getClubX(), yc3 = ogre.getClubY();
 				/*if(((y == yo3) && ((x == (xo3 - 1)) || (x == (xo3 + 1)))) || ((x == xo3) && ((y == (yo3 - 1)) || (y == (yo3 + 1))))){
 					endOfGame = true;
 					System.out.println("\n\nGAME OVER\n\n");
@@ -186,7 +187,7 @@ public class GameMap {
 
 	public void moveOgre(Ogre ogre) {
 		
-		int xo = ogre.getX(), yo = ogre.getY(), xc = ogre.getClubX(), yc = ogre.getClubY();
+		int xo = ogre.getX(), yo = ogre.getY();
 		currentMap[yo][xo] = overlapedPos[yo][xo];
 		do {
 			int randomNum = rand.nextInt(4); // random entre [min, max] : int
