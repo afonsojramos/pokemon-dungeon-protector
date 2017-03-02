@@ -3,12 +3,14 @@ package dkeep.logic;
 public class Ogre extends Person{
 	
 	private Club club;
-	private static int nOgres = 0;
+	private static int nOgres = 1;
+	private static int pos = -1; //posicao dos ogre criados com o construtor sem parametros
 
 	public Ogre(String name, int x, int y, char Ch){
 		super(name,x,y, Ch);
 		club = new Club(x+1,y);
 		nOgres++;
+		pos += 2;
 	}
 	
 	public Ogre(String name, int x, int y) {//construtor default
@@ -16,8 +18,7 @@ public class Ogre extends Person{
 	}
 	
 	public Ogre(){
-		this("ogre" + nOgres, (nOgres % 7), (nOgres/7), 'O');
-		nOgres++;
+		this("ogre" + nOgres, (pos % 6), (pos/6) + 1, 'O');
 	}
 	
 	public void doStep (int x, int y) {
