@@ -4,7 +4,7 @@ public class Person{
 	
 	private String name;
 	
-	private char Ch;
+	protected char Ch;
 	
 	protected int x, y; //posicao da personagem
 	
@@ -43,5 +43,24 @@ public class Person{
 	
 	public void setCh (char Ch) { this.Ch = Ch; }
 	
-	public void doStep (int x, int y) {}
+	public int doStep (MapLevel currentMap, int xOgre, int yOgre) {return 0;}
+	
+	public void printElement (char currentMap [][]) {
+		currentMap[y][x] = Ch;
+	}
+	
+	public boolean isAdjacent(int x1, int y1, int x2, int y2) {
+	if (x1 == x2 && (y2 == (y1 - 1) || y2 == (y1 + 1))) {
+		return true;
+	}
+	if (y1 == y2 && (x2 == (x1 - 1) || x2 == (x1 + 1))) {
+		return true;
+	}
+	if (y1 == y2 && x1 == x2) {
+		return true;
+	}
+	return false;
+}
+
+	public void editHero (MapLevel currentMap) {}
 }
