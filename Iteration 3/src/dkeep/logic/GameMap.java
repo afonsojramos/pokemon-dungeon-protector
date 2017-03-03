@@ -1,505 +1,176 @@
 package dkeep.logic;
 import java.util.*;
 
-import dkeep.logic.Guard.Personality;
+//import dkeep.logic.Guard.Personality;
 
 public class GameMap {
 
 	Random rand = new Random();
-	
-	private char overlapedPos [][];
+	char map0[][] = new char[][] {{' '}};
+	char map1[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
+			{ 'X', 'H', ' ', ' ', 'I', ' ', 'X', ' ', 'G', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
+			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
+			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' }, { 'X', ' ', 'I', ' ', 'I', ' ', 'X', 'k', ' ', 'X' },
+			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa do
+																	// nivel 1
+	char map2[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
+			{ 'I', ' ', ' ', ' ', 'O', '*', ' ', 'k', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', 'H', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa do nivel 2
+																												
+	char map3[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
+			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', 'k', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa do nivel 3
+																												
+	//private ArrayList<char[][]> listOfMaps;
 	private int state; // nivel do jogo
-	private int width, height; //largura e altura do mapa de jogo
-
-	private char currentMap[][];
-
+	private MapLevel currentMap; //mapa de jogo
 	private Person hero;
-	
-	private Vector<Vector<Ogre>> ogres;
-	private Vector<Vector<Guard>> guards;
-
-	private boolean possibleMove;
-	private boolean keyFound;
+	private Vector<Vector<Person>> characters;
 	private boolean endOfGame;	
+	private boolean victory;
 	
 	public GameMap() {
-		possibleMove = true;
-		keyFound = false;
+		/**
+		 * inicializar variaveis
+		 */
+		state = 0;
 		endOfGame = false;
-		overlapedPos = new char [10][10];
-		
+		victory = false;
+		currentMap = null;
 		hero = new Hero("hero", 1, 1);
-		ogres = new Vector<Vector<Ogre>>(4);//vetor do index 0 fica vazio
-		guards = new Vector<Vector<Guard>>(4);
-		Vector<Guard> glevel0 = new Vector<Guard>();Vector<Guard> glevel1 = new Vector<Guard>();
-		Vector<Guard> glevel2 = new Vector<Guard>();Vector<Guard> glevel3 = new Vector<Guard>();
-		Vector<Ogre> olevel0 = new Vector<Ogre>();Vector<Ogre> olevel1 = new Vector<Ogre>();
-		Vector<Ogre> olevel2 = new Vector<Ogre>();Vector<Ogre> olevel3 = new Vector<Ogre>();
-		Guard guardState0 = new Guard("guard0", 3, 1, 'G', Personality.Rookie);
-		Guard guardState1 = new Guard("guard1", 8, 1, 'G', Personality.Rookie);
-		Ogre crazyOgre = new Ogre("ogre1", 4, 1);
-		glevel0.add(guardState0);
-		glevel1.add(guardState1);
-		olevel2.add(crazyOgre);
-		ogres.add(olevel0);ogres.add(olevel1);ogres.add(olevel2);ogres.add(olevel3);
-		guards.add(glevel0);guards.add(glevel1);guards.add(glevel2);guards.add(glevel3);
+		/**
+		 * inicializar personagens do tabuleiro de jogo
+		 */
+		characters = new Vector<Vector<Person>>();//vetor do index 0 fica vazio
+		Vector<Person> level0 = new Vector<Person>();Vector<Person> level1 = new Vector<Person>();
+		Vector<Person> level2 = new Vector<Person>();Vector<Person> level3 = new Vector<Person>();
+		characters.add(level0); characters.add(level1);
+		characters.add(level2); characters.add(level3);
+
 		int randomNum = rand.nextInt(5) + 1;
 		System.out.print("\n\nNumero de ogres no nivel 3: " + randomNum + "\n\n");
 		while(randomNum > 0){
 			this.addOgreToLevel(3);
 			randomNum--;
 		}
-		this.changeState(1);
 	}
 
 	public void addOgreToLevel(int level) {
 		Ogre ogre = new Ogre();
-		Vector<Ogre> auxOgres = ogres.get(level);
+		Vector<Person> auxOgres = characters.get(level);
 		auxOgres.add(ogre);
 	}
 	
 	public void addGuardToLevel(int level) {
 		Guard guard = new Guard();
-		Vector<Guard> auxGuards = guards.get(level);
+		Vector<Person> auxGuards = characters.get(level);
 		auxGuards.add(guard);
 	}
 
 	public int getState() { return state; }
 
 	public boolean isEndOfGame() {
-		int x = hero.getX(), y = hero.getY();
-		switch(state){
-		case 0:
-			int xg0 = guards.get(0).get(0).getX(), yg0 = guards.get(0).get(0).getY();
-			if((((y == yg0) && ((x == (xg0 - 1)) || (x == (xg0 + 1)))) || ((x == xg0) && ((y == (yg0 - 1)) || (y == (yg0 + 1)))) || ((x == xg0) && (y == yg0))) && (guards.get(0).get(0).getCh() == 'G')){
-				endOfGame = true;
-			}
-			if((x == 0) && ((y == 2) || (y == 3))){
-				endOfGame = true;
-				System.out.println("\n\nVICTORY\n\n");
-			}
-			break;
-		case 1:
-			int xg = guards.get(1).get(0).getX(), yg = guards.get(1).get(0).getY();
-			if((((y == yg) && ((x == (xg - 1)) || (x == (xg + 1)))) || ((x == xg) && ((y == (yg - 1)) || (y == (yg + 1)))) || ((x == xg) && (y == yg))) && (guards.get(1).get(0).getCh() == 'G')){
-				endOfGame = true;
-			}
-			break;
-		case 2:
-			int xo = ogres.get(2).get(0).getX(), yo = ogres.get(2).get(0).getY(), xc = ogres.get(2).get(0).getClubX(), yc = ogres.get(2).get(0).getClubY();
-			if(((y == yo) && ((x == (xo - 1)) || (x == (xo + 1)))) || ((x == xo) && ((y == (yo - 1)) || (y == (yo + 1))))){
-				endOfGame = true;
-				System.out.println("\n\nGAME OVER\n\n");
-			}
-			if(((y == yc) && ((x == (xc - 1)) || (x == (xc + 1)))) || ((x == xc) && ((y == (yc - 1)) || (y == (yc + 1))))){
-				endOfGame = true;
-				System.out.println("\n\nGAME OVER\n\n");
-			}
-			
-			break;
-		case 3:
-			Vector<Ogre> v = ogres.get(state);
-			int size = v.size();
-			size--;
-			while(size >= 0){
-				Ogre ogre = v.get(size);
-				int xc3 = ogre.getClubX(), yc3 = ogre.getClubY();
-				/*if(((y == yo3) && ((x == (xo3 - 1)) || (x == (xo3 + 1)))) || ((x == xo3) && ((y == (yo3 - 1)) || (y == (yo3 + 1))))){
-					endOfGame = true;
-					System.out.println("\n\nGAME OVER\n\n");
-					break;
-				}*/
-				if(((y == yc3) && ((x == (xc3 - 1)) || (x == (xc3 + 1)))) || ((x == xc3) && ((y == (yc3 - 1)) || (y == (yc3 + 1))))){
-					endOfGame = true;
-					System.out.println("\n\nGAME OVER\n\n");
-					break;
-				}
-				size--;
-			}
-			if((x == 0) && (y == 1)){
-				endOfGame = true;
-				System.out.println("\n\nVICTORY\n\n");
-			}
-			break;
-		}
 		return endOfGame;
 	}
 	
-	public String getMap() {
-		StringBuilder tmp = new StringBuilder();
-		for (int i = 0; i < height; i++){
-			for (int j = 0; j < width; j++){
-				tmp.append(currentMap[i][j]);
-				tmp.append(" ");
-			}
-			tmp.append('\n');
-		}
-		return tmp.toString();
+	public boolean isVictorry () {
+		return victory;
 	}
 	
-	public char getMapPos(int y, int x) {
-		char w = currentMap[y][x];
-		return w;
+	public String getMap() {
+		return currentMap.getStringMap();
 	}
 	
 	public void moveHero(char input) {
 
 		int x = hero.getX(), y = hero.getY();
 		boolean update = false;
-
-		if (input == 'w' && ((currentMap[y - 1][x] != 'X') && (currentMap[y - 1][x] != 'I'))) {
+		
+		if (input == 'w' && ((currentMap.isCharAtPos(x, y - 1, ' ')) || (currentMap.isCharAtPos(x, y - 1, 'I') && currentMap.isKeyFound()) || currentMap.isCharAtPos(x, y - 1, 'S') || currentMap.isCharAtPos(x, y - 1, 'k'))) {
 			y--;
 			update = true;
-		} else if (input == 's' && ((currentMap[y + 1][x] != 'X') && (currentMap[y + 1][x] != 'I'))) {
+		} else if (input == 's' && ((currentMap.isCharAtPos(x, y + 1, ' ')) || (currentMap.isCharAtPos(x, y + 1, 'I') && currentMap.isKeyFound()) || currentMap.isCharAtPos(x, y + 1, 'S') || currentMap.isCharAtPos(x, y + 1, 'k'))) {
 			y++;
 			update = true;
-		} else if (input == 'd' && ((currentMap[y][x + 1] != 'X') && (currentMap[y][x + 1] != 'I'))) {
+		} else if (input == 'd' && ((currentMap.isCharAtPos(x + 1, y, ' ')) || (currentMap.isCharAtPos(x + 1, y, 'I') && currentMap.isKeyFound()) || currentMap.isCharAtPos(x + 1, y, 'S') || currentMap.isCharAtPos(x + 1, y, 'k'))) {
 			x++;
 			update = true;
-		} else if ((state == 0) && (input == 'a' && ((currentMap[y][x - 1] != 'X') && (currentMap[y][x - 1] != 'I')))) {
-			x--;
-			update = true;
-		} else if ((state == 1) && (input == 'a' && ((currentMap[y][x - 1] != 'X') && (currentMap[y][x - 1] != 'I')))) {
-			x--;
-			update = true;
-		} else if ((state == 2 || state == 3) && (input == 'a' && ((currentMap[y][x - 1] != 'X') && (!((currentMap[y][x - 1] == 'I') && !keyFound))))) {
+		} else if (input == 'a' && ((currentMap.isCharAtPos(x - 1, y, ' ')) || (currentMap.isCharAtPos(x - 1, y, 'I') && currentMap.isKeyFound()) || currentMap.isCharAtPos(x - 1, y, 'S') || currentMap.isCharAtPos(x - 1, y, 'k'))) {
 			x--;
 			update = true;
 		}
 
 		if (update) {
-			switch (state) {
-			case 0:
-				update0(x, y);
-				break;
-			case 1:
-				update1(x, y);
-				break;
-			case 2:
-				update2(x, y);
-				break;
-			case 3:
-				update3(x, y);
-				break;
+			this.update(x, y);
 			}
-		}
 	}
-
-	public void moveOgre(Ogre ogre) {
-		
-		int xo = ogre.getX(), yo = ogre.getY();
-		currentMap[yo][xo] = overlapedPos[yo][xo];
-		do {
-			int randomNum = rand.nextInt(4); // random entre [min, max] : int
-												// randomNum = rand.nextInt((max
-												// - min) + 1) + min;
-			switch (randomNum) {
-			case 0: // Ogre anda para cima
-				if ((currentMap[yo - 1][xo] == 'I') || (currentMap[yo - 1][xo] == 'X')) {
-					possibleMove = false;
-				} else {					
-					yo--;
-					overlapedPos[yo][xo] = ((xo == 7) && (yo == 1) && !keyFound) ? '$' : 'O';
-					currentMap[yo][xo] = ((xo == 7) && (yo == 1) && !keyFound) ? '$' : 'O';
-					possibleMove = true;
+	
+	public void update (int new_x, int new_y) {
+		if(((Hero)hero).doStep(currentMap, new_x, new_y) == 1) { //mudar de nivel
+			this.changeState();
+		} else {
+			Vector<Person> v = characters.get(state);
+			int size = v.size();
+			size--;
+			while (size >= 0) {
+				Person levelCharacter = v.get(size);
+				if (levelCharacter instanceof Guard) {
+					if (((Guard) levelCharacter).doStep(currentMap, new_x, new_y) == 1) {
+						endOfGame = true;
+						break;
+					}
+				} else if (levelCharacter instanceof Ogre) {
+					if (((Ogre) levelCharacter).doStep(currentMap, new_x, new_y) == 1) {
+						endOfGame = true;
+						break;
+					}
 				}
-				break;
-			case 1: // Ogre anda para baixo
-				if ((currentMap[yo + 1][xo] == 'I') || (currentMap[yo + 1][xo] == 'X')) {
-					possibleMove = false;
-				} else {
-					yo++;
-					overlapedPos[yo][xo] = 'O';
-					currentMap[yo][xo] = 'O';
-					possibleMove = true;
-				}
-				break;
-			case 2: // Ogre anda para a esquerda
-				if ((currentMap[yo][xo - 1] == 'I') || (currentMap[yo][xo - 1] == 'X')) {
-					possibleMove = false;
-				} else {
-					xo--;
-					overlapedPos[yo][xo] = 'O';
-					currentMap[yo][xo] = 'O';
-					possibleMove = true;
-				}
-				break;
-			case 3: // Ogre anda para a direita
-				if ((currentMap[yo][xo + 1] == 'I') || (currentMap[yo][xo + 1] == 'X')) {
-					possibleMove = false;
-				} else {
-					xo++;
-					overlapedPos[yo][xo] = ((xo == 7) && (yo == 1) && !keyFound) ? '$' : 'O';
-					currentMap[yo][xo] = ((xo == 7) && (yo == 1) && !keyFound) ? '$' : 'O';
-					possibleMove = true;
-				}
-				break;
+				size--;
 			}
-		} while (!possibleMove);
-		ogre.doStep(xo, yo); // atualizar as coordenadas do objeto Ogre
-		int x = hero.getX(), y = hero.getY();
-		if(((y == yo) && ((x == (xo - 1)) || (x == (xo + 1)))) || ((x == xo) && ((y == (yo - 1)) || (y == (yo + 1)))) && (state == 3)) {
-			ogre.stun();
-			currentMap[yo][xo] = '8';
+			currentMap.clearArrayOverlap();
 		}
 	}
-	
-	public void moveClub(Ogre ogre) {
-		int xo = ogre.getX(), yo = ogre.getY(), xc = ogre.getClubX(), yc = ogre.getClubY();
-		currentMap[yc][xc] = overlapedPos[yc][xc];//apagar club antigo
-		do {
-			int randomNum2 = rand.nextInt(4); // random entre [min, max] : int
-												// randomNum = rand.nextInt((max
-												// - min) + 1) + min;
-			switch (randomNum2) {
-			case 0: // Taco apontado para cima
-				if ((currentMap[yo - 1][xo] == 'I') || (currentMap[yo - 1][xo] == 'X')) {
-					possibleMove = false;
-				} else {
-					xc = xo;
-					yc = yo - 1;
-					if(overlapedPos[yc][xc] != 'O') {
-					overlapedPos[yc][xc] = ((xc == 7) && (yc == 1) && !keyFound) ? '$' : '*';
-					currentMap[yc][xc] = ((xc == 7) && (yc == 1) && !keyFound) ? '$' : '*';
-					}
-					possibleMove = true;
-				}
-				break;
-			case 1: // Taco apontado para baixo
-				if ((currentMap[yo + 1][xo] == 'I') || (currentMap[yo + 1][xo] == 'X')) {
-					possibleMove = false;
-				} else {
-					xc = xo;
-					yc = yo + 1;
-					if(overlapedPos[yc][xc] != 'O') {
-					overlapedPos[yc][xc] = '*';
-					currentMap[yc][xc] = '*';
-					}
-					possibleMove = true;
-				}
-				break;
-			case 2: // Taco apontado para a esquerda
-				if ((currentMap[yo][xo - 1] == 'I') || (currentMap[yo][xo - 1] == 'X')) {
-					possibleMove = false;
-				} else {
-					xc = xo - 1;
-					yc = yo;
-					if(overlapedPos[yc][xc] != 'O') {
-					overlapedPos[yc][xc] = '*';
-					currentMap[yc][xc] = '*';
-					}
-					possibleMove = true;
-				}
-				break;
-			case 3: // Taco apontado para a direita
-				if ((currentMap[yo][xo + 1] == 'I') || (currentMap[yo][xo + 1] == 'X')) {
-					possibleMove = false;
-				} else {
-					xc = xo + 1;
-					yc = yo;
-					if(overlapedPos[yc][xc] != 'O'){
-					overlapedPos[yc][xc] = ((xc == 7) && (yc == 1) && !keyFound) ? '$' : '*';
-					currentMap[yc][xc] = ((xc == 7) && (yc == 1) && !keyFound) ? '$' : '*';
-					}
-					possibleMove = true;
-				}
-				break;
-			}
-		} while (!possibleMove);
+
+	public void changeState() {
+		state++;	
+		ArrayList<char[][]> listOfMaps = new ArrayList<char[][]>(4);
+		listOfMaps.add(map0);
+		listOfMaps.add(map1);
+		listOfMaps.add(map2);
+		listOfMaps.add(map3);
+		if(state >= listOfMaps.size()) {
+			victory = true;
+			endOfGame = true;
+			return;
+		}
+		Vector<Person> v = characters.get(state);
+		currentMap = new MapLevel(listOfMaps.get(state), state, v);
+		((Hero)hero).editHero(currentMap);
 		
-		ogre.setClubX(xc);
-		ogre.setClubY(yc);
-	}
-	
-	public int getHeroX() {
-		return hero.getX();
-	}
-	
-	public int getHeroY() {
-		return hero.getY();
-	}
-	
-	public void update0(int new_x, int new_y) {
-		hero.doStep(new_x, new_y);
-		currentMap[hero.getPrevY()][hero.getPrevX()] = ' ';
-		currentMap[hero.getY()][hero.getX()] = 'H';
-		if (new_y ==3 && new_x == 1) {
-			currentMap[2][0] = 'S';
-			currentMap[3][0] = 'S';
-		}		
-		if((hero.getX() == 0) && ((hero.getY() == 2) || (hero.getY() == 3))){
-			this.endOfGame = true;
-		}
-	}
-	
-	public void update1(int new_x, int new_y) {
-		hero.doStep(new_x, new_y);
-		currentMap[hero.getPrevY()][hero.getPrevX()] = ' ';
-		currentMap[hero.getY()][hero.getX()] = 'H';
-		if (new_y == 8 && new_x == 7) {
-			currentMap[1][4] = 'S';
-			currentMap[3][4] = 'S';
-			currentMap[3][2] = 'S';
-			currentMap[5][0] = 'S';
-			currentMap[6][0] = 'S';
-			currentMap[8][2] = 'S';
-			currentMap[8][4] = 'S';
-		}
-		
-		guards.get(1).get(0).doStep(0, 0);
-		int xg = guards.get(1).get(0).getX(), yg = guards.get(1).get(0).getY();
-		int prevXg = guards.get(1).get(0).getPrevX(), prevYg = guards.get(1).get(0).getPrevY();
-		currentMap[prevYg][prevXg] = ' ';
-		currentMap[yg][xg] = guards.get(1).get(0).getCh();
-		
-		if((hero.getX() == 0) && ((hero.getY() == 5) || (hero.getY() == 6))){
-			this.changeState(2);
-		}
-
-	}
-
-	public void update2(int new_x, int new_y) {
-		hero.doStep(new_x, new_y);
-		int x = hero.getX(), y = hero.getY();
-		currentMap[hero.getPrevY()][hero.getPrevX()] = ' ';
-		if ((x == 7) && (y == 1)){ // heroi apanhou a chave
-			keyFound = true;
-			hero.setCh('K');
-		}
-
-		if ((x == 0) && (y == 1) && (currentMap[y][x] == 'I')) {//abrir a porta
-			currentMap[1][0] = 'S';
-			x++; // permanece na posicao anterior
-			hero.setX(x);
-		}
-		currentMap[y][x] = hero.getCh();
-
-		overlapedPos = new char[][] { { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'k', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-			{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } };
-		Ogre ogre = ogres.get(2).get(0);
-		this.moveOgre(ogre);
-		this.moveClub(ogre);
-		overlapedPos = null;
-		if((x == 0) && (y == 1)){
-			this.changeState(3);
-		}
-	}
-	
-	public void update3(int new_x, int new_y){
-		hero.doStep(new_x, new_y);
-		int x = hero.getX(), y = hero.getY();
-		currentMap[hero.getPrevY()][hero.getPrevX()] = ' ';
-		if ((x == 7) && (y == 1)){ // heroi apanhou a chave
-			keyFound = true;
-			hero.setCh('K');
-		}
-
-		if ((x == 0) && (y == 1) && (currentMap[y][x] == 'I')) {//abrir a porta
-			currentMap[1][0] = 'S';
-			x++; // permanece na posicao anterior
-			hero.setX(x);
-		}
-		currentMap[y][x] = hero.getCh();
-		
-		overlapedPos = new char[][] { { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-				{ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } };
-		if (!keyFound) {
-			overlapedPos[1][7] = 'k';
-		}
-		Vector<Ogre> v = ogres.get(state);
 		int size = v.size();
 		size--;
-		while(size >= 0){
-			Ogre ogre = v.get(size);
-			if(ogre.isStuned()){
-				this.moveClub(ogre);
-				ogre.lessStuned();
-			}else {
-			this.moveOgre(ogre);
-			this.moveClub(ogre);
+		while (size >= 0) {
+			Person levelCharacters = v.get(size);
+			if (levelCharacters instanceof Guard) {
+			((Guard)levelCharacters).printElement(listOfMaps.get(state));
+			} else if (levelCharacters instanceof Ogre){
+				((Ogre)levelCharacters).printElement(listOfMaps.get(state));
 			}
 			size--;
 		}
-		overlapedPos = null;
+	}
+	public Person getHero() {
+		return hero;
 	}
 	
-	public void changeState(int nState){
+	public void editMap (char [][] currentMapArray) {
+		Vector<Person> v = new Vector<Person>();
+		currentMap = new MapLevel(currentMapArray, 0, v);
+	}
 		
-		switch(nState){
-		case 0:
-			currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},
-				{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
-				width = 5;
-				height = 5;
-				hero.setX(1);hero.setY(1);hero.setPrevX(1);hero.setPrevY(1);
-				state = 0;
-				break;
-		case 1:
-			currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-				{ 'X', 'H', ' ', ' ', 'I', ' ', 'X', ' ', 'G', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-				{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-				{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' }, { 'X', ' ', 'I', ' ', 'I', ' ', 'X', 'k', ' ', 'X' },
-				{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; //mapa do nivel 1
-				width = 10;
-				height = 10;
-				hero.setX(1);hero.setY(1);hero.setPrevX(1);hero.setPrevY(1);
-				state = 1;
-				break;
-		case 2:
-			currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' }, { 'I', ' ', ' ', ' ', 'O', '*', ' ', 'k', 'X' },
-				{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'H', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; //mapa do nivel 2
-				width = 9;
-				height = 9;
-				hero.setX(1);hero.setY(7);hero.setPrevX(1);hero.setPrevY(7);
-				state = 2;
-				break;
-		case 3:
-			currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' }, { 'I', ' ', ' ', ' ', ' ', ' ', ' ', 'k', 'X' },
-				{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; //mapa do nivel 3
-				width = 9;
-				height = 9;
-				hero.setX(1);hero.setY(7);hero.setPrevX(1);hero.setPrevY(7);
-				hero.setCh('A');
-				state = 3;
-				keyFound = false;
-				Vector<Ogre> v = ogres.get(state);
-				int size = v.size();
-				size--;
-				while(size >= 0){
-					Ogre ogre = v.get(size);
-					System.out.print("\n\nx do ogre: "+ogre.getX()+" y do ogre: "+ogre.getY()+"  x do club: "+ogre.getClubX()+" y do club: "+ogre.getClubY()+"\n\n");
-					currentMap[ogre.getY()][ogre.getX()] = ogre.getCh();
-					currentMap[ogre.getClubY()][ogre.getClubX()] = ogre.getClubCh();
-					size--;
-				}
-				break;
-		}
-	}
-	
-	
-	
-	
 }

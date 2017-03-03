@@ -1,6 +1,6 @@
 package dkeep.logic;
 
-import java.util.Random;
+//import java.util.Random;
 
 public class Hero extends Person{
 
@@ -26,9 +26,9 @@ public class Hero extends Person{
 		y = currentMap.getBeginningYOfHero();
 	}
 	
-	public int doStep (MapLevel currentMap, int xOgre, int yOgre) {
+	public int doStep (MapLevel currentMap, int xHero, int yHero) {
 		prevX = x; prevY = y;
-		x = xOgre; y = yOgre;
+		x = xHero; y = yHero;
 		if(currentMap.isCharAtPos(x, y, 'S')) {
 			return 1; //mudar de nivel
 		}

@@ -21,7 +21,7 @@ public class Guard extends Person{
 		timeAwake=ThreadLocalRandom.current().nextInt(1, 7);
 		this.personality = personality;
 		numberOfGuards++;
-		it = 0;
+		it = 1;
 		direction = true;
 	}
 	
@@ -33,14 +33,21 @@ public class Guard extends Person{
 		this("guard" + numberOfGuards, (numberOfGuards % 7), (numberOfGuards/7), 'G', Personality.values()[ThreadLocalRandom.current().nextInt(0, 3)]);
 	}
 	
+	public Guard(int x, int y) {
+		this("guard" + numberOfGuards, x, y, 'G', Personality.values()[ThreadLocalRandom.current().nextInt(0, 3)]);
+	}
+	
 	public static int getNumberOfGuards(){
 		return numberOfGuards;
 	}
 	
-	public void doStep(int x, int y) {
+	public void printElement (char currentMap [][]) {
+		currentMap[y][x] = Ch;
+	}
+	
+	public int doStep(MapLevel currentMap, int xOgre, int yOgre) {
 		prevX = this.x; //guardar coordenadas antigas para poder apagar a personagem no mapa
 		prevY = this.y;
-		
 		switch(personality){
 		case Rookie:
 			this.x = pathX[it];
@@ -97,5 +104,26 @@ public class Guard extends Person{
 				this.y = pathY[it];			
 			break;
 		}
+		currentMap.setValuePos(prevX, prevY, currentMap.getOverlapChar(prevX, prevY));
+		currentMap.setOverlapedChar(x, y, Ch);
+		currentMap.setValuePos(x, y, Ch);
+		if(this.isAdjacent(xOgre, yOgre, x, y)) {
+			return 1;
+		}
+		return 0;
 	}
+	
+	public boolean isAdjacent(int x1, int y1, int x2, int y2) {
+	if (x1 == x2 && (y2 == (y1 - 1) || y2 == (y1 + 1))) {
+		return true;
+	}
+	if (y1 == y2 && (x2 == (x1 - 1) || x2 == (x1 + 1))) {
+		return true;
+	}
+	if (y1 == y2 && x1 == x2) {
+		return true;
+	}
+	return false;
 }
+}
+

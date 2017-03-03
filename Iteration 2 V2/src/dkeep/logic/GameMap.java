@@ -1,7 +1,7 @@
 package dkeep.logic;
 import java.util.*;
 
-import dkeep.logic.Guard.Personality;
+//import dkeep.logic.Guard.Personality;
 
 public class GameMap {
 
@@ -26,7 +26,7 @@ public class GameMap {
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
 			{ 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa do nivel 3
 																												
-	private ArrayList<char[][]> listOfMaps;
+	//private ArrayList<char[][]> listOfMaps;
 	private int state; // nivel do jogo
 	private MapLevel currentMap; //mapa de jogo
 	private Person hero;
@@ -38,7 +38,7 @@ public class GameMap {
 		/**
 		 * inicializar variaveis
 		 */
-		state = 2;
+		state = 0;
 		endOfGame = false;
 		victory = false;
 		currentMap = null;
@@ -163,6 +163,15 @@ public class GameMap {
 			}
 			size--;
 		}
+	}
+	
+	public Person getHero() {
+		return hero;
+	}
+	
+	public void editMap (char [][] currentMapArray) {
+		Vector<Person> v = new Vector<Person>();
+		currentMap = new MapLevel(currentMapArray, 0, v);
 	}
 		
 }
