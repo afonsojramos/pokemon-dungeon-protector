@@ -1,9 +1,6 @@
 package dkeep.logic;
 
-public class Hero extends Person{
-	
-	private char Ch;//para o heroi 'H' por exemplo. mas podemos pedir ao utilizador para o personalizar
-	
+public class Hero extends Person{	
 
 	public Hero(String name, int x, int y, char Ch){
 		super(name,x,y, Ch);
