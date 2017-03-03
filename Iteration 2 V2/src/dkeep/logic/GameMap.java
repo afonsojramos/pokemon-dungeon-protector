@@ -49,10 +49,6 @@ public class GameMap {
 		characters = new Vector<Vector<Person>>();//vetor do index 0 fica vazio
 		Vector<Person> level0 = new Vector<Person>();Vector<Person> level1 = new Vector<Person>();
 		Vector<Person> level2 = new Vector<Person>();Vector<Person> level3 = new Vector<Person>();
-		//Person guardLevel1 = new Guard("guard0", 8, 1, 'G', Personality.Rookie);
-		//Person crazyOgre = new Ogre("ogre0", 4, 1);
-		//level1.add(guardLevel1);
-		//level2.add(crazyOgre);
 		characters.add(level0); characters.add(level1);
 		characters.add(level2); characters.add(level3);
 
