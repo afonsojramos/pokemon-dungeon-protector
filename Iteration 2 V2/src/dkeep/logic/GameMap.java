@@ -29,6 +29,7 @@ public class GameMap {
 		 */
 		new_x = 0;
 		new_y = 0;
+		
 		this.instantaneousDoorOpen = instantaneousDoorOpen;
 		this.mapArray = mapArray;
 		currentMap = null;

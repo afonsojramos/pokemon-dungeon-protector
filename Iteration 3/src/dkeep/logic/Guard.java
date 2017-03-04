@@ -3,10 +3,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Guard extends Person{
 	
-	public enum Personality {Rookie, Drunken, Suspicious, Parado} 
+	public enum Personality {Rookie, Drunken, Suspicious, Stop} 
 	private static int numberOfGuards = 0;
 	private int timeSleep, timeAwake;
 	private boolean direction;
+	
 	
 	int pathX[] = {8,7,7,7,7,7,6,5,4,3,2,1,1,2,3,4,5,6,7,8,8,8,8,8};
 	int pathY[] = {1,1,2,3,4,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,5,4,3,2};
@@ -37,18 +38,18 @@ public class Guard extends Person{
 		this("guard" + numberOfGuards, x, y, 'G', Personality.values()[ThreadLocalRandom.current().nextInt(0, 3)]);
 	}
 	
-	public static int getNumberOfGuards(){
-		return numberOfGuards;
-	}
+	public int getX() { return this.x; }
 	
-	public void printElement (char currentMap [][]) {
-		currentMap[y][x] = Ch;
-	}
+	public int getY() { return this.y; }
 	
-	public int doStep(MapLevel currentMap, int xOgre, int yOgre) {
+	public void setX() { this.x = x; }
+	
+	public void setY() { this.y = y; }
+	
+	public void doStep(MapLevel currentMap, int xHero, int yHero) {
 		prevX = this.x; //guardar coordenadas antigas para poder apagar a personagem no mapa
 		prevY = this.y;
-		switch(personality){
+		switch (personality) {
 		case Rookie:
 			this.x = pathX[it];
 			this.y = pathY[it];
@@ -82,50 +83,51 @@ public class Guard extends Person{
 			}
 			break;
 		case Suspicious:
-			//timeAwake = sentido certo ; timeSleep = sentido contrario
-				if (timeAwake > 0) {
-					timeAwake--;
-					it++;
+			// timeAwake = sentido certo ; timeSleep = sentido contrario
+			if (timeAwake > 0) {
+				timeAwake--;
+				it++;
+			} else {
+				timeSleep--;
+				if (it == 0) {
+					it = 23;
+				} else {
+					it--;
 				}
-				else {
-					timeSleep--;
-					if (it == 0) {
-						it = 23;
-					} else {
-						it--;
-					}
-					if(timeSleep == 0){
-						timeSleep=ThreadLocalRandom.current().nextInt(2, 7);
-						timeAwake=ThreadLocalRandom.current().nextInt(1, 7);
-					}
+				if (timeSleep == 0) {
+					timeSleep = ThreadLocalRandom.current().nextInt(2, 7);
+					timeAwake = ThreadLocalRandom.current().nextInt(1, 7);
 				}
-				it = it % 24;
-				this.x = pathX[it];
-				this.y = pathY[it];			
+			}
+			it = it % 24;
+			this.x = pathX[it];
+			this.y = pathY[it];
 			break;
-		case Parado:
+		case Stop:
 			break;
 		}
-		currentMap.setValuePos(prevX, prevY, currentMap.getOverlapChar(prevX, prevY));
-		currentMap.setOverlapedChar(x, y, Ch);
-		currentMap.setValuePos(x, y, Ch);
-		if(this.isAdjacent(xOgre, yOgre, x, y)) {
-			return 1;
-		}
-		return 0;
+		currentMap.setPosUsed(x, y);
+	}
+	
+	public void setPersonality (Personality p) {
+		personality = p;
 	}
 	
 	public boolean isAdjacent(int x1, int y1, int x2, int y2) {
-	if (x1 == x2 && (y2 == (y1 - 1) || y2 == (y1 + 1))) {
-		return true;
+		if (x1 == x2 && (y2 == (y1 - 1) || y2 == (y1 + 1))) {
+			return true;
+		}
+		if (y1 == y2 && (x2 == (x1 - 1) || x2 == (x1 + 1))) {
+			return true;
+		}
+		if (y1 == y2 && x1 == x2) {
+			return true;
+		}
+		return false;
 	}
-	if (y1 == y2 && (x2 == (x1 - 1) || x2 == (x1 + 1))) {
-		return true;
+	
+	public boolean isInInvalidPos (char [][] mapArray) {
+		return (mapArray[y][x] != ' ');
 	}
-	if (y1 == y2 && x1 == x2) {
-		return true;
-	}
-	return false;
-}
 }
 

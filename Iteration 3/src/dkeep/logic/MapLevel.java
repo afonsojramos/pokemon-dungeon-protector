@@ -4,132 +4,86 @@ import java.util.Vector;
 
 public class MapLevel {
 	private char currentMap [][];
-	private char overlapedPos [][];
+	private boolean posUsed [][];//posicoes que foram ocupadas numa jogada
 	private Vector<Integer> doorsPosX;
 	private Vector<Integer> doorsPosY;
+	private boolean doorsOpened = false;
 	private int width, height; //largura e altura do mapa de jogo
-	private int state;
 	private Key key;
-	private int beginningXOfHero, beginningYOfHero;
-	boolean heroArmed;
+	private boolean instantaneousDoorOpen;// se true, portas abrem-se mal se apanha a chave
 	
-	public MapLevel (char [][] currentMap, int state, Vector<Person> characters) {
-		doorsPosX = new Vector<Integer>();doorsPosY = new Vector<Integer>();
+	public MapLevel (char [][] currentMap, Key key, Vector<Integer> doorsX, Vector<Integer> doorsY, boolean instantaneousDoorOpen) {
+		doorsPosX = doorsX;
+		doorsPosY = doorsY;
 		this.currentMap = currentMap;
-		this.state = state;
+		this.instantaneousDoorOpen = instantaneousDoorOpen;
 		width = currentMap[0].length;
 		height = currentMap.length;
-		overlapedPos = new char [height][width];
+		posUsed = new boolean [height][width];
 		boolean keyFound = false;
 		for (int i = 0; i < height; i++){
 			for (int j = 0; j < width; j++) {
-				overlapedPos[i][j] = ' ';
-				if(currentMap[i][j] == 'k') {
-					overlapedPos[i][j] = 'k';
-					key = new Key(j, i);
-					keyFound = true;
-				} else if(currentMap[i][j] == 'I') {
-					doorsPosX.add(j);
-					doorsPosY.add(i);
-				} else if(currentMap[i][j] == 'H') {
-					beginningXOfHero = j;
-					beginningYOfHero = i;
-					heroArmed = false;
-				} else if(currentMap[i][j] == 'A') {
-					beginningXOfHero = j;
-					beginningYOfHero = i;
-					heroArmed = true;
-				} else if(currentMap[i][j] == 'G') {
-					Person g = new Guard (j, i);
-					characters.add(g);
-				} else if(currentMap[i][j] == 'O') {
-					Person o = new Ogre (j, i);
-					characters.add(o);
-				}
+				posUsed[i][j] = false;
 			}
 		}
-		if(!keyFound) {
-			key = null;
-		}
+		this.key = key;
 	}
 	
-	public boolean isUnderKey (int x, int y) {
-		return (key.getX() == x && key.getY() == y && !key.isFound());
+	public boolean isAboveKey (int x, int y) {
+		return ((key.getX() == x) && (key.getY() == y) && !key.isFound());
+	}
+	
+	public Key getKey() {return key;}
+	
+	public boolean isAboveWall (int x, int y) {
+		return currentMap[y][x] == 'X';
 	}
 	
 	public boolean isKeyFound () {
 		return key.isFound();
 	}
 	
-	public boolean isHeroArmed () {
-		return heroArmed;
-	}
-
-	public int getState () {
-		return state;
-	}
-	
-	public int getBeginningXOfHero () {
-		return beginningXOfHero;
-	}
-	
-	public int getBeginningYOfHero () {
-		return beginningYOfHero;
-	}
-	
-	public String getStringMap () {
-		StringBuilder tmp = new StringBuilder();
-		for (int i = 0; i < height; i++){
-			for (int j = 0; j < width; j++){
-				tmp.append(currentMap[i][j]);
-				tmp.append(" ");
+	public boolean isOnTheDoor (int x, int y) {
+		for (int i = 0; i < doorsPosX.size(); i++) {
+			if (x == doorsPosX.get(i) && y == doorsPosY.get(i)) {
+				return true;
 			}
-			tmp.append('\n');
 		}
-		return tmp.toString();
+		return false;
+	}
+	
+	public boolean isDoorOpen() {
+		return doorsOpened;
 	}
 	
 	public void openDoors () {
 		for (int i = 0; i < doorsPosX.size(); i++) {
 			currentMap[doorsPosY.get(i)][doorsPosX.get(i)] = 'S';
 		}
+		doorsOpened = true;
 	}
 	
 	public void setKeyFound () {
-		if (state == 1) {
+		if (instantaneousDoorOpen) { //abre logo as portas
 			this.openDoors();
 		}
 		key.setFound();
+		currentMap[key.getY()][key.getX()] = ' '; //apagar chave do mapa
 	}
 	
-	public void setValuePos (int x, int y, char ch) {
-		currentMap [y][x] = ch;
+	public boolean isElementAtPos (int x, int y) {
+		return posUsed[y][x];
 	}
 	
-	public boolean isCharAtPos (int x, int y, char ch) {
-		return currentMap[y][x] == ch;
+	public void setPosUsed (int x, int y) {
+		posUsed[y][x] = true;
 	}
 	
-	public char getOverlapChar (int x, int y) {
-		return overlapedPos[y][x];
-	}
-	
-	public void setOverlapedChar (int x, int y, char ch) {
-		overlapedPos[y][x] = ch;
-	}
-	
-	public void clearElement (int x, int y) {
-		currentMap[y][x] = overlapedPos[y][x];
-	}
-	
-	public void clearArrayOverlap() {
+	public void clearPosUsed () {
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				overlapedPos[i][j] = ' ';
+				posUsed[i][j] = false;
 			}
-		}
-		if(!key.isFound()) {
-			overlapedPos[key.getY()][key.getX()] = 'k';
 		}
 	}
 }

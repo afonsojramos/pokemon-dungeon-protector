@@ -32,7 +32,7 @@ public class Play {
 																												// nivel
 																												// 3
 
-	private static int currentLevel = 3;
+	private static int currentLevel = 1;
 	private static int finalLevel = 3;
 	private static boolean endOfGame = false;
 	private static GameMap game = null;
