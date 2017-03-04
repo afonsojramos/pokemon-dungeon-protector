@@ -6,30 +6,24 @@ import org.junit.Test;
 
 import dkeep.logic.*;
 public class TestDungeonGameLogic {
-	
-	Vector <Person> v = new Vector <Person>();
-	char[][] currentMap = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},
-		{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
-	MapLevel Test = new MapLevel(currentMap,0,v);
-	
-	
+	/*
 	@Test
 	public void testMoveHeroToFreeCell() {
 		Person hero;
-		GameMap Game = new GameMap();
-		Game.editMap(currentMap);
+		GameMap Game = new GameMap(4);
+		//Game.editMap(currentMap);
 		hero = Game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
 		Game.moveHero('s');
 		hero = Game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(2, hero.getY()); 		
 	}
-	
+	/*
 	@Test
 	public void testHeroBlockedByWall(){
 		Person hero;
-		GameMap Game = new GameMap();
-		Game.editMap(currentMap);
+		GameMap Game = new GameMap(4);
+		//Game.editMap(currentMap);
 		hero = Game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
 		Game.moveHero('w');
@@ -39,13 +33,16 @@ public class TestDungeonGameLogic {
 	/*
 	@Test
 	public void testHeroLosesByGuard(){
-		GameMap Game = new GameMap();
-		Game.changeState(0);
-		assertEquals(1, Game.getHeroX()); assertEquals(1, Game.getHeroY()); 
+		Person hero;
+		GameMap Game = new GameMap(4);
+		Game.editMap(currentMap);
+		hero = Game.getHero();
+		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
 		Game.moveHero('d');
+		hero = Game.getHero();
 		assertTrue(Game.isEndOfGame()); 
 	}
-	
+	/*
 	@Test
 	public void testHeroTriesToExit() {
 		

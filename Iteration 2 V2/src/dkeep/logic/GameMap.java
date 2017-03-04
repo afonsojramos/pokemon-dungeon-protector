@@ -1,177 +1,268 @@
 package dkeep.logic;
 import java.util.*;
 
-//import dkeep.logic.Guard.Personality;
+import dkeep.logic.Guard.Personality;
+
 
 public class GameMap {
 
 	Random rand = new Random();
-	char map0[][] = new char[][] {{' '}};
-	char map1[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-			{ 'X', 'H', ' ', ' ', 'I', ' ', 'X', ' ', 'G', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' }, { 'X', ' ', 'I', ' ', 'I', ' ', 'X', 'k', ' ', 'X' },
-			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa do
-																	// nivel 1
-	char map2[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-			{ 'I', ' ', ' ', ' ', 'O', '*', ' ', 'k', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-			{ 'X', 'H', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa do nivel 2
-																												
-	char map3[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', 'k', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-			{ 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa do nivel 3
-																												
-	//private ArrayList<char[][]> listOfMaps;
-	private int state; // nivel do jogo
+	private char [][] mapArray = null;
 	private MapLevel currentMap; //mapa de jogo
-	private Person hero;
-	private Vector<Vector<Person>> characters;
-	private boolean endOfGame;	
-	private boolean victory;
+	private Hero hero;
+	private Vector<Person> characters;
+	private boolean instantaneousDoorOpen;
+	private int new_x, new_y;
 	
-	public GameMap() {
+	/**
+	 * Construtor de UM nivel de jogo.
+	 *  mapArray e a matriz com o conteudo do mapa;
+	 *   multipleOgres e um boleano para saber se este nivel gera aleatoriamente multiplos ogres
+	 *   instantaneousDoorOpen e um boleano para saber se neste nivel as portas abrem mal se apanha a chave
+	 * @param mapArray
+	 * @param multipleOgres
+	 * @param instantaneousDoorOpen
+	 */
+	public GameMap(char [][] mapArray, boolean multipleOgres, boolean instantaneousDoorOpen) {
 		/**
 		 * inicializar variaveis
 		 */
-		state = 0;
-		endOfGame = false;
-		victory = false;
+		new_x = 0;
+		new_y = 0;
+		this.instantaneousDoorOpen = instantaneousDoorOpen;
+		this.mapArray = mapArray;
 		currentMap = null;
 		hero = new Hero("hero", 1, 1);
 		/**
 		 * inicializar personagens do tabuleiro de jogo
 		 */
-		characters = new Vector<Vector<Person>>();//vetor do index 0 fica vazio
-		Vector<Person> level0 = new Vector<Person>();Vector<Person> level1 = new Vector<Person>();
-		Vector<Person> level2 = new Vector<Person>();Vector<Person> level3 = new Vector<Person>();
-		characters.add(level0); characters.add(level1);
-		characters.add(level2); characters.add(level3);
-
+		characters = new Vector<Person>();//vetor do index 0 fica vazio
+		
+		if(multipleOgres){
 		int randomNum = rand.nextInt(5) + 1;
 		System.out.print("\n\nNumero de ogres no nivel 3: " + randomNum + "\n\n");
 		while(randomNum > 0){
-			this.addOgreToLevel(3);
+			this.addOgreToLevel();
 			randomNum--;
 		}
-	}
-
-	public void addOgreToLevel(int level) {
-		Ogre ogre = new Ogre();
-		Vector<Person> auxOgres = characters.get(level);
-		auxOgres.add(ogre);
-	}
-	
-	public void addGuardToLevel(int level) {
-		Guard guard = new Guard();
-		Vector<Person> auxGuards = characters.get(level);
-		auxGuards.add(guard);
-	}
-
-	public int getState() { return state; }
-
-	public boolean isEndOfGame() {
-		return endOfGame;
-	}
-	
-	public boolean isVictorry () {
-		return victory;
-	}
-	
-	public String getMap() {
-		return currentMap.getStringMap();
-	}
-	
-	public void moveHero(char input) {
-
-		int x = hero.getX(), y = hero.getY();
-		boolean update = false;
-		
-		if (input == 'w' && ((currentMap.isCharAtPos(x, y - 1, ' ')) || (currentMap.isCharAtPos(x, y - 1, 'I') && currentMap.isKeyFound()) || currentMap.isCharAtPos(x, y - 1, 'S') || currentMap.isCharAtPos(x, y - 1, 'k'))) {
-			y--;
-			update = true;
-		} else if (input == 's' && ((currentMap.isCharAtPos(x, y + 1, ' ')) || (currentMap.isCharAtPos(x, y + 1, 'I') && currentMap.isKeyFound()) || currentMap.isCharAtPos(x, y + 1, 'S') || currentMap.isCharAtPos(x, y + 1, 'k'))) {
-			y++;
-			update = true;
-		} else if (input == 'd' && ((currentMap.isCharAtPos(x + 1, y, ' ')) || (currentMap.isCharAtPos(x + 1, y, 'I') && currentMap.isKeyFound()) || currentMap.isCharAtPos(x + 1, y, 'S') || currentMap.isCharAtPos(x + 1, y, 'k'))) {
-			x++;
-			update = true;
-		} else if (input == 'a' && ((currentMap.isCharAtPos(x - 1, y, ' ')) || (currentMap.isCharAtPos(x - 1, y, 'I') && currentMap.isKeyFound()) || currentMap.isCharAtPos(x - 1, y, 'S') || currentMap.isCharAtPos(x - 1, y, 'k'))) {
-			x--;
-			update = true;
 		}
-
-		if (update) {
-			this.update(x, y);
-			}
 	}
 	
-	public void update (int new_x, int new_y) {
-		if(((Hero)hero).doStep(currentMap, new_x, new_y) == 1) { //mudar de nivel
-			this.changeState();
-		} else {
-			Vector<Person> v = characters.get(state);
-			int size = v.size();
-			size--;
-			while (size >= 0) {
-				Person levelCharacter = v.get(size);
-				if (levelCharacter instanceof Guard) {
-					if (((Guard) levelCharacter).doStep(currentMap, new_x, new_y) == 1) {
-						endOfGame = true;
-						break;
-					}
-				} else if (levelCharacter instanceof Ogre) {
-					if (((Ogre) levelCharacter).doStep(currentMap, new_x, new_y) == 1) {
-						endOfGame = true;
-						break;
+	public Vector<Person> getCharacters() { return characters; }
+	 /**
+	  * percorre a matriz do mapa para extrair a informacao dos seu elementos e criar os mesmos
+	  */
+	public void readMap () {
+		int width = mapArray[0].length;
+		int height = mapArray.length;
+		Key key = null;
+		Vector<Integer> doorX = new Vector<Integer>();
+		Vector<Integer> doorY = new Vector<Integer>();
+		for (int i = 0; i < height; i++){
+			for (int j = 0; j < width; j++) {
+				 if(mapArray[i][j] == 'H') {
+					hero.setX(j); hero.setY(i);
+					mapArray[i][j] = ' ';
+				} else if(mapArray[i][j] == 'k') {
+					key = new Key(j, i);
+				} else if(mapArray[i][j] == 'I') {
+					doorX.add(j);
+					doorY.add(i);
+				} else if(mapArray[i][j] == 'A') {
+					hero.setX(j); hero.setY(i);
+					hero.setArmed();
+					mapArray[i][j] = ' ';
+				} else if(mapArray[i][j] == 'G') {
+					Person g = new Guard (j, i);
+					characters.add(g);
+					mapArray[i][j] = ' ';
+				} else if(mapArray[i][j] == 'O') {
+					Person o = new Ogre (j, i);
+					characters.add(o);
+					mapArray[i][j] = ' ';
+				} else if(mapArray[i][j] == '*') {
+					mapArray[i][j] = ' ';
+				}
+			}
+		}
+		currentMap = new MapLevel(mapArray, key, doorX, doorY, instantaneousDoorOpen);
+		
+	}
+	
+	public void addOgreToLevel() {
+		Ogre ogre = null;
+		do {
+			ogre = new Ogre();
+		}while(ogre.isInInvalidPos(mapArray));
+		
+		characters.add(ogre);
+	}
+	
+	public void addGuardToLevel() {
+		Guard guard = null;
+		do {
+			guard = new Guard();
+		}while(guard.isInInvalidPos(mapArray));
+		
+		characters.add(guard);
+	}
+	/**
+	 * verifica se o nivel acabou (ocorre ou quando o heroi morre ou quando chega a porta)
+	 * @return 
+	 */
+	public boolean isEndOfGame() {
+		int x = hero.getX(), y = hero.getY();
+		int size = characters.size();
+		for (int i = 0; i < size; i++) {
+			if (characters.get(i) instanceof Guard) {
+				Guard g = (Guard)characters.get(i);
+				int xg = g.getX(), yg = g.getY();
+				if(g.isAdjacent(x, y, xg, yg)) { //se o guarda esta adjacente
+					return true;
+				}
+			} else if (characters.get(i) instanceof Ogre) {
+				Ogre o = (Ogre)characters.get(i);
+				int xo = o.getX(), yo = o.getY();
+				if ((o.isAdjacent(x, y, xo, yo) && !hero.isArmed()) || (o.isClubAdjacent(x, y))) {
+					return true;
+				}
+			}
+		}
+		if(currentMap.isOnTheDoor(x, y) && currentMap.isDoorOpen()) {
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Da stun nos Ogres do nivel (caso o heroi esteja armado. esta verificacao e feita em update() ...)
+	 */
+	public void StunOgres() {
+		int size = characters.size();
+		if (hero.isArmed()) {
+			for (int i = 0; i < size; i++) {
+				if (characters.get(i) instanceof Ogre) {
+					Ogre o = (Ogre) characters.get(i);
+					if (o.isAdjacent(hero.getX(), hero.getY(), o.getX(), o.getY())) {
+						o.stun();
 					}
 				}
-				size--;
 			}
-			currentMap.clearArrayOverlap();
 		}
 	}
 
-	public void changeState() {
-		state++;	
-		ArrayList<char[][]> listOfMaps = new ArrayList<char[][]>(4);
-		listOfMaps.add(map0);
-		listOfMaps.add(map1);
-		listOfMaps.add(map2);
-		listOfMaps.add(map3);
-		if(state >= listOfMaps.size()) {
-			victory = true;
-			endOfGame = true;
-			return;
+	/**
+	 * verifica se o heroi venceu o nivel, ou seja, se chegou a porta
+	 * @return
+	 */
+	public boolean isVictory () {
+		int x = hero.getX(), y = hero.getY();
+		if(currentMap.isOnTheDoor(x, y) && currentMap.isDoorOpen()) {
+			return true;
 		}
-		Vector<Person> v = characters.get(state);
-		currentMap = new MapLevel(listOfMaps.get(state), state, v);
-		((Hero)hero).editHero(currentMap);
-		
-		int size = v.size();
-		size--;
-		while (size >= 0) {
-			Person levelCharacters = v.get(size);
-			if (levelCharacters instanceof Guard) {
-			((Guard)levelCharacters).printElement(listOfMaps.get(state));
-			} else if (levelCharacters instanceof Ogre){
-				((Ogre)levelCharacters).printElement(listOfMaps.get(state));
+		return false;
+	}
+	
+	/**
+	 * pinta as personagens no mapa e passa o mesmo para um sting para que haja o seu display
+	 * @return
+	 */
+	public String getMap() {
+		char [][] tmpArray = new char [mapArray.length][mapArray[0].length];
+		/*COPIAR O MAPA*/
+		for (int i = 0; i < mapArray.length; i++) {
+			for (int j = 0; j < mapArray[0].length; j++) {
+				tmpArray[i][j] = mapArray[i][j];
 			}
-			size--;
 		}
+		int size = characters.size();
+		int x, y;
+		/*PREENCHER O MAPA*/
+		for (int i = 0; i < size; i++) {
+			if (characters.get(i) instanceof Guard) {// desenhar o guarda
+				x = ((Guard) characters.get(i)).getX();
+				y = ((Guard) characters.get(i)).getY();
+				tmpArray[y][x] = ((Guard) characters.get(i)).getCh();
+			} else if (characters.get(i) instanceof Ogre) {// desenhar o ogre
+				x = ((Ogre) characters.get(i)).getX();
+				y = ((Ogre) characters.get(i)).getY();
+				tmpArray[y][x] = ((Ogre) characters.get(i)).getCh();
+				if (((Ogre) characters.get(i)).isClubVisible(currentMap)) {// desenhar
+																			// o
+																			// club
+					x = ((Ogre) characters.get(i)).getClubX();
+					y = ((Ogre) characters.get(i)).getClubY();
+					tmpArray[y][x] = ((Ogre) characters.get(i)).getClubCh();
+				}
+			}
+		}
+		tmpArray[hero.getY()][hero.getX()] = hero.getCh();// desenhar o heroi
+
+		/*PASSAR O MAPA PARA STRING*/
+		tmpArray[hero.getY()][hero.getX()] = hero.getCh();
+		StringBuilder tmp = new StringBuilder();
+		for (int i = 0; i < mapArray.length; i++){
+			for (int j = 0; j < mapArray[0].length; j++){
+				tmp.append(tmpArray[i][j]);
+				tmp.append(" ");
+			}
+			tmp.append('\n');
+		}
+		
+		currentMap.clearPosUsed();
+		return tmp.toString();
 	}
 	
-	public Person getHero() {
-		return hero;
+	/**
+	 * verifica se o input do utilizador e valido. se for extrai as novas coordenadas do heroi
+	 * @param input
+	 * @return
+	 */
+	public boolean startGame(char input) {
+
+		int x = hero.getX(), y = hero.getY();
+		switch(input) {
+		case 'w':
+			y--;
+			break;
+		case 's':
+			y++;
+			break;
+		case 'd':
+			x++;
+			break;
+		case 'a':
+			x--;
+			break;
+		default:
+			return false;// input/letra invalido		
+		}
+
+		if ((mapArray[y][x] == ' ') || (mapArray[y][x] == 'I' && currentMap.isKeyFound()) || mapArray[y][x] == 'S'
+				|| mapArray[y][x] == 'k') {
+			new_x = x;
+			new_y = y;
+			return true;
+		}
+
+		return false;
 	}
 	
-	public void editMap (char [][] currentMapArray) {
-		Vector<Person> v = new Vector<Person>();
-		currentMap = new MapLevel(currentMapArray, 0, v);
+	/**
+	 * onde ocorrem as chamadas para realizacao dos movimentos das personagens do jogo
+	 */
+	public void update () {
+		hero.doStep(currentMap, new_x, new_y);
+		int size = characters.size();
+		for (int i = 0; i < size; i++) {
+			if (characters.get(i) instanceof Guard) {
+				((Guard)characters.get(i)).doStep(currentMap, 0, 0);
+			} else if(characters.get(i) instanceof Ogre) {
+				((Ogre)characters.get(i)).doStep(currentMap, 0, 0);
+			}
+		}
+		if (hero.isArmed()) {
+			this.StunOgres();
+		}
 	}
 		
 }

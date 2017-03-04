@@ -41,83 +41,51 @@ public class Club {
 	public void setCh (char Ch) { this.Ch = Ch; }
 	
 	public void move (MapLevel currentMap, int xOgre, int yOgre) {
-		currentMap.clearElement(x, y);
 		boolean possibleMove = false;
 		do {
-			int randomNum2 = rand.nextInt(4); // random entre [min, max] : int
-												// randomNum = rand.nextInt((max
-												// - min) + 1) + min;
+			int randomNum2 = rand.nextInt(4); // random entre [min, max] : int randomNum = rand.nextInt((max - min) + 1) + min;
 			switch (randomNum2) {
 			case 0: // Taco apontado para cima
-				if ((currentMap.isCharAtPos(xOgre, yOgre - 1, 'I')) || (currentMap.isCharAtPos(xOgre, yOgre - 1, 'X'))) {
+				if ((currentMap.isAboveWall(xOgre, yOgre - 1)) || (currentMap.isOnTheDoor(xOgre, yOgre - 1))) {
 					possibleMove = false;
 				}else {
 					prevX = x; prevY = y;
 					x = xOgre; y = yOgre - 1;
-					if (!currentMap.isCharAtPos(x, y, 'O')) {
-						if (currentMap.isUnderKey(x, y)) {
-							currentMap.setOverlapedChar(x, y, '$');
-							currentMap.setValuePos(x, y, '$');
-						} else {
-							currentMap.setOverlapedChar(x, y, '*');
-							currentMap.setValuePos(x, y, '*');
-						}
-					}
+					Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
 					possibleMove = true;
 				}
 				break;
 			case 1: // Taco apontado para baixo
-				if ((currentMap.isCharAtPos(xOgre, yOgre + 1, 'I')) || (currentMap.isCharAtPos(xOgre, yOgre + 1, 'X'))) {
+				if ((currentMap.isAboveWall(xOgre, yOgre + 1)) || (currentMap.isOnTheDoor(xOgre, yOgre + 1))) {
 					possibleMove = false;
 				} else {
 					prevX = x; prevY = y;
 					x = xOgre; y = yOgre + 1;
-					if(!currentMap.isCharAtPos(x, y, 'O')) {
-						currentMap.setOverlapedChar(x, y, '*');
-						currentMap.setValuePos(x, y, '*');
-					}
+					Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
 					possibleMove = true;
 				}
 				break;
 			case 2: // Taco apontado para a esquerda
-				if ((currentMap.isCharAtPos(xOgre - 1, yOgre, 'I')) || (currentMap.isCharAtPos(xOgre - 1, yOgre + 1, 'X'))) {
+				if ((currentMap.isAboveWall(xOgre - 1, yOgre)) || (currentMap.isOnTheDoor(xOgre - 1, yOgre))) {
 					possibleMove = false;
 				} else {
 					prevX = x; prevY = y;
 					x = xOgre - 1; y = yOgre;
-					if(!currentMap.isCharAtPos(x, y, 'O')) {
-						currentMap.setOverlapedChar(x, y, '*');
-						currentMap.setValuePos(x, y, '*');
-					}
+					Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
 					possibleMove = true;
 				}
 				break;
 			case 3: // Taco apontado para a direita
-				if ((currentMap.isCharAtPos(xOgre + 1, yOgre, 'I')) || (currentMap.isCharAtPos(xOgre + 1, yOgre, 'X'))) {
+				if ((currentMap.isAboveWall(xOgre + 1, yOgre)) || (currentMap.isOnTheDoor(xOgre + 1, yOgre))) {
 					possibleMove = false;
 				}else {
 					prevX = x; prevY = y;
 					x = xOgre + 1; y = yOgre;
-					if (!currentMap.isCharAtPos(x, y, 'O')) {
-						if (currentMap.isUnderKey(x, y)) {
-							currentMap.setOverlapedChar(x, y, '$');
-							currentMap.setValuePos(x, y, '$');
-						} else {
-							currentMap.setOverlapedChar(x, y, '*');
-							currentMap.setValuePos(x, y, '*');
-						}
-					}
+					Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
 					possibleMove = true;
 				}
 				break;
 			}
 		} while (!possibleMove);
-	}
-	
-	public void changePos (int x, int y) {
-		prevX = this.x;
-		prevY = this.y;
-		this.x = x;
-		this.y = y;
 	}
 }

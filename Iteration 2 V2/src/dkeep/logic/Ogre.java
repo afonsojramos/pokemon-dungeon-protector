@@ -29,92 +29,88 @@ public class Ogre extends Person{
 		this("ogre" + nOgres, x, y, 'O');
 	}
 
-	public int doStep(MapLevel currentMap, int xHero, int yHero) {
+	public int getClubX () { return club.getX(); }
+	
+	public int getClubY () { return club.getY(); }
+	
+	public char getClubCh () { return club.getCh(); }
+	
+	public int getX () { return x; }
+	
+	public int getY () { return y; }
+	
+	public char getCh () { return Ch; }
+	
+	public void setClubX (int x) { club.setX(x); }
+	
+	public void setClubY (int y) { club.setY(y); }
+	
+	public void setClubCh (char ch) { club.setCh(ch); }
+	
+    public void setX (int x) { this.x = x; }
+	
+	public void setY (int y) { this.y = y; }
+	
+	public void setCh (char ch) { this.Ch = ch; }
+	
+	public void doStep(MapLevel currentMap, int xHero, int yHero) {
 		if (!this.isStuned()) { // is not stuned
 			boolean possibleMove = false;
-			currentMap.clearElement(x, y);
 			do {
-				int randomNum = rand.nextInt(4); // random entre [min, max] :
-													// int
-													// randomNum =
-													// rand.nextInt((max
-													// - min) + 1) + min;
+				int randomNum = rand.nextInt(4); // random entre [min, max] : int randomNum = rand.nextInt((max - min) + 1) + min;
 				switch (randomNum) {
 				case 0: // Ogre anda para cima
-					if ((currentMap.isCharAtPos(x, y - 1, 'I')) || (currentMap.isCharAtPos(x, y - 1, 'X'))) {
+					
+					if ((currentMap.isAboveWall(x, y - 1)) || (currentMap.isOnTheDoor(x, y - 1))) {
 						possibleMove = false;
 					} else {
 						prevY = y;
 						y--;
-						if (currentMap.isUnderKey(x, y)) {
-							currentMap.setOverlapedChar(x, y, '$');
-							currentMap.setValuePos(x, y, '$');
-						} else {
-							currentMap.setOverlapedChar(x, y, 'O');
-							currentMap.setValuePos(x, y, 'O');
-						}
+						currentMap.setPosUsed(x, y);
+						Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
 						possibleMove = true;
 					}
 					break;
 				case 1: // Ogre anda para baixo
-					if ((currentMap.isCharAtPos(x, y + 1, 'I')) || (currentMap.isCharAtPos(x, y + 1, 'X'))) {
+					if ((currentMap.isAboveWall(x, y + 1)) || (currentMap.isOnTheDoor(x, y + 1))) {
 						possibleMove = false;
 					} else {
 						prevY = y;
 						y++;
-						currentMap.setOverlapedChar(x, y, 'O');
-						currentMap.setValuePos(x, y, 'O');
+						currentMap.setPosUsed(x, y);
+						Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
 						possibleMove = true;
 					}
 					break;
 				case 2: // Ogre anda para a esquerda
-					if ((currentMap.isCharAtPos(x - 1, y, 'I')) || (currentMap.isCharAtPos(x - 1, y, 'X'))) {
+					if ((currentMap.isAboveWall(x - 1, y)) || (currentMap.isOnTheDoor(x - 1, y))) {
 						possibleMove = false;
 					} else {
 						prevX = x;
 						x--;
-						currentMap.setOverlapedChar(x, y, 'O');
-						currentMap.setValuePos(x, y, 'O');
+						currentMap.setPosUsed(x, y);
+						Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
 						possibleMove = true;
 					}
 					break;
 				case 3: // Ogre anda para a direita
-					if ((currentMap.isCharAtPos(x + 1, y, 'I')) || (currentMap.isCharAtPos(x + 1, y, 'X'))) {
+					if ((currentMap.isAboveWall(x + 1, y)) || (currentMap.isOnTheDoor(x + 1, y))) {
 						possibleMove = false;
 					} else {
 						prevX = x;
 						x++;
-						;
-						if (currentMap.isUnderKey(x, y)) {
-							currentMap.setOverlapedChar(x, y, '$');
-							currentMap.setValuePos(x, y, '$');
-						} else {
-							currentMap.setOverlapedChar(x, y, 'O');
-							currentMap.setValuePos(x, y, 'O');
-						}
+						currentMap.setPosUsed(x, y);
+						Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
 						possibleMove = true;
 					}
 					break;
 				}
 			} while (!possibleMove);
 		} else {// is stuned; don't move
+			currentMap.setPosUsed(x, y);
 			this.lessStuned();
 		}
-
 		club.move(currentMap, x, y);
-		if (!currentMap.isHeroArmed()) {
-			if (this.isAdjacent(xHero, yHero, x, y) || this.isAdjacent(xHero, yHero, club.getX(), club.getY())) {
-				return 1;
-			}
-		} else {
-			if (this.isAdjacent(xHero, yHero, x, y) && !this.isAdjacent(xHero, yHero, club.getX(), club.getY())) {
-				this.stun();
-				return 0;
-			} else if (this.isAdjacent(xHero, yHero, club.getX(), club.getY())) {
-				return 1;
-			}
-		}
-		return 0;
 	}
 
 	public boolean isAdjacent(int x1, int y1, int x2, int y2) {
@@ -130,18 +126,13 @@ public class Ogre extends Person{
 		return false;
 	}
 	
-	public void printElement (char currentMap [][]) {
-		currentMap[y][x] = Ch;
-		currentMap[club.getY()][club.getX()] = club.getCh();
-	}
-	
 	public boolean isStuned() {
 		return stuned > 0;
 	}
 	
 	public void stun() {
 		stuned = 2;
-		this.setCh('8');
+		Ch = '8';
 	}
 	
 	public void lessStuned() {
@@ -151,16 +142,26 @@ public class Ogre extends Person{
 		}
 	}
 	
-	public int getClubX () { return club.getX(); }
+	public boolean isClubVisible (MapLevel currentMap) {
+		return !currentMap.isElementAtPos(club.getX(), club.getY());
+	}
 	
-	public int getClubY () { return club.getY(); }
+	public boolean isInInvalidPos (char [][] mapArray) {
+		return (mapArray[y][x] != ' ');
+	}
 	
-	public char getClubCh () { return club.getCh(); }
-	
-	public void setClubX (int x) { club.setX(x); }
-	
-	public void setClubY (int y) { club.setY(y); }
-	
-	public void setClubCh (char ch) { club.setCh(ch); }
+	public boolean isClubAdjacent(int x, int y) {
+		int xClub = club.getX(), yClub = club.getY();
+				if (x == xClub && (yClub == (y - 1) || yClub == (y + 1))) {
+					return true;
+				}
+				if (y == yClub && (xClub == (x - 1) || xClub == (x + 1))) {
+					return true;
+				}
+				if (y == yClub && x == xClub) {
+					return true;
+				}
+				return false;
+	}
 	
 }

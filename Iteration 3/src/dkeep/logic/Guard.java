@@ -3,7 +3,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Guard extends Person{
 	
-	public enum Personality {Rookie, Drunken, Suspicious} 
+	public enum Personality {Rookie, Drunken, Suspicious, Parado} 
 	private static int numberOfGuards = 0;
 	private int timeSleep, timeAwake;
 	private boolean direction;
@@ -102,6 +102,8 @@ public class Guard extends Person{
 				it = it % 24;
 				this.x = pathX[it];
 				this.y = pathY[it];			
+			break;
+		case Parado:
 			break;
 		}
 		currentMap.setValuePos(prevX, prevY, currentMap.getOverlapChar(prevX, prevY));

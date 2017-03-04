@@ -43,11 +43,7 @@ public class Person{
 	
 	public void setCh (char Ch) { this.Ch = Ch; }
 	
-	public int doStep (MapLevel currentMap, int xOgre, int yOgre) {return 0;}
-	
-	public void printElement (char currentMap [][]) {
-		currentMap[y][x] = Ch;
-	}
+	public void doStep (MapLevel currentMap, int xHero, int yHero) {}
 	
 	public boolean isAdjacent(int x1, int y1, int x2, int y2) {
 	if (x1 == x2 && (y2 == (y1 - 1) || y2 == (y1 + 1))) {
@@ -62,5 +58,9 @@ public class Person{
 	return false;
 }
 
-	public void editHero (MapLevel currentMap) {}
+	public boolean isInInvalidPos (char [][] mapArray) {
+		return (mapArray[y][x] != ' ');
+	}
+
+
 }

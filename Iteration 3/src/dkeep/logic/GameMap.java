@@ -1,6 +1,8 @@
 package dkeep.logic;
 import java.util.*;
 
+import dkeep.logic.Guard.Personality;
+
 //import dkeep.logic.Guard.Personality;
 
 public class GameMap {
@@ -25,6 +27,9 @@ public class GameMap {
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
 			{ 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa do nivel 3
+			
+	char map4[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'H', 'X'},
+				{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 																												
 	//private ArrayList<char[][]> listOfMaps;
 	private int state; // nivel do jogo
@@ -48,9 +53,12 @@ public class GameMap {
 		 */
 		characters = new Vector<Vector<Person>>();//vetor do index 0 fica vazio
 		Vector<Person> level0 = new Vector<Person>();Vector<Person> level1 = new Vector<Person>();
-		Vector<Person> level2 = new Vector<Person>();Vector<Person> level3 = new Vector<Person>();
+		Vector<Person> level2 = new Vector<Person>();Vector<Person> level3 = new Vector<Person>();Vector<Person> level4 = new Vector<Person>();
+		Person g = new Guard("g4", 3, 1, Personality.Parado);
+		level4.add(g);
 		characters.add(level0); characters.add(level1);
-		characters.add(level2); characters.add(level3);
+		characters.add(level2); characters.add(level3); characters.add(level4);
+		
 
 		int randomNum = rand.nextInt(5) + 1;
 		System.out.print("\n\nNumero de ogres no nivel 3: " + randomNum + "\n\n");
@@ -143,6 +151,7 @@ public class GameMap {
 		listOfMaps.add(map1);
 		listOfMaps.add(map2);
 		listOfMaps.add(map3);
+		listOfMaps.add(map4);
 		if(state >= listOfMaps.size()) {
 			victory = true;
 			endOfGame = true;
