@@ -27,8 +27,8 @@ public class GameMap {
 		/**
 		 * inicializar variaveis
 		 */
-		new_x = 0;
-		new_y = 0;
+		new_x = 1;
+		new_y = 1;
 		
 		this.instantaneousDoorOpen = instantaneousDoorOpen;
 		this.mapArray = mapArray;
@@ -248,6 +248,25 @@ public class GameMap {
 		return false;
 	}
 	
+	/**
+	 * Retorna o herói
+	 */
+	
+	public Person getHero(){
+		return hero;
+	}
+	
+	public int getNewHeroY(){
+		return new_y;
+	}
+	
+	public int getNewHeroX(){
+		return new_x;
+	}
+	
+	public MapLevel getCurrentMap(){
+		return currentMap;
+	}
 	/**
 	 * onde ocorrem as chamadas para realizacao dos movimentos das personagens do jogo
 	 */
