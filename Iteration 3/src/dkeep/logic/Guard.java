@@ -3,7 +3,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Guard extends Person{
 	
-	public enum Personality {Rookie, Drunken, Suspicious, Stop} 
+	public enum Personality {Rookie, Drunken, Suspicious, Obedient} 
 	private static int numberOfGuards = 0;
 	private int timeSleep, timeAwake;
 	private boolean direction;
@@ -103,7 +103,7 @@ public class Guard extends Person{
 			this.x = pathX[it];
 			this.y = pathY[it];
 			break;
-		case Stop:
+		case Obedient:
 			break;
 		}
 		currentMap.setPosUsed(x, y);

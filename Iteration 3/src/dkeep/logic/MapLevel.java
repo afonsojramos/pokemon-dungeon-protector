@@ -29,6 +29,14 @@ public class MapLevel {
 		this.key = key;
 	}
 	
+	public int getMapHeight(){
+		return height;
+	}
+	
+	public int getMapWidth(){
+		return width;
+	}
+	
 	public boolean isAboveKey (int x, int y) {
 		return ((key.getX() == x) && (key.getY() == y) && !key.isFound());
 	}

@@ -40,12 +40,12 @@ public class GameMap {
 		characters = new Vector<Person>();//vetor do index 0 fica vazio
 		
 		if(multipleOgres){
-		int randomNum = rand.nextInt(5) + 1;
-		System.out.print("\n\nNumero de ogres no nivel 3: " + randomNum + "\n\n");
-		while(randomNum > 0){
-			this.addOgreToLevel();
-			randomNum--;
-		}
+			int randomNum = rand.nextInt(5) + 1;
+			System.out.print("\n\nNumero de ogres no nivel 3: " + randomNum + "\n\n");
+			while(randomNum > 0){
+				this.addOgreToLevel();
+				randomNum--;
+			}
 		}
 	}
 	
@@ -167,6 +167,14 @@ public class GameMap {
 	 * pinta as personagens no mapa e passa o mesmo para um sting para que haja o seu display
 	 * @return
 	 */
+	public char getMapPos(int x, int y){
+		return mapArray[x][y];
+	}
+		
+	/**
+	 * pinta as personagens no mapa e passa o mesmo para um string para que haja o seu display
+	 * @return
+	 */
 	public String getMap() {
 		char [][] tmpArray = new char [mapArray.length][mapArray[0].length];
 		/*COPIAR O MAPA*/
@@ -266,6 +274,10 @@ public class GameMap {
 	
 	public MapLevel getCurrentMap(){
 		return currentMap;
+	}
+	
+	public Person getGuard(){
+		return characters.get(0);
 	}
 	/**
 	 * onde ocorrem as chamadas para realizacao dos movimentos das personagens do jogo

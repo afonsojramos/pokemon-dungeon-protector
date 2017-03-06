@@ -6,54 +6,103 @@ import org.junit.Test;
 import dkeep.logic.*;
 public class TestLevel1 {
 	
+	@Test
+	public void testMoveHeroToOgre() {
+		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
+			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
+		GameMap game = new GameMap(currentMap, false, false);
+		game.readMap();
+		Person hero = game.getHero();
+		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
+		game.startGame('d');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		assertTrue(game.isEndOfGame());	 		
+	}
+	
+	@Test
+	public void testHeroChangeToK() {
+		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
+			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
+		GameMap game = new GameMap(currentMap, false, false);
+		game.readMap();
+		Person hero = game.getHero();
+		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
+		game.startGame('s');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		game.startGame('s');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		assertEquals('K',hero.getCh());	
+	}
+	
+	@Test
+	public void testHeroFailToExit(){
+		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
+			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
+		GameMap game = new GameMap(currentMap, false, false);
+		game.readMap();
+		Person hero = game.getHero();
+		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
+		game.startGame('s');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		game.startGame('a');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		assertFalse(game.isEndOfGame());		
+	}
+	
+	@Test
+	public void testHeroSucceedsToOpenDoor(){
+		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
+			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
+		GameMap game = new GameMap(currentMap, false, false);
+		game.readMap();
+		Person hero = game.getHero();
+		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
+		game.startGame('s');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		game.startGame('s');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		game.startGame('a');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		assertEquals('S',game.getMapPos(2,0));
+		assertEquals('S',game.getMapPos(3,0));		
+	}
+	
+	@Test
+	public void testHeroSucceedsToOpenDoorAndExits() {
+		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
+			{ 'I', ' ', ' ', 'O', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
+		GameMap game = new GameMap(currentMap, false, false);
+		game.readMap();
+		Person hero = game.getHero();
+		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
+		game.startGame('s');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		game.startGame('s');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		game.startGame('a');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		game.startGame('a');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		assertTrue(game.isEndOfGame());	
+	}
+	
 	/*@Test
-	public void testMoveHeroToFreeCell() {
-		GameMap Game = new GameMap();
-		Game.changeState(1);
-		assertEquals(1, Game.getHeroX()); assertEquals(1, Game.getHeroY()); 
-		Game.moveHero('s');
-		assertEquals(1, Game.getHeroX()); assertEquals(2, Game.getHeroY()); 		
+	public void testMultipleOgres() {
+		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', ' ', 'X'},	
+			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
+		GameMap game = new GameMap(currentMap, true, true);
+		game.readMap();
+		Person hero = game.getHero();
+		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
+		game.startGame('s');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		game.startGame('s');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		game.startGame('a');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		game.startGame('a');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		assertTrue(game.isEndOfGame());	
 	}
-	
-	@Test
-	public void testHeroBlockedByWall(){
-		GameMap Game = new GameMap();
-		Game.changeState(1));
-		assertEquals(1, Game.getHeroX()); assertEquals(1, Game.getHeroY()); 
-		Game.moveHero('w');
-		assertEquals(1, Game.getHeroX()); assertEquals(1, Game.getHeroY()); 
-	}
-	
-	@Test
-	public void testHeroLosesByGuard(){
-		GameMap Game = new GameMap();
-		Game.changeState(1);
-		assertEquals(1, Game.getHeroX()); assertEquals(1, Game.getHeroY()); 
-		Game.moveHero('d');
-		assertTrue(Game.isEndOfGame()); 
-	}
-	
-	@Test
-	public void testHeroTriesToExit() {
-		
-		GameMap Game = new GameMap();
-		Game.changeState(1);
-		assertEquals(1, Game.getHeroX()); assertEquals(1, Game.getHeroY()); 
-		Game.moveHero('s');
-		Game.moveHero('a');
-		assertEquals(1, Game.getHeroX()); assertEquals(2, Game.getHeroY());
-		assertFalse(Game.isEndOfGame());
-	}
-	
-	@Test
-	public void testHeroTriesToExitAndPasses() {
-		
-		GameMap Game = new GameMap();
-		Game.changeState(1);
-		assertEquals(1, Game.getHeroX()); assertEquals(1, Game.getHeroY()); 
-		Game.moveHero('s');
-		Game.moveHero('s');
-		Game.moveHero('a');
-		assertTrue(Game.isEndOfGame());	
-	}*/
+	*/
 }
