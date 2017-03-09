@@ -103,6 +103,7 @@ public class TestDungeonGameLogic {
 		assertEquals('S',game.getMapPos(2,0));	
 		assertEquals('S',game.getMapPos(3,0));
 		assertTrue(game.isEndOfGame());	
+		assertTrue(game.isVictory());	
 	}
 	
 	@Test
@@ -186,6 +187,9 @@ public class TestDungeonGameLogic {
 		game.startGame('s');
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals(3, game.getCharacters().get(0).getPrevX()); assertEquals(1, game.getCharacters().get(0).getPrevY()); 
+		game.startGame('f');
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		assertEquals(3, game.getCharacters().get(0).getPrevX()); assertEquals(1, game.getCharacters().get(0).getPrevY());
 	}
 	
 	@Test
@@ -201,6 +205,7 @@ public class TestDungeonGameLogic {
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertTrue(game.getCharacters().get(0).isAdjacent(hero.getX(), hero.getY(), game.getCharacters().get(0).getPrevX(), game.getCharacters().get(0).getPrevY()));
 		assertTrue(game.getCharacters().get(0).isAdjacent(game.getCharacters().get(0).getPrevX(), game.getCharacters().get(0).getPrevY(), hero.getX(), hero.getY()));
+		assertTrue(game.getCharacters().get(0).isAdjacent(hero.getX(), hero.getY(), hero.getX(), hero.getY()));
 	}
 	
 	@Test
@@ -227,10 +232,10 @@ public class TestDungeonGameLogic {
 		game.getGuard().setCh('G');
 		assertEquals('G',game.getGuard().getCh());
 	}
-	/*
+	
 	@Test
-	public void testPrevX(){
-		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
+	public void testHeroLoseToMovingGuard(){
+		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'A', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false, false);
 		game.readMap();
@@ -238,7 +243,192 @@ public class TestDungeonGameLogic {
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
-		Hero h;
-		h.setArmed();
-	}*/
+		if (game.getCharacters().get(0) instanceof Guard){
+			Guard g = (Guard) game.getCharacters().get(0);
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.setX(2);
+			g.setY(1);
+			assertFalse(g.isInInvalidPos(currentMap));
+			assertFalse(game.isEndOfGame());
+			g.setX(2);
+			g.setY(2);
+			g.setPersonality(Personality.Obedient);
+			assertFalse(g.isInInvalidPos(currentMap));
+			assertTrue(game.isEndOfGame());
+			hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+		}
+	}
+	
+	@Test
+	public void testGuardFollowingPath(){
+		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
+			{ 'X', 'H', ' ', ' ', 'I', ' ', 'X', ' ', 'G', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
+			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
+			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' }, { 'X', ' ', 'I', ' ', 'I', ' ', 'X', 'k', ' ', 'X' },
+			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa do
+		GameMap game = new GameMap(currentMap, false, false);
+		game.readMap();
+		Person hero = game.getHero();
+		if (game.getCharacters().get(0) instanceof Guard){
+			Guard g = (Guard) game.getCharacters().get(0);
+			assertFalse(g.isInInvalidPos(currentMap));		
+			g.setPersonality(Personality.Rookie);
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			g.setPersonality(Personality.Drunken);
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.setPersonality(Personality.Suspicious);
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+			g.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+			game.update();
+			assertFalse(g.isInInvalidPos(currentMap));
+		}			
+	}																
 }

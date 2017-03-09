@@ -25,10 +25,10 @@ public class Guard extends Person{
 		it = 1;
 		direction = true;
 	}
-	
+	/*
 	public Guard(String name, int x, int y, Personality personality){//construtor default
 		this(name, x, y, 'G', personality);
-	}
+	}*/
 	
 	public Guard() {
 		this("guard" + numberOfGuards, (numberOfGuards % 7), (numberOfGuards/7), 'G', Personality.values()[ThreadLocalRandom.current().nextInt(0, 3)]);
@@ -42,9 +42,9 @@ public class Guard extends Person{
 	
 	public int getY() { return this.y; }
 	
-	public void setX() { this.x = x; }
+	public void setX(int x) { this.x = x; }
 	
-	public void setY() { this.y = y; }
+	public void setY(int y) { this.y = y; }
 	
 	public void doStep(MapLevel currentMap, int xHero, int yHero) {
 		prevX = this.x; //guardar coordenadas antigas para poder apagar a personagem no mapa
@@ -108,7 +108,7 @@ public class Guard extends Person{
 		}
 		currentMap.setPosUsed(x, y);
 	}
-	
+
 	public void setPersonality (Personality p) {
 		personality = p;
 	}
