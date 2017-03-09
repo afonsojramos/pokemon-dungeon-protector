@@ -1,20 +1,24 @@
-/*package dkeep.test;
+package dkeep.test;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 import dkeep.logic.*;
 public class TestOgreRandomness {
-	
+	@Test
 	public void TestOgreRandomMove(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false, false);
 		game.readMap();
-		boolean out1 = false, out2 = false, out3 = false, out4 = false;
-		while (!out1 || !out2 || !out3 || !out4){
-			assertTrue(game.isEndOfGame());
-		}
+		int possibleX1 = 2, possibleY1 = 1, possibleX2 = 3, possibleY2 = 2;
+		MapLevel map = game.getCurrentMap();
+		Ogre ogre = (Ogre)game.getCharacters().get(0);
+		ogre.doStep(map, 0, 0);
+		int x, y;
+		x = ogre.getX(); y = ogre.getY();
+		boolean result = ((possibleX1 == x && possibleY1 == y) || (possibleX2 == x && possibleY2 == y));
+		assertTrue(result);
 	}
+	
 }
-*/
