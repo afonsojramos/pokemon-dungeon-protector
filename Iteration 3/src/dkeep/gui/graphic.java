@@ -117,6 +117,7 @@ public class graphic {
 		JButton btnNewButton = new JButton("Exit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
 			}
 		});
 		GroupLayout gl_Buttons = new GroupLayout(Buttons);
@@ -125,15 +126,15 @@ public class graphic {
 				.addGroup(gl_Buttons.createSequentialGroup()
 					.addGroup(gl_Buttons.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_Buttons.createSequentialGroup()
-							.addGap(44)
-							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_Buttons.createSequentialGroup()
 							.addGap(45)
 							.addComponent(btnNewGame, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_Buttons.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(Movement, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
+							.addComponent(Movement, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_Buttons.createSequentialGroup()
+							.addGap(44)
+							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(13, Short.MAX_VALUE))
 		);
 		gl_Buttons.setVerticalGroup(
 			gl_Buttons.createParallelGroup(Alignment.LEADING)
@@ -142,9 +143,9 @@ public class graphic {
 					.addComponent(btnNewGame)
 					.addGap(89)
 					.addComponent(Movement, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
-					.addGap(64)
+					.addGap(58)
 					.addComponent(btnNewButton)
-					.addGap(30))
+					.addGap(36))
 		);
 		SpringLayout sl_Movement = new SpringLayout();
 		Movement.setLayout(sl_Movement);
