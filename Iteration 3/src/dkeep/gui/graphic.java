@@ -1,5 +1,6 @@
 package dkeep.gui;
 
+import dkeep.logic.*;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -24,11 +25,17 @@ import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SpringLayout;
+import java.awt.Font;
+import javax.swing.JProgressBar;
+import java.util.concurrent.TimeUnit;
 
-public class graphic {
+public class graphic extends Thread{
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField ogreNumber;
+	JTextArea textArea = new JTextArea();
+	JLabel lblstatus = new JLabel("Please start you game with the variables you choose :)");
+	GameMap game = null;
 
 	/**
 	 * Launch the application.
@@ -71,39 +78,39 @@ public class graphic {
 		JLabel lblNumberOfOgres = new JLabel("Number of Ogres");
 		lblNumberOfOgres.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		ogreNumber = new JTextField();
+		ogreNumber.setColumns(10);
 		
 		JLabel lblGuardPersonality = new JLabel("Guard personality");
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Rookie", "Drunken", "Suspicious", "Obedient"}));
-		comboBox.setMaximumRowCount(4);
+		JComboBox personalityBox = new JComboBox();
+		personalityBox.setModel(new DefaultComboBoxModel(new String[] {"Rookie", "Drunken", "Suspicious", "Obedient"}));
+		personalityBox.setMaximumRowCount(4);
 		GroupLayout gl_Variables = new GroupLayout(Variables);
 		gl_Variables.setHorizontalGroup(
-			gl_Variables.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_Variables.createSequentialGroup()
+			gl_Variables.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Variables.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_Variables.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNumberOfOgres, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblGuardPersonality))
 					.addGap(18)
 					.addGroup(gl_Variables.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(387, Short.MAX_VALUE))
+						.addComponent(ogreNumber, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+						.addComponent(personalityBox, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(389, Short.MAX_VALUE))
 		);
 		gl_Variables.setVerticalGroup(
-			gl_Variables.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_Variables.createSequentialGroup()
+			gl_Variables.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_Variables.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_Variables.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNumberOfOgres, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(ogreNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_Variables.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblGuardPersonality)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(personalityBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 		);
 		Variables.setLayout(gl_Variables);
 		
@@ -112,14 +119,28 @@ public class graphic {
 		JPanel Movement = new JPanel();
 		
 		JButton btnNewGame = new JButton("New Game");
+		btnNewGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//int numberOfOgres = Integer.parseInt(ogreNumber.getText());
+				//int personality = personalityBox.getSelectedIndex(); // 0 - Rookie; 1 - Drunken; 2 - Suspicious; 3 - Obedient
+				
+				game = new GameMap(Maps.getMap(1), Maps.hasMultipleOgre(1), Maps.instantaneousDoorOpen(1));
+				game.readMap();
+				
+				textArea.setText(game.getMap());
+				lblstatus.setText("Game started!!! :D");
+			}
+		});
 		btnNewGame.setVerticalAlignment(SwingConstants.TOP);
 		
-		JButton btnNewButton = new JButton("Exit");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
 			}
 		});
+		
+		
 		GroupLayout gl_Buttons = new GroupLayout(Buttons);
 		gl_Buttons.setHorizontalGroup(
 			gl_Buttons.createParallelGroup(Alignment.LEADING)
@@ -133,8 +154,8 @@ public class graphic {
 							.addComponent(Movement, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_Buttons.createSequentialGroup()
 							.addGap(44)
-							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(13, Short.MAX_VALUE))
+							.addComponent(btnExit, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(11, Short.MAX_VALUE))
 		);
 		gl_Buttons.setVerticalGroup(
 			gl_Buttons.createParallelGroup(Alignment.LEADING)
@@ -144,51 +165,68 @@ public class graphic {
 					.addGap(89)
 					.addComponent(Movement, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
 					.addGap(58)
-					.addComponent(btnNewButton)
+					.addComponent(btnExit)
 					.addGap(36))
 		);
 		SpringLayout sl_Movement = new SpringLayout();
 		Movement.setLayout(sl_Movement);
-		JButton btnNewButton_1 = new JButton("Up");
-		sl_Movement.putConstraint(SpringLayout.NORTH, btnNewButton_1, 0, SpringLayout.NORTH, Movement);
-		sl_Movement.putConstraint(SpringLayout.WEST, btnNewButton_1, 40, SpringLayout.WEST, Movement);
-		sl_Movement.putConstraint(SpringLayout.EAST, btnNewButton_1, -40, SpringLayout.EAST, Movement);
-		Movement.add(btnNewButton_1);
-		
-		JButton btnNewButton_2 = new JButton("Left");
-		sl_Movement.putConstraint(SpringLayout.NORTH, btnNewButton_2, 15, SpringLayout.SOUTH, btnNewButton_1);
-		sl_Movement.putConstraint(SpringLayout.WEST, btnNewButton_2, 0, SpringLayout.WEST, Movement);
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton btnUp = new JButton("Up");
+		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				game.startGame('w');
+				game.update();
+				textArea.setText(game.getMap());
 			}
 		});
-		Movement.add(btnNewButton_2);
+		sl_Movement.putConstraint(SpringLayout.NORTH, btnUp, 0, SpringLayout.NORTH, Movement);
+		sl_Movement.putConstraint(SpringLayout.WEST, btnUp, 40, SpringLayout.WEST, Movement);
+		sl_Movement.putConstraint(SpringLayout.EAST, btnUp, -40, SpringLayout.EAST, Movement);
+		Movement.add(btnUp);
 		
-		JButton btnNewButton_3 = new JButton("Right");
-		sl_Movement.putConstraint(SpringLayout.SOUTH, btnNewButton_2, 0, SpringLayout.SOUTH, btnNewButton_3);
-		sl_Movement.putConstraint(SpringLayout.EAST, btnNewButton_2, -6, SpringLayout.WEST, btnNewButton_3);
-		sl_Movement.putConstraint(SpringLayout.NORTH, btnNewButton_3, 15, SpringLayout.SOUTH, btnNewButton_1);
-		sl_Movement.putConstraint(SpringLayout.WEST, btnNewButton_3, 84, SpringLayout.WEST, Movement);
-		sl_Movement.putConstraint(SpringLayout.EAST, btnNewButton_3, 162, SpringLayout.WEST, Movement);
-		Movement.add(btnNewButton_3);
-		
-		JButton btnNewButton_4 = new JButton("Down");
-		sl_Movement.putConstraint(SpringLayout.WEST, btnNewButton_4, 40, SpringLayout.WEST, Movement);
-		sl_Movement.putConstraint(SpringLayout.EAST, btnNewButton_4, -40, SpringLayout.EAST, Movement);
-		btnNewButton_4.addActionListener(new ActionListener() {
+		JButton btnLeft = new JButton("Left");
+		sl_Movement.putConstraint(SpringLayout.NORTH, btnLeft, 15, SpringLayout.SOUTH, btnUp);
+		sl_Movement.putConstraint(SpringLayout.WEST, btnLeft, 0, SpringLayout.WEST, Movement);
+		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				game.startGame('a');
+				game.update();
+				textArea.setText(game.getMap());
 			}
 		});
-		sl_Movement.putConstraint(SpringLayout.SOUTH, btnNewButton_3, -13, SpringLayout.NORTH, btnNewButton_4);
-		sl_Movement.putConstraint(SpringLayout.SOUTH, btnNewButton_4, 0, SpringLayout.SOUTH, Movement);
-		Movement.add(btnNewButton_4);
+		Movement.add(btnLeft);
+		
+		JButton btnRight = new JButton("Right");
+		btnRight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				game.startGame('d');
+				game.update();
+				textArea.setText(game.getMap());
+			}
+		});
+		sl_Movement.putConstraint(SpringLayout.SOUTH, btnLeft, 0, SpringLayout.SOUTH, btnRight);
+		sl_Movement.putConstraint(SpringLayout.EAST, btnLeft, -6, SpringLayout.WEST, btnRight);
+		sl_Movement.putConstraint(SpringLayout.NORTH, btnRight, 15, SpringLayout.SOUTH, btnUp);
+		sl_Movement.putConstraint(SpringLayout.WEST, btnRight, 84, SpringLayout.WEST, Movement);
+		sl_Movement.putConstraint(SpringLayout.EAST, btnRight, 162, SpringLayout.WEST, Movement);
+		Movement.add(btnRight);
+		
+		JButton btnDown = new JButton("Down");
+		sl_Movement.putConstraint(SpringLayout.WEST, btnDown, 40, SpringLayout.WEST, Movement);
+		sl_Movement.putConstraint(SpringLayout.EAST, btnDown, -40, SpringLayout.EAST, Movement);
+		btnDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				game.startGame('s');
+				game.update();
+				textArea.setText(game.getMap());
+			}
+		});
+		sl_Movement.putConstraint(SpringLayout.SOUTH, btnRight, -13, SpringLayout.NORTH, btnDown);
+		sl_Movement.putConstraint(SpringLayout.SOUTH, btnDown, 0, SpringLayout.SOUTH, Movement);
+		Movement.add(btnDown);
 		Buttons.setLayout(gl_Buttons);
 		
 		JPanel panel = new JPanel();
 		
-		JTextArea textArea = new JTextArea();
-		
-		JLabel lblNewLabel = new JLabel(" ");
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -196,16 +234,17 @@ public class graphic {
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 431, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE))
+						.addComponent(lblstatus, GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE))
 					.addContainerGap())
 		);
+		textArea.setFont(new Font("Courier New", Font.BOLD, 20));
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 306, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-					.addComponent(lblNewLabel)
+					.addComponent(lblstatus)
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
