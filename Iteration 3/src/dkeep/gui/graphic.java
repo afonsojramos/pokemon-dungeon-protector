@@ -27,6 +27,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.SpringLayout;
 import java.awt.Font;
 import javax.swing.JProgressBar;
+
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class graphic extends Thread{
@@ -36,7 +38,12 @@ public class graphic extends Thread{
 	JTextArea textArea = new JTextArea();
 	JLabel lblstatus = new JLabel("Please start you game with the variables you choose :)");
 	GameMap game = null;
-
+	private int level = 1;
+	JButton btnUp = new JButton("Up");
+	JButton btnRight = new JButton("Right");
+	JButton btnDown = new JButton("Down");
+	JButton btnLeft = new JButton("Left");	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -51,6 +58,39 @@ public class graphic extends Thread{
 				}
 			}
 		});
+	}
+	
+	public void moveText() {
+		int i = ThreadLocalRandom.current().nextInt(0, 25);
+		switch (i) {
+		case 0:
+			lblstatus.setText("Whoa! Nice move there!");
+			break;
+		case 1:
+			lblstatus.setText("Ehehehe! I knew you were going to do that! ;)");
+			break;
+		case 2:
+			lblstatus.setText("You're going to get caught!");
+			break;
+		case 3:
+			lblstatus.setText("Guard: 'I see you!'");
+			break;
+		case 4:
+			lblstatus.setText("Tip: Follow the rabit!");
+			break;
+		case 5:
+			lblstatus.setText("Are you crazy?!");
+			break;
+		case 6:
+			lblstatus.setText("What is it like to be the hero?");
+			break;
+		case 7:
+			lblstatus.setText("Tic Toc Tic Toc, time is ticking!");
+			break;
+		case 8:
+			lblstatus.setText("These messages are cringy!");
+			break;
+		}
 	}
 
 	/**
@@ -79,6 +119,7 @@ public class graphic extends Thread{
 		lblNumberOfOgres.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		ogreNumber = new JTextField();
+		ogreNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		ogreNumber.setColumns(10);
 		
 		JLabel lblGuardPersonality = new JLabel("Guard personality");
@@ -123,12 +164,17 @@ public class graphic extends Thread{
 			public void actionPerformed(ActionEvent e) {
 				//int numberOfOgres = Integer.parseInt(ogreNumber.getText());
 				//int personality = personalityBox.getSelectedIndex(); // 0 - Rookie; 1 - Drunken; 2 - Suspicious; 3 - Obedient
-				
-				game = new GameMap(Maps.getMap(1), Maps.hasMultipleOgre(1), Maps.instantaneousDoorOpen(1));
+				level = 1;
+				char [][] tempMap = Maps.getMap(level);
+				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
 				game.readMap();
-				
+				textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 24));
 				textArea.setText(game.getMap());
 				lblstatus.setText("Game started!!! :D");
+				btnUp.setEnabled(true);
+				btnDown.setEnabled(true);
+				btnLeft.setEnabled(true);
+				btnRight.setEnabled(true);
 			}
 		});
 		btnNewGame.setVerticalAlignment(SwingConstants.TOP);
@@ -170,12 +216,31 @@ public class graphic extends Thread{
 		);
 		SpringLayout sl_Movement = new SpringLayout();
 		Movement.setLayout(sl_Movement);
-		JButton btnUp = new JButton("Up");
+		btnUp.setEnabled(false);
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				game.startGame('w');
-				game.update();
-				textArea.setText(game.getMap());
+				if (game != null){
+					if (game.startGame('w')){
+						game.update();
+						textArea.setText(game.getMap());
+						moveText();
+					}
+					if (game.isVictory()){
+						level++;
+						char [][] tempMap = Maps.getMap(level);
+						game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
+						game.readMap();
+					}
+					else if (game.isEndOfGame()){
+						textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 140));
+						textArea.setText("GAME OVER");
+						game = null;
+						btnUp.setEnabled(false);
+						btnDown.setEnabled(false);
+						btnLeft.setEnabled(false);
+						btnRight.setEnabled(false);
+					}
+				}
 			}
 		});
 		sl_Movement.putConstraint(SpringLayout.NORTH, btnUp, 0, SpringLayout.NORTH, Movement);
@@ -183,24 +248,62 @@ public class graphic extends Thread{
 		sl_Movement.putConstraint(SpringLayout.EAST, btnUp, -40, SpringLayout.EAST, Movement);
 		Movement.add(btnUp);
 		
-		JButton btnLeft = new JButton("Left");
+		btnLeft.setEnabled(false);
 		sl_Movement.putConstraint(SpringLayout.NORTH, btnLeft, 15, SpringLayout.SOUTH, btnUp);
 		sl_Movement.putConstraint(SpringLayout.WEST, btnLeft, 0, SpringLayout.WEST, Movement);
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				game.startGame('a');
-				game.update();
-				textArea.setText(game.getMap());
+				if (game != null){
+					if (game.startGame('a')){
+						game.update();
+						textArea.setText(game.getMap());
+						moveText();
+					}
+					if (game.isVictory()){
+						level++;
+						char [][] tempMap = Maps.getMap(level);
+						game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
+						game.readMap();
+					}
+					else if (game.isEndOfGame()){
+						textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 140));
+						textArea.setText("GAME OVER");
+						game = null;
+						btnUp.setEnabled(false);
+						btnDown.setEnabled(false);
+						btnLeft.setEnabled(false);
+						btnRight.setEnabled(false);
+					}
+				}
 			}
 		});
 		Movement.add(btnLeft);
 		
-		JButton btnRight = new JButton("Right");
+		btnRight.setEnabled(false);
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				game.startGame('d');
-				game.update();
-				textArea.setText(game.getMap());
+				if (game != null){
+					if (game.startGame('d')){
+						game.update();
+						textArea.setText(game.getMap());
+						moveText();
+					}
+					if (game.isVictory()){
+						level++;
+						char [][] tempMap = Maps.getMap(level);
+						game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
+						game.readMap();
+					}
+					else if (game.isEndOfGame()){
+						textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 140));
+						textArea.setText("GAME\nOVER");
+						game = null;
+						btnUp.setEnabled(false);
+						btnDown.setEnabled(false);
+						btnLeft.setEnabled(false);
+						btnRight.setEnabled(false);
+					}
+				}
 			}
 		});
 		sl_Movement.putConstraint(SpringLayout.SOUTH, btnLeft, 0, SpringLayout.SOUTH, btnRight);
@@ -210,14 +313,34 @@ public class graphic extends Thread{
 		sl_Movement.putConstraint(SpringLayout.EAST, btnRight, 162, SpringLayout.WEST, Movement);
 		Movement.add(btnRight);
 		
-		JButton btnDown = new JButton("Down");
+		
+		btnDown.setEnabled(false);
 		sl_Movement.putConstraint(SpringLayout.WEST, btnDown, 40, SpringLayout.WEST, Movement);
 		sl_Movement.putConstraint(SpringLayout.EAST, btnDown, -40, SpringLayout.EAST, Movement);
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				game.startGame('s');
-				game.update();
-				textArea.setText(game.getMap());
+				if (game != null){
+					if (game.startGame('s')){
+						game.update();
+						textArea.setText(game.getMap());
+						moveText();
+					}
+					if (game.isVictory()){
+						level++;
+						char [][] tempMap = Maps.getMap(level);
+						game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
+						game.readMap();
+					}
+					else if (game.isEndOfGame()){
+						textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 140));
+						textArea.setText("GAME OVER");
+						game = null;
+						btnUp.setEnabled(false);
+						btnDown.setEnabled(false);
+						btnLeft.setEnabled(false);
+						btnRight.setEnabled(false);
+					}
+				}
 			}
 		});
 		sl_Movement.putConstraint(SpringLayout.SOUTH, btnRight, -13, SpringLayout.NORTH, btnDown);
