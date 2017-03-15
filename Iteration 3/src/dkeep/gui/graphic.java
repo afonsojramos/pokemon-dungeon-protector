@@ -1,6 +1,8 @@
 package dkeep.gui;
 
 import dkeep.logic.*;
+import dkeep.logic.Guard.Personality;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -92,6 +94,28 @@ public class graphic extends Thread{
 			break;
 		}
 	}
+	
+	public void updateGraphics(){
+		game.update();
+		textArea.setText(game.getMap());
+		moveText();
+		if (game.isVictory()){
+			level++;
+			char [][] tempMap = Maps.getMap(level);
+			game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
+			game.readMap();
+			textArea.setText(game.getMap());
+		}
+		else if (game.isEndOfGame()){
+			textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 140));
+			textArea.setText("GAME\nOVER");
+			game = null;
+			btnUp.setEnabled(false);
+			btnDown.setEnabled(false);
+			btnLeft.setEnabled(false);
+			btnRight.setEnabled(false);
+		}
+	}
 
 	/**
 	 * Create the application.
@@ -163,11 +187,16 @@ public class graphic extends Thread{
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//int numberOfOgres = Integer.parseInt(ogreNumber.getText());
-				//int personality = personalityBox.getSelectedIndex(); // 0 - Rookie; 1 - Drunken; 2 - Suspicious; 3 - Obedient
+				int personality = personalityBox.getSelectedIndex(); // 0 - Rookie; 1 - Drunken; 2 - Suspicious; 3 - Obedient
 				level = 1;
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
 				game.readMap();
+				if (game.getCharacters().get(0) instanceof Guard){
+					Guard g = (Guard) game.getCharacters().get(0);
+					g.setPersonality(Personality.values()[personality]);
+				}
+				//TODO: Numero de ogres
 				textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 24));
 				textArea.setText(game.getMap());
 				lblstatus.setText("Game started!!! :D");
@@ -219,28 +248,8 @@ public class graphic extends Thread{
 		btnUp.setEnabled(false);
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (game != null){
-					if (game.startGame('w')){
-						game.update();
-						textArea.setText(game.getMap());
-						moveText();
-					}
-					if (game.isVictory()){
-						level++;
-						char [][] tempMap = Maps.getMap(level);
-						game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
-						game.readMap();
-					}
-					else if (game.isEndOfGame()){
-						textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 140));
-						textArea.setText("GAME OVER");
-						game = null;
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnRight.setEnabled(false);
-					}
-				}
+				if (game.startGame('w'))
+					updateGraphics();
 			}
 		});
 		sl_Movement.putConstraint(SpringLayout.NORTH, btnUp, 0, SpringLayout.NORTH, Movement);
@@ -253,28 +262,8 @@ public class graphic extends Thread{
 		sl_Movement.putConstraint(SpringLayout.WEST, btnLeft, 0, SpringLayout.WEST, Movement);
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (game != null){
-					if (game.startGame('a')){
-						game.update();
-						textArea.setText(game.getMap());
-						moveText();
-					}
-					if (game.isVictory()){
-						level++;
-						char [][] tempMap = Maps.getMap(level);
-						game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
-						game.readMap();
-					}
-					else if (game.isEndOfGame()){
-						textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 140));
-						textArea.setText("GAME OVER");
-						game = null;
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnRight.setEnabled(false);
-					}
-				}
+					if (game.startGame('a'))
+						updateGraphics();
 			}
 		});
 		Movement.add(btnLeft);
@@ -282,28 +271,8 @@ public class graphic extends Thread{
 		btnRight.setEnabled(false);
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (game != null){
-					if (game.startGame('d')){
-						game.update();
-						textArea.setText(game.getMap());
-						moveText();
-					}
-					if (game.isVictory()){
-						level++;
-						char [][] tempMap = Maps.getMap(level);
-						game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
-						game.readMap();
-					}
-					else if (game.isEndOfGame()){
-						textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 140));
-						textArea.setText("GAME\nOVER");
-						game = null;
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnRight.setEnabled(false);
-					}
-				}
+				if (game.startGame('d'))
+					updateGraphics();
 			}
 		});
 		sl_Movement.putConstraint(SpringLayout.SOUTH, btnLeft, 0, SpringLayout.SOUTH, btnRight);
@@ -319,28 +288,8 @@ public class graphic extends Thread{
 		sl_Movement.putConstraint(SpringLayout.EAST, btnDown, -40, SpringLayout.EAST, Movement);
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (game != null){
-					if (game.startGame('s')){
-						game.update();
-						textArea.setText(game.getMap());
-						moveText();
-					}
-					if (game.isVictory()){
-						level++;
-						char [][] tempMap = Maps.getMap(level);
-						game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
-						game.readMap();
-					}
-					else if (game.isEndOfGame()){
-						textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 140));
-						textArea.setText("GAME OVER");
-						game = null;
-						btnUp.setEnabled(false);
-						btnDown.setEnabled(false);
-						btnLeft.setEnabled(false);
-						btnRight.setEnabled(false);
-					}
-				}
+					if (game.startGame('s'))
+						updateGraphics();
 			}
 		});
 		sl_Movement.putConstraint(SpringLayout.SOUTH, btnRight, -13, SpringLayout.NORTH, btnDown);
