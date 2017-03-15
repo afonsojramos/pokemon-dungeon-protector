@@ -1,9 +1,6 @@
 package dkeep.logic;
 import java.util.*;
 
-import dkeep.logic.Guard.Personality;
-
-
 public class GameMap {
 
 	Random rand = new Random();

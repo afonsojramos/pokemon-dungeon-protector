@@ -20,7 +20,6 @@ public class MapLevel {
 		width = currentMap[0].length;
 		height = currentMap.length;
 		posUsed = new boolean [height][width];
-		boolean keyFound = false;
 		for (int i = 0; i < height; i++){
 			for (int j = 0; j < width; j++) {
 				posUsed[i][j] = false;

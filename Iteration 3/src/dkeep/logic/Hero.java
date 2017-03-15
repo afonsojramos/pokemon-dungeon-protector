@@ -1,7 +1,5 @@
 package dkeep.logic;
 
-import java.util.Random;
-
 public class Hero extends Person{
 	private boolean armed = false;
 

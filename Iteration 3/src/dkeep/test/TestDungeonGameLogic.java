@@ -1,6 +1,5 @@
 package dkeep.test;
 
-import java.util.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -270,7 +269,6 @@ public class TestDungeonGameLogic {
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa do
 		GameMap game = new GameMap(currentMap, false, false);
 		game.readMap();
-		Person hero = game.getHero();
 		if (game.getCharacters().get(0) instanceof Guard){
 			Guard g = (Guard) game.getCharacters().get(0);
 			assertFalse(g.isInInvalidPos(currentMap));		

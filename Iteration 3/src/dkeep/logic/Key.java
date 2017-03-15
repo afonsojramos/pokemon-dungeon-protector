@@ -1,12 +1,10 @@
 package dkeep.logic;
 
 public class Key {
-	private char Ch;
 	private boolean found;
 	private int x, y;
 	
 	public Key (int x, int y) {
-		this.Ch = Ch;
 		found = false;
 		this.x = x;
 		this.y = y;
