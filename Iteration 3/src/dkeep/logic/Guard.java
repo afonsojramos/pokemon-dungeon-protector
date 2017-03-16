@@ -129,5 +129,9 @@ public class Guard extends Person{
 	public boolean isInInvalidPos (char [][] mapArray) {
 		return (mapArray[y][x] != ' ');
 	}
+	
+	public void restartVariables() {
+		numberOfGuards = 0;
+	}
 }
 

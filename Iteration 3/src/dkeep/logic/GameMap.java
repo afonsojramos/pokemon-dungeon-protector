@@ -293,5 +293,17 @@ public class GameMap {
 			this.StunOgres();
 		}
 	}
-		
+	/**
+	 * Restaurar variaveis static de Ogre e Guard
+	 */
+	public void restartVariables() {
+		int size = characters.size();
+		for (int i = 0; i < size; i++) {
+			if (characters.get(i) instanceof Guard) {
+				((Guard)characters.get(i)).restartVariables();
+			} else if(characters.get(i) instanceof Ogre) {
+				((Ogre)characters.get(i)).restartVariables();
+			}
+		}
+	}
 }

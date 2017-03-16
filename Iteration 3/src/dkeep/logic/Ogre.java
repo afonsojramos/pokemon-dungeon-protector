@@ -164,4 +164,8 @@ public class Ogre extends Person{
 				return false;
 	}
 	
+	public void restartVariables() {
+		nOgres = 0;
+		pos = 1;
+	}
 }

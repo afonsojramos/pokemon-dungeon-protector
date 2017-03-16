@@ -117,6 +117,7 @@ public class graphic extends Thread{
 					char [][] tempMap = Maps.getMap(level);
 					game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
 					game.readMap();
+					game.restartVariables();//restaurar variaveis static!!!!!
 					textArea.setText(game.getMap());
 				}
 			} else { //perdeu o jogo
@@ -214,6 +215,7 @@ public class graphic extends Thread{
 						g.setPersonality(Personality.values()[personality]);
 					}
 				}
+				
 				//TODO: Numero de ogres
 				textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 24));
 				textArea.setText(game.getMap());
