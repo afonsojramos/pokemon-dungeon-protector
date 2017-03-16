@@ -49,6 +49,7 @@ public class graphic extends Thread{
 	private int finalLevel = 3;
 	private int nOgres = 0;
 	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -61,6 +62,7 @@ public class graphic extends Thread{
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 			}
 		});
 	}
@@ -95,6 +97,7 @@ public class graphic extends Thread{
 		case 8:
 			lblstatus.setText("These messages are cringy!");
 			break;
+			
 		}
 	}
 	
@@ -370,5 +373,9 @@ public class graphic extends Thread{
 					.addContainerGap())
 		);
 		Window.setLayout(gl_Window);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 0, 642, 433);
+		frame.getContentPane().add(panel_1);
 	}
 }

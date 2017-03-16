@@ -62,7 +62,7 @@ public class Maps {
 		return instantaneousDoorOpens[x]; 
 	}
 	
-	
+
 	
 	
 }
