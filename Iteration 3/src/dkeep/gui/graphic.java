@@ -203,7 +203,16 @@ public class graphic extends Thread{
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				nOgres = Integer.parseInt(ogreNumber.getText());
+				if (ogreNumber.getText().equals(""))
+					nOgres = 0;
+				else{
+					if (Integer.parseInt(ogreNumber.getText()) > 5)
+						nOgres = 5;
+					else if (Integer.parseInt(ogreNumber.getText()) < 0)
+						nOgres = 0;
+					else 
+						nOgres = Integer.parseInt(ogreNumber.getText());
+				}
 				int personality = personalityBox.getSelectedIndex(); // 0 - Rookie; 1 - Drunken; 2 - Suspicious; 3 - Obedient
 				level = 1;
 				char [][] tempMap = Maps.getMap(level);
@@ -215,8 +224,6 @@ public class graphic extends Thread{
 						g.setPersonality(Personality.values()[personality]);
 					}
 				}
-				
-				//TODO: Numero de ogres
 				textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 24));
 				textArea.setText(game.getMap());
 				lblstatus.setText("Game started!!! :D");
