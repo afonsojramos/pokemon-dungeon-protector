@@ -37,14 +37,17 @@ public class graphic extends Thread{
 
 	private JFrame frame;
 	private JTextField ogreNumber;
-	JTextArea textArea = new JTextArea();
-	JLabel lblstatus = new JLabel("Please start you game with the variables you choose :)");
-	GameMap game = null;
+	private JTextArea textArea = new JTextArea();
+	private JLabel lblstatus = new JLabel("Please start you game with the variables you choose :)");
+	private JButton btnUp = new JButton("Up");
+	private JButton btnRight = new JButton("Right");
+	private JButton btnDown = new JButton("Down");
+	private JButton btnLeft = new JButton("Left");	
+	
+	private static GameMap game = null;
 	private int level = 1;
-	JButton btnUp = new JButton("Up");
-	JButton btnRight = new JButton("Right");
-	JButton btnDown = new JButton("Down");
-	JButton btnLeft = new JButton("Left");	
+	private int finalLevel = 3;
+	private static boolean endOfGame = false;
 	
 	/**
 	 * Launch the application.
@@ -99,22 +102,34 @@ public class graphic extends Thread{
 		game.update();
 		textArea.setText(game.getMap());
 		moveText();
-		if (game.isVictory()){
-			level++;
-			char [][] tempMap = Maps.getMap(level);
-			game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
-			game.readMap();
-			textArea.setText(game.getMap());
+		if (game.isEndOfGame()) {
+			if (game.isVictory()) {
+				level++;
+				if(level > finalLevel) { //acabou o jogo e ganhou
+					textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 90));
+					textArea.setText("VICTORY!!!");
+					game = null;
+					btnUp.setEnabled(false);
+					btnDown.setEnabled(false);
+					btnLeft.setEnabled(false);
+					btnRight.setEnabled(false);
+				} else { //proximo nivel
+					char [][] tempMap = Maps.getMap(level);
+					game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
+					game.readMap();
+					textArea.setText(game.getMap());
+				}
+			} else { //perdeu o jogo
+				textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 140));
+				textArea.setText("GAME\nOVER");
+				game = null;
+				btnUp.setEnabled(false);
+				btnDown.setEnabled(false);
+				btnLeft.setEnabled(false);
+				btnRight.setEnabled(false);
+			}
 		}
-		else if (game.isEndOfGame()){
-			textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 140));
-			textArea.setText("GAME\nOVER");
-			game = null;
-			btnUp.setEnabled(false);
-			btnDown.setEnabled(false);
-			btnLeft.setEnabled(false);
-			btnRight.setEnabled(false);
-		}
+				
 	}
 
 	/**
@@ -177,6 +192,7 @@ public class graphic extends Thread{
 						.addComponent(lblGuardPersonality)
 						.addComponent(personalityBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 		);
+		
 		Variables.setLayout(gl_Variables);
 		
 		JPanel Buttons = new JPanel();
@@ -192,9 +208,11 @@ public class graphic extends Thread{
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
 				game.readMap();
-				if (game.getCharacters().get(0) instanceof Guard){
-					Guard g = (Guard) game.getCharacters().get(0);
-					g.setPersonality(Personality.values()[personality]);
+				for (int i = 0; i < game.getCharacters().size(); i++) {//percorrer as personagens
+					if (game.getCharacters().get(0) instanceof Guard) {//alterar a personalidade do guarda
+						Guard g = (Guard) game.getCharacters().get(0);
+						g.setPersonality(Personality.values()[personality]);
+					}
 				}
 				//TODO: Numero de ogres
 				textArea.setFont(new Font(textArea.getFont().getName(), Font.BOLD, 24));

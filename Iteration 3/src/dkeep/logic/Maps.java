@@ -26,7 +26,12 @@ public class Maps {
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
 			{ 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa
 																												// do
-																												// nivel
+	static 	ArrayList<char[][]> listOfMaps = new ArrayList<char[][]> () {{
+		add(map0);
+		add(map1);
+		add(map2);
+		add(map3);
+	}};																									// nivel
 																												// 3
 	
 	static boolean hasMultipleOgres[] = new boolean[] {false, false, false, true};// se true, criar random ogres
@@ -35,13 +40,14 @@ public class Maps {
 			
 	public static char[][] getMap(int x){
 		
-		ArrayList<char[][]> listOfMaps = new ArrayList<char[][]>(4);
-		listOfMaps.add(map0);
-		listOfMaps.add(map1);
-		listOfMaps.add(map2);
-		listOfMaps.add(map3);
-		
-		return listOfMaps.get(x);
+		char [][] tmpArray = new char [listOfMaps.get(x).length][listOfMaps.get(x)[0].length];
+		/*COPIAR O MAPA*/
+		for (int i = 0; i < listOfMaps.get(x).length; i++) {
+			for (int j = 0; j < listOfMaps.get(x)[0].length; j++) {
+				tmpArray[i][j] = listOfMaps.get(x)[i][j];
+			}
+		}
+		return tmpArray;
 	}
 	
 	public static boolean hasMultipleOgre(int x){
