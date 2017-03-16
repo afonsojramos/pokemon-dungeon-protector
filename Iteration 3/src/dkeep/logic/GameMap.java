@@ -20,7 +20,7 @@ public class GameMap {
 	 * @param multipleOgres
 	 * @param instantaneousDoorOpen
 	 */
-	public GameMap(char [][] mapArray, boolean multipleOgres, boolean instantaneousDoorOpen) {
+	public GameMap(char [][] mapArray, boolean multipleOgres, int nOgres, boolean instantaneousDoorOpen) {
 		/**
 		 * inicializar variaveis
 		 */
@@ -36,12 +36,19 @@ public class GameMap {
 		 */
 		characters = new Vector<Person>();//vetor do index 0 fica vazio
 		
-		if(multipleOgres){
-			int randomNum = rand.nextInt(5) + 1;
-			System.out.print("\n\nNumero de ogres no nivel 3: " + randomNum + "\n\n");
-			while(randomNum > 0){
-				this.addOgreToLevel();
-				randomNum--;
+		if (multipleOgres) {
+			if (nOgres == 0) {//gerar numero aleatorio de ogres
+				int randomNum = rand.nextInt(5) + 1;
+				System.out.print("\n\nNumero de ogres no nivel 3: " + randomNum + "\n\n");
+				while (randomNum > 0) {
+					this.addOgreToLevel();
+					randomNum--;
+				}
+			} else {
+				while (nOgres > 0) {
+					this.addOgreToLevel();
+					nOgres--;
+				}
 			}
 		}
 	}

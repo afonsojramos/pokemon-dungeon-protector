@@ -47,7 +47,7 @@ public class graphic extends Thread{
 	private static GameMap game = null;
 	private int level = 1;
 	private int finalLevel = 3;
-	private static boolean endOfGame = false;
+	private int nOgres = 0;
 	
 	/**
 	 * Launch the application.
@@ -115,7 +115,7 @@ public class graphic extends Thread{
 					btnRight.setEnabled(false);
 				} else { //proximo nivel
 					char [][] tempMap = Maps.getMap(level);
-					game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
+					game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
 					game.readMap();
 					game.restartVariables();//restaurar variaveis static!!!!!
 					textArea.setText(game.getMap());
@@ -203,11 +203,11 @@ public class graphic extends Thread{
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//int numberOfOgres = Integer.parseInt(ogreNumber.getText());
+				nOgres = Integer.parseInt(ogreNumber.getText());
 				int personality = personalityBox.getSelectedIndex(); // 0 - Rookie; 1 - Drunken; 2 - Suspicious; 3 - Obedient
 				level = 1;
 				char [][] tempMap = Maps.getMap(level);
-				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), Maps.instantaneousDoorOpen(level));
+				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
 				game.readMap();
 				for (int i = 0; i < game.getCharacters().size(); i++) {//percorrer as personagens
 					if (game.getCharacters().get(0) instanceof Guard) {//alterar a personalidade do guarda
@@ -329,6 +329,7 @@ public class graphic extends Thread{
 						.addComponent(lblstatus, GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE))
 					.addContainerGap())
 		);
+		textArea.setEditable(false);
 		textArea.setFont(new Font("Courier New", Font.BOLD, 20));
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)

@@ -9,7 +9,7 @@ public class TestOgreRandomness {
 	public void TestOgreRandomMove(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
-		GameMap game = new GameMap(currentMap, false, false);
+		GameMap game = new GameMap(currentMap, false,0, false);
 		game.readMap();
 		int possibleX1 = 2, possibleY1 = 1, possibleX2 = 3, possibleY2 = 2;
 		MapLevel map = game.getCurrentMap();

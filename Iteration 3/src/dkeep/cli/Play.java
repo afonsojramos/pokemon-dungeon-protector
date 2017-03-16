@@ -20,7 +20,7 @@ public class Play {
 	public static void main(String[] args) {
 		/*COMECAR O JOGO*/
 		while ((currentLevel <= finalLevel) && !endOfGame) {
-			game = new GameMap(Maps.getMap(currentLevel), Maps.hasMultipleOgre(currentLevel), Maps.instantaneousDoorOpen(currentLevel));
+			game = new GameMap(Maps.getMap(currentLevel), Maps.hasMultipleOgre(currentLevel), 0, Maps.instantaneousDoorOpen(currentLevel));
 			game.readMap();
 			System.out.print(game.getMap());
 			endOfGame = false;
