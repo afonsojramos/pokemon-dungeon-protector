@@ -62,8 +62,7 @@ public class graphic extends Thread{
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
-				
+				}	
 			}
 		});
 	}
