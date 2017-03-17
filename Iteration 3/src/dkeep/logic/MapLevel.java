@@ -36,6 +36,10 @@ public class MapLevel {
 		return width;
 	}
 	
+	public char [][] getMap() {
+		return currentMap;
+	}
+	
 	public boolean isAboveKey (int x, int y) {
 		return ((key.getX() == x) && (key.getY() == y) && !key.isFound());
 	}

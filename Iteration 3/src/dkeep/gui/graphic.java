@@ -50,6 +50,7 @@ public class graphic extends Thread{
 	private int nOgres = 0;
 	
 	
+	public GameMap getGame() {return game;}
 	/**
 	 * Launch the application.
 	 */
