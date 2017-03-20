@@ -32,7 +32,9 @@ public class Hero extends Person{
 		
 		if (currentMap.isAboveKey(xHero, yHero) && !currentMap.isKeyFound()) {// acabou de encontrar a chave
 			currentMap.setKeyFound();
+			if(!currentMap.isInstantaneousDoorOpen()) {
 			Ch = 'K';
+			}
 			prevX = x;
 			prevY = y;
 			x = xHero;

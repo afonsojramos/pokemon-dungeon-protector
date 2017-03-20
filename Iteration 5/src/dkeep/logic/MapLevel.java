@@ -40,6 +40,10 @@ public class MapLevel {
 		return currentMap;
 	}
 	
+	public boolean isInstantaneousDoorOpen() {
+		return instantaneousDoorOpen;
+	}
+	
 	public boolean isAboveKey (int x, int y) {
 		return ((key.getX() == x) && (key.getY() == y) && !key.isFound());
 	}
