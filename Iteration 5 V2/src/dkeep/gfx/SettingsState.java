@@ -4,8 +4,8 @@ import java.awt.Graphics;
 
 public class SettingsState extends State {
 
-	public SettingsState(){
-		
+	public SettingsState(Game game){
+		super(game);
 	}
 	
 	@Override

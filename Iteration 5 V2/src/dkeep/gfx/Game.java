@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import dkeep.logic.*;
+import dkeep.logic.Guard.Personality;
 
 public class Game implements Runnable{
 	
@@ -13,6 +14,14 @@ public class Game implements Runnable{
 	private Thread thread;
 	//private static GameMap game = null;
 	private boolean running;
+	
+	private static GameMap game = null;
+	private int level = 1;
+	private int finalLevel = 3;
+	private int nOgres = 1;
+	private Personality guardPersonality = Personality.valueOf("Rookie");
+	private boolean gameStarted = false;
+	
 	int x = -24, f = 0;
 	
 	private BufferStrategy bs;
@@ -23,31 +32,31 @@ public class Game implements Runnable{
 	private State menuState;
 	private State settingsState;
 	
+	//Input
+	private Kbd keyManager;
+	
 	public Game(String title, int width, int height){
 		this.title = title;
 		this.width = width;
-		this.height = height;		
+		this.height = height;
+		keyManager = new Kbd();
 	}
 	
 	private void initialize(){
 		display = new Display (title,width, height);
+		display.getFrame().addKeyListener(keyManager);
 		Assets.init();
 		
-		gameState = new GameState();
-		menuState = new GameState();
-		settingsState = new GameState();
+		gameState = new GameState(this);
+		menuState = new GameState(this);
+		settingsState = new GameState(this);
 		State.setState(gameState);
 	}
 	
 	private void update(){
+		keyManager.update();
 		if (State.getState() != null)
 			State.getState().update();
-		/*x+=1;
-		f+=1;
-		if (f == 20)
-			f = 0;
-		if (x == 600)
-			x = -24;*/
 	}
 	
 	private void render(){
@@ -59,13 +68,6 @@ public class Game implements Runnable{
 		g = bs.getDrawGraphics();
 		g.clearRect(0, 0, width, height);
 		
-		/*
-		g.drawImage(Assets.grass, 0, 0, null);
-		if (f < 10)
-			g.drawImage(Assets.heroRightWalk1, x, 0, null);
-		else 
-			g.drawImage(Assets.heroRightWalk2, x, 0, null);
-		*/
 		if (State.getState() != null)
 			State.getState().render(g);
 		
