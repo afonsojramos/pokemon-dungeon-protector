@@ -25,7 +25,7 @@ public class PrintMap extends JPanel {
 	public PrintMap() {
 		super();
 		try {
-			background = ImageIO.read(new File("Utils/cena.jpg"));
+			background = ImageIO.read(new File("Utils/Grass.png"));
 			wall = ImageIO.read(new File("Utils/tree.png"));
 			door = ImageIO.read(new File("Utils/tree.png"));
 			key = ImageIO.read(new File("Utils/tree.png"));

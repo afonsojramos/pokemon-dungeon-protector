@@ -224,6 +224,5 @@ public class PlayGame {
 				gameStarted = false;
 			}	
 		}
-		System.out.println("\n continua a jogar\n");
-	}
+		}
 }
