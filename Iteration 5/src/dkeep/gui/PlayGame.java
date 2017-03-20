@@ -24,6 +24,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 
 public class PlayGame {
 
@@ -190,7 +193,7 @@ public class PlayGame {
 				printPanel.setBounds(12, 68, 500, 500);
 				printPanel.setGame(game);
 				printPanel.setVisible(true);
-				frame.add(printPanel);
+				frame.getContentPane().add(printPanel);
 				frame.requestFocusInWindow();
 				panel.setVisible(false);
 				printPanel.repaint();
@@ -199,6 +202,33 @@ public class PlayGame {
 		});
 		btnStartGame.setBounds(635, 656, 135, 43);
 		frame.getContentPane().add(btnStartGame);
+		
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setBounds(558, 68, 212, 500);
+		frame.getContentPane().add(buttonsPanel);
+		buttonsPanel.setLayout(new GridLayout(3, 2));
+		
+		JButton btnWall = new JButton();
+		btnWall.setIcon(new ImageIcon("Utils/tree.png"));
+		
+		buttonsPanel.add(btnWall);
+		frame.validate();
+		
+		JButton btnDoor = new JButton("New button");
+		buttonsPanel.add(btnDoor);
+		
+		JButton btnKey = new JButton("New button");
+		buttonsPanel.add(btnKey);
+		
+		JButton btnOgre = new JButton("New button");
+		buttonsPanel.add(btnOgre);
+		
+		JButton btnHero = new JButton("New button");
+		buttonsPanel.add(btnHero);
+		
+		JButton btnEndMap = new JButton("New button");
+		buttonsPanel.add(btnEndMap);
+	
 		
 	}
 
