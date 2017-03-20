@@ -14,8 +14,14 @@ public class Game implements Runnable{
 	//private static GameMap game = null;
 	private boolean running;
 	int x = -24, f = 0;
+	
 	private BufferStrategy bs;
 	private Graphics g;
+	
+	//States
+	private State gameState;
+	private State menuState;
+	private State settingsState;
 	
 	public Game(String title, int width, int height){
 		this.title = title;
@@ -26,15 +32,22 @@ public class Game implements Runnable{
 	private void initialize(){
 		display = new Display (title,width, height);
 		Assets.init();
+		
+		gameState = new GameState();
+		menuState = new GameState();
+		settingsState = new GameState();
+		State.setState(gameState);
 	}
 	
 	private void update(){
-		x+=1;
+		if (State.getState() != null)
+			State.getState().update();
+		/*x+=1;
 		f+=1;
 		if (f == 20)
 			f = 0;
 		if (x == 600)
-			x = -24;
+			x = -24;*/
 	}
 	
 	private void render(){
@@ -46,13 +59,15 @@ public class Game implements Runnable{
 		g = bs.getDrawGraphics();
 		g.clearRect(0, 0, width, height);
 		
-		
+		/*
 		g.drawImage(Assets.grass, 0, 0, null);
 		if (f < 10)
 			g.drawImage(Assets.heroRightWalk1, x, 0, null);
 		else 
 			g.drawImage(Assets.heroRightWalk2, x, 0, null);
-		
+		*/
+		if (State.getState() != null)
+			State.getState().render(g);
 		
 		bs.show();
 		g.dispose();
