@@ -6,6 +6,8 @@ public class Assets {
 	
 	public static BufferedImage heroFrontStop, heroFrontWalk1, heroFrontWalk2, heroBackStop, heroBackWalk1, heroBackWalk2, 
 								heroLeftStop, heroLeftWalk1, heroLeftWalk2, heroRightStop, heroRightWalk1, heroRightWalk2,
+								heroFrontKey, heroBackKey, heroLeftKey, heroRightKey, heroFrontArmed, heroBackArmed, heroLeftArmed, heroRightArmed,
+								heroFrontKeyArmed, heroBackKeyArmed, heroLeftKeyArmed, heroRightKeyArmed,
 								guardFrontStop, guardFrontWalk1, guardFrontWalk2, guardBackStop, guardBackWalk1, guardBackWalk2,
 								guardLeftStop, guardLeftWalk1, guardLeftWalk2, guardRightStop, guardRightWalk1, guardRightWalk2,
 								ogreFrontStop, ogreFrontWalk1, ogreFrontWalk2, ogreBackStop, ogreBackWalk1, ogreBackWalk2,
@@ -24,15 +26,27 @@ public class Assets {
 		heroRightStop = sheet.crop(0 , 0 , yh, yh);
 		heroRightWalk1 = sheet.crop(yh, 0 , yh, yh);
 		heroRightWalk2 = sheet.crop(2*yh, 0 , yh, yh);
+		heroRightKey = sheet.crop(3*yh, 0 , yh, yh);
+		heroRightArmed = sheet.crop(4*yh, 0 , yh, yh);
+		heroRightKeyArmed = sheet.crop(5*yh, 0 , yh, yh);
 		heroBackStop = sheet.crop(0 , yh, yh, yh);
 		heroBackWalk1 = sheet.crop(yh, yh, yh, yh);
 		heroBackWalk2 = sheet.crop(2*yh, yh, yh, yh);
+		heroBackKey = sheet.crop(3*yh, yh , yh, yh);
+		heroBackArmed = sheet.crop(4*yh, yh , yh, yh);
+		heroBackKeyArmed = sheet.crop(5*yh, yh , yh, yh);
 		heroFrontStop = sheet.crop(0 , 2*yh, yh, yh);
 		heroFrontWalk1 = sheet.crop(yh, 2*yh, yh, yh);
 		heroFrontWalk2 = sheet.crop(2*yh, 2*yh, yh, yh);
+		heroFrontKey = sheet.crop(3*yh, 2*yh , yh, yh);
+		heroFrontArmed = sheet.crop(4*yh, 2*yh , yh, yh);
+		heroFrontKeyArmed = sheet.crop(5*yh, 2*yh , yh, yh);
 		heroLeftStop = sheet.crop(0 , 3*yh, yh, yh);
 		heroLeftWalk1 = sheet.crop(yh, 3*yh, yh, yh);
 		heroLeftWalk2 = sheet.crop(2*yh, 3*yh, yh, yh);
+		heroLeftKey = sheet.crop(3*yh, 3*yh , yh, yh);
+		heroLeftArmed = sheet.crop(4*yh, 3*yh , yh, yh);
+		heroLeftKeyArmed = sheet.crop(5*yh, 3*yh , yh, yh);
 		
 		guardBackStop = sheet1.crop(0 , 0 , yh, yh);
 		guardBackWalk1 = sheet1.crop(yh, 0 , yh, yh);

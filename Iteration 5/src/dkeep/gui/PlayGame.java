@@ -11,6 +11,11 @@ import dkeep.logic.GameMap;
 import dkeep.logic.Guard;
 import dkeep.logic.Maps;
 import dkeep.logic.Guard.Personality;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 import javax.swing.JLabel;
 import java.awt.Component;
@@ -19,6 +24,7 @@ import javax.swing.ImageIcon;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.Map;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -55,6 +61,7 @@ public class PlayGame {
 	private char currentElement = ' ';
 	private int xMouseMap, yMouseMap; //coodenadas do rato na tabela de jogo
 	private boolean keyUsed = false, doorUsed = false;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -64,6 +71,11 @@ public class PlayGame {
 				try {
 					PlayGame window = new PlayGame();
 					window.frame.setVisible(true);
+					window.frame.setLocationRelativeTo(null);
+					/*String bip = "Utils/Music.mp3";
+					Media hit = new Media(new File(bip).toURI().toString());
+					MediaPlayer mediaPlayer = new MediaPlayer(hit);
+					mediaPlayer.play();*/
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -77,6 +89,13 @@ public class PlayGame {
 	public PlayGame() {
 		initialize();
 	}
+	
+	/*public void playMusic(){
+		String bip = "Utils/Music.mp3";
+		Media hit = new Media(new File(bip).toURI().toString());
+		MediaPlayer mediaPlayer = new MediaPlayer(hit);
+		mediaPlayer.play();
+	}*/
 
 	/**
 	 * Initialize the contents of the frame.
@@ -88,7 +107,6 @@ public class PlayGame {
 		printPanel.setVisible(false);
 		frame.getContentPane().add(printPanel);
 		frame.requestFocusInWindow();
-		
 		frame.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -110,6 +128,26 @@ public class PlayGame {
 						}
 						break;
 					case KeyEvent.VK_DOWN:
+						if (game.startGame('s')) {
+							updateGraphics();
+						}
+						break;
+					case KeyEvent.VK_A:
+						if (game.startGame('a')) {
+							updateGraphics();
+						}
+						break;
+					case KeyEvent.VK_D:
+						if (game.startGame('d')) {
+							updateGraphics();
+						}
+						break;
+					case KeyEvent.VK_W:
+						if (game.startGame('w')) {
+							updateGraphics();
+						}
+						break;
+					case KeyEvent.VK_S:
 						if (game.startGame('s')) {
 							updateGraphics();
 						}
@@ -211,11 +249,11 @@ public class PlayGame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				String[] possibilitiesWidth = {"5","6", "7", "8", "9", "10", "11", "12"};
-				String s = (String)JOptionPane.showInputDialog(frame, "Number of Ogres:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilitiesWidth,null);
+				String s = (String)JOptionPane.showInputDialog(frame, "Width:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilitiesWidth,null);
 				xMapDimension = s==null ? 5 : Integer.parseInt(s);
 				
 				String[] possibilitiesHeight = {"5","6", "7", "8", "9", "10", "11", "12"};
-				String s2 = (String)JOptionPane.showInputDialog(frame, "Number of Ogres:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilitiesHeight,null);
+				String s2 = (String)JOptionPane.showInputDialog(frame, "Height:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilitiesHeight,null);
 				yMapDimension = s2==null ? 5 : Integer.parseInt(s2);
 				
 				gameStarted = false;

@@ -63,11 +63,11 @@ public class PrintMap extends JPanel {
 			} else if (aChar == 'G') {
 				g.drawImage(Assets.guardFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'A') {
-				g.drawImage(Assets.heroFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
+				g.drawImage(Assets.heroFrontArmed, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'H') {
 				g.drawImage(Assets.heroFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'K') {
-				g.drawImage(Assets.heroFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
+				g.drawImage(Assets.heroFrontKey, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == '$') {
 				g.drawImage(Assets.key, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == '8') {
