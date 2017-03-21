@@ -15,7 +15,7 @@ public class TestOgreLevel {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
 		game.startGame('s');
@@ -27,7 +27,7 @@ public class TestOgreLevel {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
 		game.startGame('w');
@@ -39,7 +39,7 @@ public class TestOgreLevel {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('d');
@@ -53,7 +53,7 @@ public class TestOgreLevel {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');
@@ -71,7 +71,7 @@ public class TestOgreLevel {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');
@@ -86,7 +86,7 @@ public class TestOgreLevel {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');
@@ -108,7 +108,7 @@ public class TestOgreLevel {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
 			{ 'I', ' ', ' ', 'O', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');
@@ -135,7 +135,7 @@ public class TestOgreLevel {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', ' ', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, true, true);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');

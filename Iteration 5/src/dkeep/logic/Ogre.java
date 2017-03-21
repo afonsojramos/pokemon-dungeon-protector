@@ -9,24 +9,36 @@ public class Ogre extends Person{
 	private static int pos = 1; //posicao dos ogre criados com o construtor sem parametros
 	private int stuned;
 	
-	public Ogre(String name, int x, int y, char Ch){
+	public Ogre(String name, int x, int y, char Ch, char [][] mapArray){
 		super(name,x,y, Ch);
-		club = new Club(x+1,y);
+		if (mapArray != null) {
+			if (mapArray[y][x+1] == ' ') {
+				club = new Club(x+1,y);
+			} else if (mapArray[y][x-1] == ' ') {
+				club = new Club(x-1,y);
+			} else if (mapArray[y+1][x] == ' ') {
+				club = new Club(x,y+1);
+			} else if (mapArray[y-1][x] == ' ') {
+				club = new Club(x,y-1);
+			}
+		} else {
+			club = new Club(x+1,y);
+		}
 		nOgres++;
 		pos += 2;
 		stuned = 0;
 	}
 
-	public Ogre(String name, int x, int y) {// construtor default
-		this(name, x, y, 'O');
+	public Ogre(String name, int x, int y, char [][] mapArray) {// construtor default
+		this(name, x, y, 'O', mapArray);
 	}
 
-	public Ogre() {
-		this("ogre" + nOgres, (pos % 6), (pos / 6) + 1, 'O');
+	public Ogre(char [][] mapArray) {
+		this("ogre" + nOgres, (pos % 6), (pos / 6) + 1, 'O', mapArray);
 	}
 	
-	public Ogre(int x, int y) {
-		this("ogre" + nOgres, x, y, 'O');
+	public Ogre(int x, int y, char [][] mapArray) {
+		this("ogre" + nOgres, x, y, 'O', mapArray);
 	}
 
 	public int getClubX () { return club.getX(); }

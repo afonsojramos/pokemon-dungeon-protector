@@ -10,7 +10,7 @@ public class TestOgreRandomness {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		int possibleX1 = 2, possibleY1 = 1, possibleX2 = 3, possibleY2 = 2;
 		MapLevel map = game.getCurrentMap();
 		Ogre ogre = (Ogre)game.getCharacters().get(0);

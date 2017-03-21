@@ -119,7 +119,7 @@ public class graphic extends Thread{
 				} else { //proximo nivel
 					char [][] tempMap = Maps.getMap(level);
 					game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
-					game.readMap();
+					game.readMap(false);
 					game.restartVariables();//restaurar variaveis static!!!!!
 					textArea.setText(game.getMap());
 				}
@@ -220,7 +220,7 @@ public class graphic extends Thread{
 				level = 1;
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
-				game.readMap();
+				game.readMap(false);
 				for (int i = 0; i < game.getCharacters().size(); i++) {//percorrer as personagens
 					if (game.getCharacters().get(0) instanceof Guard) {//alterar a personalidade do guarda
 						Guard g = (Guard) game.getCharacters().get(0);

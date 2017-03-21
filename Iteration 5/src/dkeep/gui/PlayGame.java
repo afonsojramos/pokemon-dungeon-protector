@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Map;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -36,6 +37,12 @@ public class PlayGame {
 	private JLabel lblNumberOfOgres;
 	private JLabel lblGuardPersonality;
 	private JLabel lblCreateMap;
+	private JButton btnWall;
+	private JButton btnDoor;
+	private JButton btnKey;
+	private JButton btnOgre;
+	private JButton btnHero;
+	private JPanel buttonsPanel;
 	
 	private static GameMap game = null;
 	private int level = 1;
@@ -43,7 +50,11 @@ public class PlayGame {
 	private int nOgres = 1;
 	private Personality guardPersonality = Personality.valueOf("Rookie");
 	private boolean gameStarted = false;
-
+	private boolean creationMode = false;
+	private int xMapDimension = 10, yMapDimension = 10;
+	private char currentElement = ' ';
+	private int xMouseMap, yMouseMap; //coodenadas do rato na tabela de jogo
+	private boolean keyUsed = false, doorUsed = false;
 	/**
 	 * Launch the application.
 	 */
@@ -72,6 +83,12 @@ public class PlayGame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		printPanel = new PrintMap();
+		printPanel.setBounds(12, 68, 500, 500);
+		printPanel.setVisible(false);
+		frame.getContentPane().add(printPanel);
+		frame.requestFocusInWindow();
+		
 		frame.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -98,6 +115,31 @@ public class PlayGame {
 						}
 						break;
 					}
+				}
+			}
+		});
+		frame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if(creationMode) {
+					System.out.println("entrou!");
+					System.out.println("x: "+ xMouseMap+" y: "+yMouseMap);
+					System.out.println("xScreen: "+ arg0.getX()+" yScreen: "+arg0.getY());
+					System.out.println(currentElement);
+					if(arg0.getX() >= 21 && arg0.getX() <= 521 && arg0.getY() >= 146 && arg0.getY() <= 646) { 
+					convertCoordinates(arg0.getX(), arg0.getY());
+					boolean result = Maps.changeNewMap(xMouseMap, yMouseMap, currentElement);
+					if(currentElement == 'k' && result) {
+						keyUsed = true;
+					} else if (currentElement == 'I' && result) {
+						doorUsed = true;
+					}
+					game.changeMapArray(Maps.getMap(level));
+					game.readMap(true);
+					printPanel.repaint();
+					System.out.println("cagou");
+					}
+					
 				}
 			}
 		});
@@ -165,69 +207,143 @@ public class PlayGame {
 		menuBar.add(horizontalStrut_1);
 		
 		lblCreateMap = new JLabel("Create Map");
+		lblCreateMap.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String[] possibilitiesWidth = {"5","6", "7", "8", "9", "10", "11", "12"};
+				String s = (String)JOptionPane.showInputDialog(frame, "Number of Ogres:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilitiesWidth,null);
+				xMapDimension = s==null ? 5 : Integer.parseInt(s);
+				
+				String[] possibilitiesHeight = {"5","6", "7", "8", "9", "10", "11", "12"};
+				String s2 = (String)JOptionPane.showInputDialog(frame, "Number of Ogres:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilitiesHeight,null);
+				yMapDimension = s2==null ? 5 : Integer.parseInt(s2);
+				
+				gameStarted = false;
+				creationMode = true;
+				buttonsPanel.setVisible(true);
+				Maps.createNewMap(xMapDimension, yMapDimension);
+				finalLevel++;
+				level = finalLevel;
+				char [][] tempMap = Maps.getMap(level);
+				game = new GameMap(tempMap, false, 0, false);
+				game.readMap(true);
+				
+				printPanel.setGame(game);
+				printPanel.setVisible(true);
+				printPanel.repaint();
+				
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblCreateMap.setForeground(new Color(46, 139, 87));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblCreateMap.setForeground(new Color(0, 0, 0));
+			}
+		});
 		lblCreateMap.setFont(new Font("AR DARLING", Font.PLAIN, 30));
 		menuBar.add(lblCreateMap);
 		frame.getContentPane().setLayout(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBounds(12, 68, 500, 500);
-		frame.getContentPane().add(panel);
-		panel.setVisible(true);
 		
 		JButton btnStartGame = new JButton("Start Game");
 		btnStartGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				gameStarted = true;
+				if(!creationMode) {
 				level = 1;
+				} else {
+					if (!keyUsed || !doorUsed) {
+						return;
+					}
+				}
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
-				game.readMap();
+				game.readMap(false);
+				game.restartVariables();//restaurar variaveis static!!!!!
 				for (int i = 0; i < game.getCharacters().size(); i++) {//percorrer as personagens
 					if (game.getCharacters().get(0) instanceof Guard) {//alterar a personalidade do guarda
 						Guard g = (Guard) game.getCharacters().get(0);
 						g.setPersonality(guardPersonality);
 					}
 				}
-				printPanel = new PrintMap();
-				printPanel.setBounds(12, 68, 500, 500);
 				printPanel.setGame(game);
 				printPanel.setVisible(true);
 				frame.getContentPane().add(printPanel);
 				frame.requestFocusInWindow();
-				panel.setVisible(false);
 				printPanel.repaint();
+				buttonsPanel.setVisible(false);
+				keyUsed = false; doorUsed = false;
+				creationMode = false;
 				
 			}
 		});
 		btnStartGame.setBounds(635, 656, 135, 43);
 		frame.getContentPane().add(btnStartGame);
 		
-		JPanel buttonsPanel = new JPanel();
+		buttonsPanel = new JPanel();
 		buttonsPanel.setBounds(558, 68, 212, 500);
 		frame.getContentPane().add(buttonsPanel);
 		buttonsPanel.setLayout(new GridLayout(3, 2));
+		buttonsPanel.setVisible(false);
 		
-		JButton btnWall = new JButton();
+		btnWall = new JButton();
+		btnWall.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentElement = 'X';
+			}
+		});
 		btnWall.setIcon(new ImageIcon("Utils/tree.png"));
 		
 		buttonsPanel.add(btnWall);
 		frame.validate();
 		
-		JButton btnDoor = new JButton("New button");
+		btnDoor = new JButton("New button");
+		btnDoor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentElement = 'I';
+			}
+		});
 		buttonsPanel.add(btnDoor);
 		
-		JButton btnKey = new JButton("New button");
+		btnKey = new JButton("New button");
+		btnKey.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentElement = 'k';
+			}
+		});
 		buttonsPanel.add(btnKey);
 		
-		JButton btnOgre = new JButton("New button");
+		btnOgre = new JButton("New button");
+		btnOgre.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentElement = 'O';
+			}
+		});
 		buttonsPanel.add(btnOgre);
 		
-		JButton btnHero = new JButton("New button");
+		btnHero = new JButton("New button");
+		btnHero.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentElement = 'H';
+			}
+		});
 		buttonsPanel.add(btnHero);
 		
-		JButton btnEndMap = new JButton("New button");
-		buttonsPanel.add(btnEndMap);
+		JButton btnHeroArmed = new JButton("New button");
+		btnHeroArmed.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentElement = 'A';
+			}
+		});
+		buttonsPanel.add(btnHeroArmed);
 	
 		
 	}
@@ -244,8 +360,7 @@ public class PlayGame {
 				} else { // proximo nivel
 					char[][] tempMap = Maps.getMap(level);
 					game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
-					game.readMap();
-					game.restartVariables();// restaurar variaveis static!!!!!
+					game.readMap(false);
 					printPanel.setGame(game);
 					printPanel.repaint();
 				}
@@ -255,4 +370,13 @@ public class PlayGame {
 			}	
 		}
 		}
+	public void convertCoordinates(int x, int y) {
+		//coordenadas origem do mapa/painel: x = 12 ; y = 68
+		char mapArray[][] = game.getCurrentMap().getMap();
+		int width = mapArray[0].length;
+		int height = mapArray.length;
+		
+		xMouseMap = (x-21)/(500/width);
+		yMouseMap = (y-146)/(500/height);
+	}
 }

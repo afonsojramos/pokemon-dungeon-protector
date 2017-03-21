@@ -61,6 +61,77 @@ public class Maps {
 			return false;
 		return instantaneousDoorOpens[x]; 
 	}
+	public static void createNewMap(int x, int y) {
+		char creationMap[][] = new char[y][x];
+		//PREENCHER BORDAS DO MAPA
+		for(int j = 0; j < x; j++) {
+			creationMap[0][j] = 'X';
+			creationMap[y-1][j] = 'X';
+		}
+		for(int i = 0; i < y; i++) {
+			creationMap[i][0] = 'X';
+			creationMap[i][x-1] = 'X';
+		}
+		
+		for(int i = 0; i < y; i++) {
+			for(int j = 0; j < x; j++) {
+				if(creationMap[i][j] != 'X') {
+					creationMap[i][j] = ' ';
+				}
+			}
+		}
+		listOfMaps.add(creationMap);
+	}
+
+	public static boolean changeNewMap(int x, int y, char Ch) {
+		char[][] mapArray = listOfMaps.get(listOfMaps.size() - 1);
+		if (Ch != ' ') {
+			if (Ch == 'H' || Ch == 'A' || Ch == 'k' || Ch == 'O') {
+				System.out.println("vai validar");
+				return validateElement(x, y, Ch);
+			} else if (Ch == 'I') {
+				mapArray[y][x] = mapArray[y][x] == 'X' ? Ch : mapArray[y][x];
+				System.out.println("pintou!");
+				return true;
+			} else {
+				mapArray[y][x] = mapArray[y][x] == ' ' ? Ch : mapArray[y][x];
+				System.out.println("pintou!");
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean validateElement(int x, int y, char Ch) {
+		char[][] mapArray = listOfMaps.get(listOfMaps.size() - 1);
+		int width = mapArray[0].length;
+		int height = mapArray.length;
+		if (mapArray[y][x] != ' ' && mapArray[y][x] != 'X') {
+			return false;
+		}
+		if (x == 0 || x == (width - 1) || y == 0 || y == (height - 1)) {
+			return false;
+		}
+		if (mapArray[y][x - 1] == 'X' && mapArray[y][x + 1] == 'X' && mapArray[y - 1][x] == 'X'
+				&& mapArray[y + 1][x] == 'X') {
+			System.out.println("nao pode apagar arvore");
+			return false;
+		}
+		if (Ch == 'H' || Ch == 'A') {
+			for (int i = 0; i < mapArray.length; i++) { // apagar o heroi que ja
+														// existia no mapa
+				for (int j = 0; j < mapArray[0].length; j++) {
+					if (mapArray[i][j] == 'A' || mapArray[i][j] == 'H') {
+						mapArray[i][j] = ' ';
+						System.out.println("apagou heroi");
+					}
+				}
+			}
+		}
+		mapArray[y][x] = Ch;
+		System.out.println("pintou!");
+		return true;
+	}
 	
 
 	

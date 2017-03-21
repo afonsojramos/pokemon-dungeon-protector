@@ -12,7 +12,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
 		game.startGame('s');
@@ -24,7 +24,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
 		game.startGame('w');
@@ -35,7 +35,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
 		game.startGame('d');
@@ -49,7 +49,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
 		game.startGame('s');
@@ -70,7 +70,7 @@ public class TestDungeonGameLogic {
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
 		Person hero = game.getHero();
-		game.readMap();
+		game.readMap(false);
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
@@ -86,7 +86,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, true);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');
@@ -110,7 +110,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, true);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');
@@ -130,7 +130,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
 		game.startGame('s');
@@ -155,7 +155,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		assertTrue(game.getCurrentMap().isAboveWall(0,0));	
 		assertTrue(game.getCurrentMap().isAboveWall(1,0));	
 		assertTrue(game.getCurrentMap().isAboveWall(2,0));	
@@ -180,7 +180,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');
@@ -196,7 +196,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertFalse(game.getCharacters().get(0).isAdjacent(hero.getX(), hero.getY(), game.getCharacters().get(0).getPrevX(), game.getCharacters().get(0).getPrevY()));
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
@@ -212,7 +212,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		game.getGuard().setName("wow");
 		assertEquals("wow",game.getGuard().getName());
@@ -237,7 +237,7 @@ public class TestDungeonGameLogic {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'A', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');
@@ -268,7 +268,7 @@ public class TestDungeonGameLogic {
 			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' }, { 'X', ' ', 'I', ' ', 'I', ' ', 'X', 'k', ' ', 'X' },
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa do
 		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap();
+		game.readMap(false);
 		if (game.getCharacters().get(0) instanceof Guard){
 			Guard g = (Guard) game.getCharacters().get(0);
 			assertFalse(g.isInInvalidPos(currentMap));		

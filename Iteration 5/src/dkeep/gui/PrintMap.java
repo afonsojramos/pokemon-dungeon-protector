@@ -27,9 +27,9 @@ public class PrintMap extends JPanel {
 		try {
 			background = ImageIO.read(new File("Utils/Grass.png"));
 			wall = ImageIO.read(new File("Utils/tree.png"));
-			door = ImageIO.read(new File("Utils/tree.png"));
-			key = ImageIO.read(new File("Utils/tree.png"));
-			clube = ImageIO.read(new File("Utils/tree.png"));
+			door = ImageIO.read(new File("Utils/Door.png"));
+			key = ImageIO.read(new File("Utils/key.png"));
+			clube = ImageIO.read(new File("Utils/guardRightStop.png"));
 			guard = ImageIO.read(new File("Utils/guardFrontWalk.png"));
 			ogre = ImageIO.read(new File("Utils/tree.png"));
 			hero = ImageIO.read(new File("Utils/heroFrontWalk1.png"));
@@ -48,7 +48,7 @@ public class PrintMap extends JPanel {
 		super.paintComponent(g); // limpa fundo …
 		//DESENHAR FUNDO
 		g.drawImage(background, 0, 0, 500, 500, null);
-		char mapArray[][] = game.getCurrentMap().getMap();
+		/*char mapArray[][] = game.getCurrentMap().getMap();
 		int width = mapArray[0].length;
 		int height = mapArray.length;
 		//DESENHAR OBJETOS FIXOS DO MAPA
@@ -83,6 +83,42 @@ public class PrintMap extends JPanel {
 		}
 		//DESENHAR HEROI
 		g.drawImage(hero, game.getHero().getX()*xDimension, game.getHero().getY()*yDimension, xDimension,yDimension, null);
+		*/
+		String stringMap = game.getMap();
+		int j = 0, i = 0;
+		for (int index = 0; index < stringMap.length(); index++) {
+			char aChar = stringMap.charAt(index);
+			System.out.print(aChar);
+			if (aChar == 'k') {
+				g.drawImage(key, j*xDimension, i*yDimension, xDimension, yDimension, null);
+			} else if (aChar == 'X') {
+				g.drawImage(wall, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'I') {
+				g.drawImage(door, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'S') {
+				g.drawImage(null, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'O') {
+				g.drawImage(ogre, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == '*') {
+				g.drawImage(clube, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'G') {
+				g.drawImage(guard, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'A') {
+				g.drawImage(hero, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'H') {
+				g.drawImage(hero, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'K') {
+				g.drawImage(hero, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == '$') {
+				g.drawImage(key, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == '8') {
+				g.drawImage(ogre, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == '\n') {
+				i++;
+				j = -1;
+			}
+			j++;
+		}
 	}
 	public void changeImagesDimension() {
 		char mapArray[][] = game.getCurrentMap().getMap();

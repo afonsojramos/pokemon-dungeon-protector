@@ -57,9 +57,13 @@ public class GameMap {
 	 /**
 	  * percorre a matriz do mapa para extrair a informacao dos seu elementos e criar os mesmos
 	  */
-	public void readMap () {
+	public void readMap (boolean isCreationMode) {
+		if(isCreationMode) {
+			characters.clear();
+		}
 		int width = mapArray[0].length;
 		int height = mapArray.length;
+		char[][] tmpMapArray = mapArray.clone();
 		Key key = null;
 		Vector<Integer> doorX = new Vector<Integer>();
 		Vector<Integer> doorY = new Vector<Integer>();
@@ -82,7 +86,7 @@ public class GameMap {
 					characters.add(g);
 					mapArray[i][j] = ' ';
 				} else if(mapArray[i][j] == 'O') {
-					Person o = new Ogre (j, i);
+					Person o = new Ogre (j, i, tmpMapArray);
 					characters.add(o);
 					mapArray[i][j] = ' ';
 				} else if(mapArray[i][j] == '*') {
@@ -91,13 +95,12 @@ public class GameMap {
 			}
 		}
 		currentMap = new MapLevel(mapArray, key, doorX, doorY, instantaneousDoorOpen);
-		
-	}
+		}
 	
 	public void addOgreToLevel() {
 		Ogre ogre = null;
 		do {
-			ogre = new Ogre();
+			ogre = new Ogre(null);
 		}while(ogre.isInInvalidPos(mapArray));
 		
 		characters.add(ogre);
@@ -216,7 +219,7 @@ public class GameMap {
 		for (int i = 0; i < mapArray.length; i++){
 			for (int j = 0; j < mapArray[0].length; j++){
 				tmp.append(tmpArray[i][j]);
-				tmp.append(" ");
+				//tmp.append(" ");
 			}
 			tmp.append('\n');
 		}
@@ -310,6 +313,14 @@ public class GameMap {
 				((Guard)characters.get(i)).restartVariables();
 			} else if(characters.get(i) instanceof Ogre) {
 				((Ogre)characters.get(i)).restartVariables();
+			}
+		}
+	}
+	
+	public void changeMapArray(char[][] tmpMapArray) {
+		for (int i = 0; i < mapArray.length; i++) {
+			for (int j = 0; j < mapArray[0].length; j++) {
+				mapArray[i][j] = tmpMapArray[i][j];
 			}
 		}
 	}
