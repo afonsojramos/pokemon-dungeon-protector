@@ -75,6 +75,7 @@ public class Assets {
 		tree8 = sheet2.crop(xt, 3*yt, xt, yt);
 		grass = Loader.loadImage("/grass.png");
 		key = Loader.loadImage("/key.png");
+		door = Loader.loadImage("/door.png");
 	}
 	
 }
