@@ -1,4 +1,4 @@
-package dkeep.gfx;
+package dkeep.gui;
 
 import java.awt.image.BufferedImage;
 
@@ -13,7 +13,7 @@ public class Assets {
 								clubFront, clubBack, clubLeft, clubRight,
 								tree1, tree2, tree3, tree4, tree5, tree6, tree7, tree8,
 								grass, door, key;
-	private static final int xh = 24, yh = 32, xt = 88, yt = 96;
+	private static final int yh = 32, xt = 88, yt = 96;
 	public static void init(){
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/heroSprite.png"));
 		SpriteSheet sheet1 = new SpriteSheet(Loader.loadImage("/guardSprite.png"));
@@ -21,31 +21,31 @@ public class Assets {
 		SpriteSheet sheet3 = new SpriteSheet(Loader.loadImage("/ogre.png"));
 		SpriteSheet sheet4 = new SpriteSheet(Loader.loadImage("/club.png"));
 		
-		heroRightStop = sheet.crop(0 , 0 , xh, yh);
-		heroRightWalk1 = sheet.crop(xh, 0 , xh, yh);
-		heroRightWalk2 = sheet.crop(2*xh, 0 , xh, yh);
-		heroBackStop = sheet.crop(0 , yh, xh, yh);
-		heroBackWalk1 = sheet.crop(xh, yh, xh, yh);
-		heroBackWalk2 = sheet.crop(2*xh, yh, xh, yh);
-		heroFrontStop = sheet.crop(0 , 2*yh, xh, yh);
-		heroFrontWalk1 = sheet.crop(xh, 2*yh, xh, yh);
-		heroFrontWalk2 = sheet.crop(2*xh, 2*yh, xh, yh);
-		heroLeftStop = sheet.crop(0 , 3*yh, xh, yh);
-		heroLeftWalk1 = sheet.crop(xh, 3*yh, xh, yh);
-		heroLeftWalk2 = sheet.crop(2*xh, 3*yh, xh, yh);
+		heroRightStop = sheet.crop(0 , 0 , yh, yh);
+		heroRightWalk1 = sheet.crop(yh, 0 , yh, yh);
+		heroRightWalk2 = sheet.crop(2*yh, 0 , yh, yh);
+		heroBackStop = sheet.crop(0 , yh, yh, yh);
+		heroBackWalk1 = sheet.crop(yh, yh, yh, yh);
+		heroBackWalk2 = sheet.crop(2*yh, yh, yh, yh);
+		heroFrontStop = sheet.crop(0 , 2*yh, yh, yh);
+		heroFrontWalk1 = sheet.crop(yh, 2*yh, yh, yh);
+		heroFrontWalk2 = sheet.crop(2*yh, 2*yh, yh, yh);
+		heroLeftStop = sheet.crop(0 , 3*yh, yh, yh);
+		heroLeftWalk1 = sheet.crop(yh, 3*yh, yh, yh);
+		heroLeftWalk2 = sheet.crop(2*yh, 3*yh, yh, yh);
 		
-		guardBackStop = sheet1.crop(0 , 0 , xh, yh);
-		guardBackWalk1 = sheet1.crop(xh, 0 , xh, yh);
-		guardBackWalk2 = sheet1.crop(2*xh, 0 , xh, yh);
-		guardFrontStop = sheet1.crop(0 , yh, xh, yh);
-		guardFrontWalk1 = sheet1.crop(xh, yh, xh, yh);
-		guardFrontWalk2 = sheet1.crop(2*xh, yh, xh, yh);
-		guardLeftStop = sheet1.crop(0 , 2*yh, xh, yh);
-		guardLeftWalk1 = sheet1.crop(xh, 2*yh, xh, yh);
-		guardLeftWalk2 = sheet1.crop(2*xh, 2*yh, xh, yh);
-		guardRightStop = sheet1.crop(0 , 3*yh, xh, yh);
-		guardRightWalk1 = sheet1.crop(xh, 3*yh, xh, yh);
-		guardRightWalk2 = sheet1.crop(2*xh, 3*yh, xh, yh);
+		guardBackStop = sheet1.crop(0 , 0 , yh, yh);
+		guardBackWalk1 = sheet1.crop(yh, 0 , yh, yh);
+		guardBackWalk2 = sheet1.crop(2*yh, 0 , yh, yh);
+		guardFrontStop = sheet1.crop(0 , yh, yh, yh);
+		guardFrontWalk1 = sheet1.crop(yh, yh, yh, yh);
+		guardFrontWalk2 = sheet1.crop(2*yh, yh, yh, yh);
+		guardLeftStop = sheet1.crop(0 , 2*yh, yh, yh);
+		guardLeftWalk1 = sheet1.crop(yh, 2*yh, yh, yh);
+		guardLeftWalk2 = sheet1.crop(2*yh, 2*yh, yh, yh);
+		guardRightStop = sheet1.crop(0 , 3*yh, yh, yh);
+		guardRightWalk1 = sheet1.crop(yh, 3*yh, yh, yh);
+		guardRightWalk2 = sheet1.crop(2*yh, 3*yh, yh, yh);
 		
 		ogreBackStop = sheet3.crop(0 , 0 , yh, yh);
 		ogreBackWalk1 = sheet3.crop(yh, 0 , yh, yh);
@@ -76,6 +76,20 @@ public class Assets {
 		grass = Loader.loadImage("/grass.png");
 		key = Loader.loadImage("/cut.png");
 		door = Loader.loadImage("/door.png");
+	}
+	
+	public static BufferedImage getTree(int treee){
+		switch (treee){
+			case 1: return tree1;
+			case 2: return tree2;
+			case 3: return tree3;
+			case 4: return tree4;
+			case 5: return tree5;
+			case 6: return tree6;
+			case 7: return tree7;
+			case 8: return tree8;
+			default: return tree1;
+		}
 	}
 	
 }

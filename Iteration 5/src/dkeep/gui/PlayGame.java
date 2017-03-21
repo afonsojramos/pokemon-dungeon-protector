@@ -295,48 +295,51 @@ public class PlayGame {
 				currentElement = 'X';
 			}
 		});
-		btnWall.setIcon(new ImageIcon("Utils/tree.png"));
-		
+		btnWall.setIcon(new ImageIcon(Assets.tree1));
 		buttonsPanel.add(btnWall);
 		frame.validate();
 		
-		btnDoor = new JButton("New button");
+		btnDoor = new JButton();
 		btnDoor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'I';
 			}
 		});
+		btnDoor.setIcon(new ImageIcon(Assets.door));
 		buttonsPanel.add(btnDoor);
 		
-		btnKey = new JButton("New button");
+		btnKey = new JButton();
 		btnKey.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'k';
 			}
 		});
+		btnKey.setIcon(new ImageIcon(Assets.key));
 		buttonsPanel.add(btnKey);
 		
-		btnOgre = new JButton("New button");
+		btnOgre = new JButton();
 		btnOgre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'O';
 			}
 		});
+		btnOgre.setIcon(new ImageIcon(Assets.ogreFrontStop));
 		buttonsPanel.add(btnOgre);
 		
-		btnHero = new JButton("New button");
+		btnHero = new JButton();
 		btnHero.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'H';
 			}
 		});
+		btnHero.setIcon(new ImageIcon(Assets.heroFrontStop));
 		buttonsPanel.add(btnHero);
 		
-		JButton btnHeroArmed = new JButton("New button");
+		JButton btnHeroArmed = new JButton();
 		btnHeroArmed.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

@@ -3,6 +3,8 @@ package dkeep.gfx;
 import java.awt.Graphics;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.net.ssl.KeyManager;
+
 import dkeep.logic.GameMap;
 import dkeep.logic.Guard;
 import dkeep.logic.Maps;
@@ -28,7 +30,7 @@ public class GameState extends State {
 		gameMap.readMap();
 		gameMap.restartVariables();// restaurar variaveis static!!!!!
 		setGame(gameMap);
-	}
+		}
 
 	public void setGame(GameMap gameMap) {
 		this.gameMap = gameMap;
@@ -45,7 +47,7 @@ public class GameState extends State {
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				if (mapArray[i][j] == 'k') {
-					g.drawImage(Assets.key, j*xDimension+xDimension/6, i*yDimension+yDimension/6, null);
+					g.drawImage(Assets.key, j*xDimension+xDimension/4, i*yDimension+yDimension/4, xDimension/2, yDimension/2, null);
 				} else if ((mapArray[i][j] == 'X') && (first == true)) {
 					int treee = ThreadLocalRandom.current().nextInt(1, 8);
 					Trees[i][j] = treee;

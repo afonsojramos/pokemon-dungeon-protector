@@ -7,6 +7,7 @@ public class Kbd implements KeyListener{
 	
 	private boolean[] keys;
 	public boolean up, down, left, right;
+	public State GameState;
 	
 	public Kbd(){
 		keys = new boolean[256];
