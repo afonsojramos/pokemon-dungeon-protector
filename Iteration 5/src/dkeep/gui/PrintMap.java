@@ -1,23 +1,16 @@
 package dkeep.gui;
 
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
-
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import dkeep.logic.GameMap;
-import dkeep.logic.Guard;
+/*import dkeep.logic.Guard;
 import dkeep.logic.Ogre;
-import dkeep.logic.Person;
+import dkeep.logic.Person;*/
 
 public class PrintMap extends JPanel {
 
-	private BufferedImage background, wall, door, key, clube, guard, ogre, hero;
 	private GameMap game = null;
 	private int xDimension, yDimension;
 	private int[][] Trees = new int[12][12];
@@ -63,6 +56,8 @@ public class PrintMap extends JPanel {
 				g.drawImage(Assets.clubFront, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'G') {
 				g.drawImage(Assets.guardFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'g') {
+				g.drawImage(Assets.guardSleep, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'A') {
 				g.drawImage(Assets.heroFrontArmed, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'H') {

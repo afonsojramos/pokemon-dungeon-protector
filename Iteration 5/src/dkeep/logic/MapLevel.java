@@ -1,6 +1,11 @@
 package dkeep.logic;
 
+import java.io.File;
 import java.util.Vector;
+
+import dkeep.gui.PlayMusic;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
 
 public class MapLevel {
 	private char currentMap [][];
@@ -11,6 +16,7 @@ public class MapLevel {
 	private int width, height; //largura e altura do mapa de jogo
 	private Key key;
 	private boolean instantaneousDoorOpen;// se true, portas abrem-se mal se apanha a chave
+	private PlayMusic play;
 	
 	public MapLevel (char [][] currentMap, Key key, Vector<Integer> doorsX, Vector<Integer> doorsY, boolean instantaneousDoorOpen) {
 		doorsPosX = doorsX;
@@ -72,6 +78,11 @@ public class MapLevel {
 	}
 	
 	public void openDoors () {
+		@SuppressWarnings("unused")
+		JFXPanel fxPanel = new JFXPanel();
+		Media hit = new Media(new File("Utils/door.wav").toURI().toString());
+		play = new PlayMusic(hit);
+		play.playSound();
 		for (int i = 0; i < doorsPosX.size(); i++) {
 			currentMap[doorsPosY.get(i)][doorsPosX.get(i)] = 'S';
 		}

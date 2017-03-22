@@ -7,16 +7,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-//import java.awt.BorderLayout;
-//import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-//import java.awt.GridLayout;
 import javax.swing.JTextField;
-//import java.awt.GridBagLayout;
-//import java.awt.GridBagConstraints;
-//import java.awt.Insets;
 import javax.swing.SwingConstants;
-//import java.awt.FlowLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -28,10 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SpringLayout;
 import java.awt.Font;
-//import javax.swing.JProgressBar;
-
 import java.util.concurrent.ThreadLocalRandom;
-//import java.util.concurrent.TimeUnit;
 
 public class graphic extends Thread{
 
@@ -146,6 +136,7 @@ public class graphic extends Thread{
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 660, 480);

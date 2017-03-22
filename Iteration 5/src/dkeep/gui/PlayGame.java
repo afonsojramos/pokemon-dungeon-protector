@@ -12,11 +12,7 @@ import dkeep.logic.Guard;
 import dkeep.logic.Maps;
 import dkeep.logic.Guard.Personality;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 
 import javax.swing.JLabel;
 import java.awt.Component;
@@ -26,14 +22,14 @@ import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.Map;
+//import java.util.Map;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
+//import java.awt.GridBagLayout;
+//import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 
 public class PlayGame {
@@ -49,6 +45,7 @@ public class PlayGame {
 	private JButton btnKey;
 	private JButton btnOgre;
 	private JButton btnHero;
+	private JButton btnHeroArmed;
 	private JPanel buttonsPanel;
 	
 	private static GameMap game = null;
@@ -86,13 +83,6 @@ public class PlayGame {
 	public PlayGame() {
 		initialize();
 	}
-	
-	/*public void playMusic(){
-		String bip = "Utils/Music.mp3";
-		Media hit = new Media(new File(bip).toURI().toString());
-		MediaPlayer mediaPlayer = new MediaPlayer(hit);
-		mediaPlayer.play();
-	}*/
 
 	/**
 	 * Initialize the contents of the frame.
@@ -106,7 +96,7 @@ public class PlayGame {
 		JFXPanel fxPanel = new JFXPanel();
 		Media hit = new Media(new File("Utils/Music.mp3").toURI().toString());
 		play = new PlayMusic(hit);
-		play.play();
+		play.playContinuous();
 		frame.getContentPane().add(printPanel);
 		frame.requestFocusInWindow();
 		frame.addKeyListener(new KeyAdapter() {
@@ -379,13 +369,14 @@ public class PlayGame {
 		btnHero.setIcon(new ImageIcon(Assets.heroFrontStop));
 		buttonsPanel.add(btnHero);
 		
-		JButton btnHeroArmed = new JButton();
+		btnHeroArmed = new JButton();
 		btnHeroArmed.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'A';
 			}
 		});
+		btnHeroArmed.setIcon(new ImageIcon(Assets.heroFrontArmed));
 		buttonsPanel.add(btnHeroArmed);
 	
 		

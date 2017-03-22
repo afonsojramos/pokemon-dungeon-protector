@@ -1,5 +1,10 @@
 package dkeep.logic;
+import java.io.File;
 import java.util.*;
+
+import dkeep.gui.PlayMusic;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
 
 public class GameMap {
 
@@ -10,6 +15,7 @@ public class GameMap {
 	private Vector<Person> characters;
 	private boolean instantaneousDoorOpen;
 	private int new_x, new_y;
+	private PlayMusic play;
 	
 	/**
 	 * Construtor de UM nivel de jogo.
@@ -152,6 +158,11 @@ public class GameMap {
 					Ogre o = (Ogre) characters.get(i);
 					if (o.isAdjacent(hero.getX(), hero.getY(), o.getX(), o.getY())) {
 						o.stun();
+						@SuppressWarnings("unused")
+						JFXPanel fxPanel = new JFXPanel();
+						Media hit = new Media(new File("Utils/sword.wav").toURI().toString());
+						play = new PlayMusic(hit);
+						play.playSound();
 					}
 				}
 			}

@@ -6,23 +6,27 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 public class PlayMusic {
-	private MediaPlayer mediaPlayer;
+	public MediaPlayer mediaPlayer;
 	
-	PlayMusic(Media media){
+	public PlayMusic(Media media){
 		@SuppressWarnings("unused")
 		JFXPanel fxPanel = new JFXPanel();
 		
 		mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setVolume(0.20);
+	}
+	
+	public void playContinuous(){
 		mediaPlayer.setAutoPlay(true);
 		mediaPlayer.setOnEndOfMedia(new Runnable() {
 		       public void run() {
 		    	   mediaPlayer.seek(Duration.ZERO);
 		       }
 		   });
+		mediaPlayer.play();
 	}
 	
-	void play(){
+	public void playSound(){
 		mediaPlayer.play();
 	}
 }

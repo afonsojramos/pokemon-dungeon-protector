@@ -12,6 +12,7 @@ public class Play {
 	private static GameMap game = null;
 	
 	private static char askForInput() {
+		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
 		char letter = input.next().charAt(0);
 		return letter;

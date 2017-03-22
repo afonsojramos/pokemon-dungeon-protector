@@ -9,7 +9,7 @@ public class Assets {
 								heroFrontKey, heroBackKey, heroLeftKey, heroRightKey, heroFrontArmed, heroBackArmed, heroLeftArmed, heroRightArmed,
 								heroFrontKeyArmed, heroBackKeyArmed, heroLeftKeyArmed, heroRightKeyArmed,
 								guardFrontStop, guardFrontWalk1, guardFrontWalk2, guardBackStop, guardBackWalk1, guardBackWalk2,
-								guardLeftStop, guardLeftWalk1, guardLeftWalk2, guardRightStop, guardRightWalk1, guardRightWalk2,
+								guardLeftStop, guardLeftWalk1, guardLeftWalk2, guardRightStop, guardRightWalk1, guardRightWalk2, guardSleep,
 								ogreFrontStop, ogreFrontWalk1, ogreFrontWalk2, ogreBackStop, ogreBackWalk1, ogreBackWalk2,
 								ogreLeftStop, ogreLeftWalk1, ogreLeftWalk2, ogreRightStop, ogreRightWalk1, ogreRightWalk2,
 								ogreFrontKey, ogreBackKey, ogreLeftKey, ogreRightKey, ogres,
@@ -61,6 +61,7 @@ public class Assets {
 		guardRightStop = sheet1.crop(0 , 3*yh, yh, yh);
 		guardRightWalk1 = sheet1.crop(yh, 3*yh, yh, yh);
 		guardRightWalk2 = sheet1.crop(2*yh, 3*yh, yh, yh);
+		guardSleep = sheet1.crop(2*yh , yh, yh, yh);
 		
 		ogreBackStop = sheet3.crop(0 , 0 , yh, yh);
 		ogreBackWalk1 = sheet3.crop(yh, 0 , yh, yh);
