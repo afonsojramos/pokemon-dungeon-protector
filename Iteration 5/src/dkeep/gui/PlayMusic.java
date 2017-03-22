@@ -1,36 +1,22 @@
-/*package dkeep.gui;
+package dkeep.gui;
 
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class PlayMusic {
+	private MediaPlayer mediaPlayer;
 	
-	public static MediaPlayer mediaPlayer;
-	
-	public void playSound(Media media){
-		//JFXPanel fxPanel = new JFXPanel();
-	}
-	
-	public void playMusic(){
-		//JFXPanel fxPanel = new JFXPanel();
+	PlayMusic(Media media){
+		@SuppressWarnings("unused")
+		JFXPanel fxPanel = new JFXPanel();
 		
-		//Media theme = new Media(new File("/Music.mp3").ToURI().toString());
-		//Add a scene
-        Group root = new Group();
-        Scene scene = new Scene(root, 500, 200);
-
-        Media pick = new Media("Music.mp3");
-        MediaPlayer player = new MediaPlayer(pick);
-        player.play();
-
-        //Add a mediaView, to display the media. Its necessary !
-        //This mediaView is added to a Pane
-        MediaView mediaView = new MediaView(player);
-        ((Group)scene.getRoot()).getChildren().add(mediaView);
-        mediaView.setVisible(false);
+		mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.setVolume(0.20);
 	}
 	
-}*/
+	void play(){
+		mediaPlayer.play();
+	}
+	
+}

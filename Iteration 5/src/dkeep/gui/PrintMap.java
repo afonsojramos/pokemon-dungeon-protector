@@ -50,7 +50,7 @@ public class PrintMap extends JPanel {
 			char aChar = stringMap.charAt(index);
 			System.out.print(aChar);
 			if (aChar == 'k') {
-				g.drawImage(Assets.key, j*xDimension, i*yDimension, xDimension, yDimension, null);
+				g.drawImage(Assets.key, j*xDimension+14, i*yDimension+14, xDimension/2, yDimension/2, null);
 			} else if (aChar == 'X') {
 				g.drawImage(Assets.getTree(Trees[i][j]), j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'I') {

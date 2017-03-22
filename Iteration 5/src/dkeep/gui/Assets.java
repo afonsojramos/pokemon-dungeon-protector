@@ -13,7 +13,7 @@ public class Assets {
 								ogreFrontStop, ogreFrontWalk1, ogreFrontWalk2, ogreBackStop, ogreBackWalk1, ogreBackWalk2,
 								ogreLeftStop, ogreLeftWalk1, ogreLeftWalk2, ogreRightStop, ogreRightWalk1, ogreRightWalk2,
 								ogreFrontKey, ogreBackKey, ogreLeftKey, ogreRightKey, ogres,
-								clubFront, clubBack, clubLeft, clubRight,
+								clubFront, clubBack, clubLeft, clubRight, clubFrontKey, clubBackKey, clubLeftKey, clubRightKey,
 								tree1, tree2, tree3, tree4, tree5, tree6, tree7, tree8,
 								grass, door, key;
 	private static final int yh = 32, xt = 88, yt = 96;
@@ -84,6 +84,10 @@ public class Assets {
 		clubFront = sheet4.crop(0 , yh, yh, yh);
 		clubLeft = sheet4.crop(0 , 2*yh, yh, yh);
 		clubRight = sheet4.crop(0 , 3*yh, yh, yh);
+		clubBackKey = sheet4.crop(yh , 0 , yh, yh);
+		clubFrontKey = sheet4.crop(yh , yh, yh, yh);
+		clubLeftKey = sheet4.crop(yh , 2*yh, yh, yh);
+		clubRightKey = sheet4.crop(yh , 3*yh, yh, yh);
 		
 		tree1 = sheet2.crop(0, 0, xt, yt);
 		tree2 = sheet2.crop(0, yt, xt, yt);

@@ -11,6 +11,7 @@ import dkeep.logic.GameMap;
 import dkeep.logic.Guard;
 import dkeep.logic.Maps;
 import dkeep.logic.Guard.Personality;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.media.Media;
@@ -61,7 +62,7 @@ public class PlayGame {
 	private char currentElement = ' ';
 	private int xMouseMap, yMouseMap; //coodenadas do rato na tabela de jogo
 	private boolean keyUsed = false, doorUsed = false;
-	
+	private static PlayMusic play;
 	/**
 	 * Launch the application.
 	 */
@@ -72,10 +73,6 @@ public class PlayGame {
 					PlayGame window = new PlayGame();
 					window.frame.setVisible(true);
 					window.frame.setLocationRelativeTo(null);
-					/*String bip = "Utils/Music.mp3";
-					Media hit = new Media(new File(bip).toURI().toString());
-					MediaPlayer mediaPlayer = new MediaPlayer(hit);
-					mediaPlayer.play();*/
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -105,6 +102,11 @@ public class PlayGame {
 		printPanel = new PrintMap();
 		printPanel.setBounds(12, 68, 500, 500);
 		printPanel.setVisible(false);
+		@SuppressWarnings("unused")
+		JFXPanel fxPanel = new JFXPanel();
+		Media hit = new Media(new File("Utils/Music.mp3").toURI().toString());
+		play = new PlayMusic(hit);
+		play.play();
 		frame.getContentPane().add(printPanel);
 		frame.requestFocusInWindow();
 		frame.addKeyListener(new KeyAdapter() {
