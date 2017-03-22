@@ -12,7 +12,7 @@ public class Assets {
 								guardLeftStop, guardLeftWalk1, guardLeftWalk2, guardRightStop, guardRightWalk1, guardRightWalk2, guardSleep,
 								ogreFrontStop, ogreFrontWalk1, ogreFrontWalk2, ogreBackStop, ogreBackWalk1, ogreBackWalk2,
 								ogreLeftStop, ogreLeftWalk1, ogreLeftWalk2, ogreRightStop, ogreRightWalk1, ogreRightWalk2,
-								ogreFrontKey, ogreBackKey, ogreLeftKey, ogreRightKey, ogres,
+								ogreFrontKey, ogreBackKey, ogreLeftKey, ogreRightKey, ogreStun, ogres,
 								clubFront, clubBack, clubLeft, clubRight, clubFrontKey, clubBackKey, clubLeftKey, clubRightKey,
 								tree1, tree2, tree3, tree4, tree5, tree6, tree7, tree8,
 								grass, door, key, pokemon;
@@ -79,7 +79,8 @@ public class Assets {
 		ogreFrontKey = sheet3.crop(3*yh , yh, yh, yh);
 		ogreLeftKey = sheet3.crop(3*yh , 2*yh, yh, yh);
 		ogreRightKey = sheet3.crop(3*yh , 3*yh, yh, yh);
-		ogres = sheet3.crop(4*yh , 3*yh, yh, yh);
+		ogreStun = sheet3.crop(4*yh , yh, yh, yh);
+		ogres = sheet3.crop(4*yh , 0, yh, yh);
 		
 		clubBack = sheet4.crop(0 , 0 , yh, yh);
 		clubFront = sheet4.crop(0 , yh, yh, yh);

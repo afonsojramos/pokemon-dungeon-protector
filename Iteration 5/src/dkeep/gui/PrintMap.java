@@ -67,7 +67,7 @@ public class PrintMap extends JPanel {
 			} else if (aChar == '$') {
 				g.drawImage(Assets.ogreFrontKey, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == '8') {
-				g.drawImage(Assets.ogres, j*xDimension, i*yDimension, xDimension, yDimension,null);
+				g.drawImage(Assets.ogreStun, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == '\n') {
 				i++;
 				j = -1;
