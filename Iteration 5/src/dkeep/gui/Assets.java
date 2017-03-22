@@ -15,7 +15,7 @@ public class Assets {
 								ogreFrontKey, ogreBackKey, ogreLeftKey, ogreRightKey, ogres,
 								clubFront, clubBack, clubLeft, clubRight, clubFrontKey, clubBackKey, clubLeftKey, clubRightKey,
 								tree1, tree2, tree3, tree4, tree5, tree6, tree7, tree8,
-								grass, door, key;
+								grass, door, key, pokemon;
 	private static final int yh = 32, xt = 88, yt = 96;
 	public static void init(){
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/heroSprite.png"));
@@ -100,6 +100,7 @@ public class Assets {
 		grass = Loader.loadImage("/grass.png");
 		key = Loader.loadImage("/cut.png");
 		door = Loader.loadImage("/door.png");
+		pokemon = Loader.loadImage("/Pokemon.png");
 	}
 	
 	public static BufferedImage getTree(int treee){

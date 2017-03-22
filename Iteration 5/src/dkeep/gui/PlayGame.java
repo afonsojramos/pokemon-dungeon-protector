@@ -98,7 +98,7 @@ public class PlayGame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Dungeon Protector");
 		printPanel = new PrintMap();
 		printPanel.setBounds(12, 68, 500, 500);
 		printPanel.setVisible(false);
