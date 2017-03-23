@@ -119,8 +119,7 @@ public class Maps implements java.io.Serializable{
 		if (x == 0 || x == (width - 1) || y == 0 || y == (height - 1)) {
 			return false;
 		}
-		if (mapArray[y][x - 1] == 'X' && mapArray[y][x + 1] == 'X' && mapArray[y - 1][x] == 'X'
-				&& mapArray[y + 1][x] == 'X') {
+		if (mapArray[y][x - 1] == 'X' && mapArray[y][x + 1] == 'X' && mapArray[y - 1][x] == 'X' && mapArray[y + 1][x] == 'X') {
 			System.out.println("nao pode apagar arvore");
 			return false;
 		}

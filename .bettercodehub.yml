@@ -4,6 +4,6 @@ exclude:
 - /Iteration 2/src/dkeep/.*
 - /Iteration 3/src/dkeep/.*
 - /Iteration 5 V2/src/dkeep/.*
-component_depth: 1
+component_depth: 4
 languages:
 - java
