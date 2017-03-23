@@ -47,62 +47,72 @@ public class Guard extends Person implements java.io.Serializable{
 		prevY = this.y;
 		switch (personality) {
 		case Rookie:
-			this.x = pathX[it];
-			this.y = pathY[it];
-			it++;
-			it = it % 24;
+			rookiePath();
 			break;
 		case Drunken:
-			if (timeAwake > 0) {
-				timeAwake--;
-				if (direction) {
-					it++;
-				} else {
-					if (it == 0) {
-						it = 23;
-					} else {
-						it--;
-					}
-				}
-				it = it % 24;
-				this.x = pathX[it];
-				this.y = pathY[it];
-			} else {
-				this.setCh('g');
-				if (timeSleep == 0) {
-					direction = (ThreadLocalRandom.current().nextInt(0, 2) == 0) ? false : true;
-					this.setCh('G');
-					timeSleep = ThreadLocalRandom.current().nextInt(2, 7);
-					timeAwake = ThreadLocalRandom.current().nextInt(1, 7);
-				}
-				timeSleep--;
-			}
+			drunkenPath();
 			break;
 		case Suspicious:
-			// timeAwake = sentido certo ; timeSleep = sentido contrario
-			if (timeAwake > 0) {
-				timeAwake--;
-				it++;
-			} else {
-				timeSleep--;
-				if (it == 0) {
-					it = 23;
-				} else {
-					it--;
-				}
-				if (timeSleep == 0) {
-					timeSleep = ThreadLocalRandom.current().nextInt(2, 7);
-					timeAwake = ThreadLocalRandom.current().nextInt(1, 7);
-				}
-			}
-			it = it % 24;
-			this.x = pathX[it];
-			this.y = pathY[it];
+			suspiciousPath();
 			break;
 		case Obedient:
 			break;
 		}
 		currentMap.setPosUsed(x, y);
+	}
+	
+	public void rookiePath(){
+		this.x = pathX[it];
+		this.y = pathY[it];
+		it++;
+		it = it % 24;
+	}
+	
+	public void drunkenPath(){
+		if (timeAwake > 0) {
+			timeAwake--;
+			if (direction) {
+				it++;
+			} else {
+				if (it == 0) {
+					it = 23;
+				} else {
+					it--;
+				}
+			}
+			it = it % 24;
+			this.x = pathX[it];
+			this.y = pathY[it];
+		} else {
+			this.setCh('g');
+			if (timeSleep == 0) {
+				direction = (ThreadLocalRandom.current().nextInt(0, 2) == 0) ? false : true;
+				this.setCh('G');
+				timeSleep = ThreadLocalRandom.current().nextInt(2, 7);
+				timeAwake = ThreadLocalRandom.current().nextInt(1, 7);
+			}
+			timeSleep--;
+		}
+	}
+	
+	public void suspiciousPath(){
+		// timeAwake = sentido certo ; timeSleep = sentido contrario
+		if (timeAwake > 0) {
+			timeAwake--;
+			it++;
+		} else {
+			timeSleep--;
+			if (it == 0) {
+				it = 23;
+			} else {
+				it--;}
+			if (timeSleep == 0) {
+				timeSleep = ThreadLocalRandom.current().nextInt(2, 7);
+				timeAwake = ThreadLocalRandom.current().nextInt(1, 7);}
+		}
+		it = it % 24;
+		this.x = pathX[it];
+		this.y = pathY[it];
 	}
 
 	public void setPersonality (Personality p) {

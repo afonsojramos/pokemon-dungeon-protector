@@ -248,26 +248,6 @@ public class PlayGame {
 							updateGraphics();
 						}
 						break;
-					case KeyEvent.VK_A:
-						if (game.startGame('a')) {
-							updateGraphics();
-						}
-						break;
-					case KeyEvent.VK_D:
-						if (game.startGame('d')) {
-							updateGraphics();
-						}
-						break;
-					case KeyEvent.VK_W:
-						if (game.startGame('w')) {
-							updateGraphics();
-						}
-						break;
-					case KeyEvent.VK_S:
-						if (game.startGame('s')) {
-							updateGraphics();
-						}
-						break;
 					}
 				}
 			}
@@ -378,35 +358,39 @@ public class PlayGame {
 		});
 	}
 	
+	public void saver(String s){
+		try {
+	         FileOutputStream fileOut =
+	         new FileOutputStream("Utils/"+s+".txt");
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         out.writeObject(game);
+	         out.close();
+	         fileOut.close();
+	         FileOutputStream fileOut2 =
+			         new FileOutputStream("Utils/"+s+"MAPSLevel.txt");
+	         ObjectOutputStream out2 = new ObjectOutputStream(fileOut2);
+	         out2.writeObject(Maps.getCurrentLevel());
+	         out2.close();
+	         fileOut2.close();
+	         FileOutputStream fileOut3 =
+			         new FileOutputStream("Utils/"+s+"MAPSFinalLevel.txt");
+	         ObjectOutputStream out3 = new ObjectOutputStream(fileOut3);
+	         out3.writeObject(Maps.getFinalLevel());
+	         out3.close();
+	         fileOut3.close();
+	         System.out.printf("Serialized data is saved!");
+	      }catch(IOException i) {
+	         i.printStackTrace();
+	      }
+	}
+	
 	public void saveGameListener() {
 		lblSaveGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				String s = (String) JOptionPane.showInputDialog(frame, "Name of the file:", "Options",
 						JOptionPane.PLAIN_MESSAGE, null, null, null);
-				try {
-			         FileOutputStream fileOut =
-			         new FileOutputStream("Utils/"+s+".txt");
-			         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			         out.writeObject(game);
-			         out.close();
-			         fileOut.close();
-			         FileOutputStream fileOut2 =
-					         new FileOutputStream("Utils/"+s+"MAPSLevel.txt");
-			         ObjectOutputStream out2 = new ObjectOutputStream(fileOut2);
-			         out2.writeObject(Maps.getCurrentLevel());
-			         out2.close();
-			         fileOut2.close();
-			         FileOutputStream fileOut3 =
-					         new FileOutputStream("Utils/"+s+"MAPSFinalLevel.txt");
-			         ObjectOutputStream out3 = new ObjectOutputStream(fileOut3);
-			         out3.writeObject(Maps.getFinalLevel());
-			         out3.close();
-			         fileOut3.close();
-			         System.out.printf("Serialized data is saved!");
-			      }catch(IOException i) {
-			         i.printStackTrace();
-			      }
+				saver(s);
 			}
 
 			@Override
@@ -421,38 +405,42 @@ public class PlayGame {
 		});
 	}
 	
+	public void loader(String s){
+		try {
+	         FileInputStream fileIn = new FileInputStream("Utils/"+s+".txt");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         game = (GameMap) in.readObject();
+	         in.close();
+	         fileIn.close();
+	         FileInputStream fileIn2 = new FileInputStream("Utils/"+s+"MAPSLevel.txt");
+	         ObjectInputStream in2 = new ObjectInputStream(fileIn2);
+	         level = (int) in2.readObject();
+	         System.out.println("level: "+level);
+	         in2.close();
+	         fileIn2.close();
+	         FileInputStream fileIn3 = new FileInputStream("Utils/"+s+"MAPSFinalLevel.txt");
+	         ObjectInputStream in3 = new ObjectInputStream(fileIn3);
+	         finalLevel = (int) in3.readObject();
+	         System.out.println("final level: "+finalLevel);
+	         in3.close();
+	         fileIn3.close();
+	      }catch(IOException i) {
+	         i.printStackTrace();
+	         return;
+	      }catch(ClassNotFoundException c) {
+	         System.out.println("GameMap class not found");
+	         c.printStackTrace();
+	         return;
+	      }
+	}
+	
 	public void loadGameListener() {
 		lblLoadGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				String s = (String) JOptionPane.showInputDialog(frame, "Name of the file:", "Options",
 						JOptionPane.PLAIN_MESSAGE, null, null, null);
-				try {
-			         FileInputStream fileIn = new FileInputStream("Utils/"+s+".txt");
-			         ObjectInputStream in = new ObjectInputStream(fileIn);
-			         game = (GameMap) in.readObject();
-			         in.close();
-			         fileIn.close();
-			         FileInputStream fileIn2 = new FileInputStream("Utils/"+s+"MAPSLevel.txt");
-			         ObjectInputStream in2 = new ObjectInputStream(fileIn2);
-			         level = (int) in2.readObject();
-			         System.out.println("level: "+level);
-			         in2.close();
-			         fileIn2.close();
-			         FileInputStream fileIn3 = new FileInputStream("Utils/"+s+"MAPSFinalLevel.txt");
-			         ObjectInputStream in3 = new ObjectInputStream(fileIn3);
-			         finalLevel = (int) in3.readObject();
-			         System.out.println("final level: "+finalLevel);
-			         in3.close();
-			         fileIn3.close();
-			      }catch(IOException i) {
-			         i.printStackTrace();
-			         return;
-			      }catch(ClassNotFoundException c) {
-			         System.out.println("GameMap class not found");
-			         c.printStackTrace();
-			         return;
-				}
+				loader(s);
 				setupGame();
 				gameStarted = true;
 			}

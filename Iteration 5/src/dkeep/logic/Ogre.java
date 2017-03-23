@@ -47,62 +47,76 @@ public class Ogre extends Person implements java.io.Serializable{
 	public void doStep(MapLevel currentMap, int xHero, int yHero) {
 		if (!this.isStuned()) { // is not stuned
 			boolean possibleMove = false;
-			do {
-				int randomNum = rand.nextInt(4); // random entre [min, max] : int randomNum = rand.nextInt((max - min) + 1) + min;
+			do {int randomNum = rand.nextInt(4); // random entre [min, max] : int randomNum = rand.nextInt((max - min) + 1) + min;
 				switch (randomNum) {
 				case 0: // Ogre anda para cima
-					
-					if ((currentMap.isAboveWall(x, y - 1)) || (currentMap.isOnTheDoor(x, y - 1))) {
-						possibleMove = false;
-					} else {
-						prevY = y;
-						y--;
-						currentMap.setPosUsed(x, y);
-						Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
-						possibleMove = true;
-					}
+					possibleMove = ogreUp(currentMap, xHero, yHero);
 					break;
 				case 1: // Ogre anda para baixo
-					if ((currentMap.isAboveWall(x, y + 1)) || (currentMap.isOnTheDoor(x, y + 1))) {
-						possibleMove = false;
-					} else {
-						prevY = y;
-						y++;
-						currentMap.setPosUsed(x, y);
-						Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
-						possibleMove = true;
-					}
+					possibleMove = ogreDown(currentMap, xHero, yHero);
 					break;
 				case 2: // Ogre anda para a esquerda
-					if ((currentMap.isAboveWall(x - 1, y)) || (currentMap.isOnTheDoor(x - 1, y))) {
-						possibleMove = false;
-					} else {
-						prevX = x;
-						x--;
-						currentMap.setPosUsed(x, y);
-						Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
-						possibleMove = true;
-					}
+					possibleMove = ogreLeft(currentMap, xHero, yHero);
 					break;
 				case 3: // Ogre anda para a direita
-					if ((currentMap.isAboveWall(x + 1, y)) || (currentMap.isOnTheDoor(x + 1, y))) {
-						possibleMove = false;
-					} else {
-						prevX = x;
-						x++;
-						currentMap.setPosUsed(x, y);
-						Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
-						possibleMove = true;
-					}
+					possibleMove = ogreRight(currentMap, xHero, yHero);
 					break;
 				}
 			} while (!possibleMove);
 		} else {// is stuned; don't move
 			currentMap.setPosUsed(x, y);
 			this.lessStuned();
-			return;
-		}
+			return;	
+			}
 		club.move(currentMap, x, y);
+	}
+	
+	public boolean ogreUp(MapLevel currentMap, int xHero, int yHero){
+		if ((currentMap.isAboveWall(x, y - 1)) || (currentMap.isOnTheDoor(x, y - 1))) {
+			return false;
+		} else {
+			prevY = y;
+			y--;
+			currentMap.setPosUsed(x, y);
+			Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
+			return true;
+		}
+	}
+	
+	public boolean ogreDown(MapLevel currentMap, int xHero, int yHero){
+		if ((currentMap.isAboveWall(x, y + 1)) || (currentMap.isOnTheDoor(x, y + 1))) {
+			return false;
+		} else {
+			prevY = y;
+			y++;
+			currentMap.setPosUsed(x, y);
+			Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
+			return true;
+		}
+	}
+	
+	public boolean ogreRight(MapLevel currentMap, int xHero, int yHero){
+		if ((currentMap.isAboveWall(x + 1, y)) || (currentMap.isOnTheDoor(x + 1, y))) {
+			return false;
+		} else {
+			prevX = x;
+			x++;
+			currentMap.setPosUsed(x, y);
+			Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
+			return true;
+		}
+	}
+	
+	public boolean ogreLeft(MapLevel currentMap, int xHero, int yHero){
+		if ((currentMap.isAboveWall(x - 1, y)) || (currentMap.isOnTheDoor(x - 1, y))) {
+			return false;
+		} else {
+			prevX = x;
+			x--;
+			currentMap.setPosUsed(x, y);
+			Ch = currentMap.isAboveKey(x, y) ? '$' : 'O';
+			return true;
+		}
 	}
 
 	public boolean isAdjacent(int x1, int y1, int x2, int y2) {

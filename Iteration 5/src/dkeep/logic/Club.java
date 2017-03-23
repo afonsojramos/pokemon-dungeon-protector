@@ -34,48 +34,64 @@ public class Club implements java.io.Serializable{
 			int randomNum2 = rand.nextInt(4); // random entre [min, max] : int randomNum = rand.nextInt((max - min) + 1) + min;
 			switch (randomNum2) {
 			case 0: // Taco apontado para cima
-				if ((currentMap.isAboveWall(xOgre, yOgre - 1)) || (currentMap.isOnTheDoor(xOgre, yOgre - 1))) {
-					possibleMove = false;
-				}else {
-					prevX = x; prevY = y;
-					x = xOgre; y = yOgre - 1;
-					Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
-					possibleMove = true;
-				}
+				possibleMove = clubUp(currentMap, xOgre, yOgre);
 				break;
 			case 1: // Taco apontado para baixo
-				if ((currentMap.isAboveWall(xOgre, yOgre + 1)) || (currentMap.isOnTheDoor(xOgre, yOgre + 1))) {
-					possibleMove = false;
-				} else {
-					prevX = x; prevY = y;
-					x = xOgre; y = yOgre + 1;
-					Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
-					possibleMove = true;
-				}
+				possibleMove = clubDown(currentMap, xOgre, yOgre);
 				break;
 			case 2: // Taco apontado para a esquerda
-				if ((currentMap.isAboveWall(xOgre - 1, yOgre)) || (currentMap.isOnTheDoor(xOgre - 1, yOgre))) {
-					possibleMove = false;
-				} else {
-					prevX = x; prevY = y;
-					x = xOgre - 1; y = yOgre;
-					Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
-					possibleMove = true;
-				}
+				possibleMove = clubLeft(currentMap, xOgre, yOgre);
 				break;
 			case 3: // Taco apontado para a direita
-				if ((currentMap.isAboveWall(xOgre + 1, yOgre)) || (currentMap.isOnTheDoor(xOgre + 1, yOgre))) {
-					possibleMove = false;
-				}else {
-					prevX = x; prevY = y;
-					x = xOgre + 1; y = yOgre;
-					Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
-					possibleMove = true;
-				}
+				possibleMove = clubRight(currentMap, xOgre, yOgre);
 				break;
 			default:
 					break;
 			}
 		} while (!possibleMove);
+	}
+	
+	public boolean clubDown(MapLevel currentMap, int xOgre, int yOgre){
+		if ((currentMap.isAboveWall(xOgre, yOgre + 1)) || (currentMap.isOnTheDoor(xOgre, yOgre + 1))) {
+			return false;
+		} else {
+			prevX = x; prevY = y;
+			x = xOgre; y = yOgre + 1;
+			Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
+			return true;
+		}
+	}
+	
+	public boolean clubLeft(MapLevel currentMap, int xOgre, int yOgre){
+		if ((currentMap.isAboveWall(xOgre - 1, yOgre)) || (currentMap.isOnTheDoor(xOgre - 1, yOgre))) {
+			return false;
+		} else {
+			prevX = x; prevY = y;
+			x = xOgre - 1; y = yOgre;
+			Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
+			return true;
+		}
+	}
+	
+	public boolean clubRight(MapLevel currentMap, int xOgre, int yOgre){
+		if ((currentMap.isAboveWall(xOgre + 1, yOgre)) || (currentMap.isOnTheDoor(xOgre + 1, yOgre))) {
+			return false;
+		}else {
+			prevX = x; prevY = y;
+			x = xOgre + 1; y = yOgre;
+			Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
+			return true;
+		}
+	}
+	
+	public boolean clubUp(MapLevel currentMap, int xOgre, int yOgre){
+		if ((currentMap.isAboveWall(xOgre, yOgre - 1)) || (currentMap.isOnTheDoor(xOgre, yOgre - 1))) {
+			return false;
+		}else {
+			prevX = x; prevY = y;
+			x = xOgre; y = yOgre - 1;
+			Ch = currentMap.isAboveKey(x, y) ? '$' : '*';
+			return true;
+		}
 	}
 }
