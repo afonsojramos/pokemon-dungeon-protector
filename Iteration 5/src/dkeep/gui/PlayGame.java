@@ -40,13 +40,14 @@ public class PlayGame {
 	private JLabel lblNumberOfOgres;
 	private JLabel lblGuardPersonality;
 	private JLabel lblCreateMap;
+	private JPanel buttonsPanel;
+	private JButton btnStartGame;
 	private JButton btnWall;
 	private JButton btnDoor;
 	private JButton btnKey;
 	private JButton btnOgre;
 	private JButton btnHero;
 	private JButton btnHeroArmed;
-	private JPanel buttonsPanel;
 	
 	private static GameMap game = null;
 	private int level = 1;
@@ -60,6 +61,7 @@ public class PlayGame {
 	private int xMouseMap, yMouseMap; //coodenadas do rato na tabela de jogo
 	private boolean keyUsed = false, doorUsed = false;
 	private static PlayMusic play;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -89,16 +91,123 @@ public class PlayGame {
 	 */
 	private void initialize() {
 		frame = new JFrame("Dungeon Protector");
+		frame.setBounds(100, 100, 800, 800);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		frameListeners();
+		
+		setMusic();
+		
 		printPanel = new PrintMap();
 		printPanel.setBounds(12, 68, 500, 500);
 		printPanel.setVisible(false);
+		frame.getContentPane().add(printPanel);
+		frame.requestFocusInWindow();
+		
+		createMenu();
+		createButtons();
+		labelListeners();
+		buttonsListeners();
+	}
+
+	public void updateGraphics() {
+		game.update();
+		printPanel.repaint();
+		if (game.isEndOfGame()) {
+			if (game.isVictory()) {
+				level++;
+				if (level > finalLevel) { // acabou o jogo e ganhou
+					game = null;
+					gameStarted = false;
+				} else { // proximo nivel
+					char[][] tempMap = Maps.getMap(level);
+					game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
+					game.readMap(false);
+					printPanel.setGame(game);
+					printPanel.repaint();
+				}
+			} else { // perdeu o jogo
+				game = null;
+				gameStarted = false;
+			}
+		}
+	}
+
+	public void convertCoordinates(int x, int y) {
+		//coordenadas origem do mapa/painel: x = 12 ; y = 68
+		char mapArray[][] = game.getCurrentMap().getMap();
+		int width = mapArray[0].length;
+		int height = mapArray.length;
+		
+		xMouseMap = (x-21)/(500/width);
+		yMouseMap = (y-146)/(500/height);
+	}
+	
+	public void setMusic() {
 		@SuppressWarnings("unused")
 		JFXPanel fxPanel = new JFXPanel();
 		Media hit = new Media(new File("Utils/Music.mp3").toURI().toString());
 		play = new PlayMusic(hit);
 		play.playContinuous();
-		frame.getContentPane().add(printPanel);
-		frame.requestFocusInWindow();
+	}
+	
+	public void createMenu() {
+		menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		lblNumberOfOgres = new JLabel("Number of Ogres");
+		lblNumberOfOgres.setFont(new Font("AR DARLING", Font.PLAIN, 30));
+		menuBar.add(lblNumberOfOgres);
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		menuBar.add(horizontalStrut);
+		lblGuardPersonality = new JLabel("Guard Personality");
+		lblGuardPersonality.setFont(new Font("AR DARLING", Font.PLAIN, 30));
+		menuBar.add(lblGuardPersonality);
+		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+		menuBar.add(horizontalStrut_1);
+		lblCreateMap = new JLabel("Create Map");
+		lblCreateMap.setFont(new Font("AR DARLING", Font.PLAIN, 30));
+		menuBar.add(lblCreateMap);
+	}
+	
+	public void createButtons() {
+		btnStartGame = new JButton("Start Game");
+		btnStartGame.setBounds(635, 656, 135, 43);
+		frame.getContentPane().add(btnStartGame);
+	
+		buttonsPanel = new JPanel();
+		buttonsPanel.setBounds(558, 68, 212, 500);
+		frame.getContentPane().add(buttonsPanel);
+		buttonsPanel.setLayout(new GridLayout(3, 2));
+		buttonsPanel.setVisible(false);
+		
+		btnWall = new JButton();
+		btnWall.setIcon(new ImageIcon(Assets.tree1));
+		buttonsPanel.add(btnWall);
+		frame.validate();
+		
+		btnDoor = new JButton();
+		btnDoor.setIcon(new ImageIcon(Assets.door));
+		buttonsPanel.add(btnDoor);
+		
+		btnKey = new JButton();
+		btnKey.setIcon(new ImageIcon(Assets.key));
+		buttonsPanel.add(btnKey);
+		
+		btnOgre = new JButton();
+		btnOgre.setIcon(new ImageIcon(Assets.ogreFrontStop));
+		buttonsPanel.add(btnOgre);
+		
+		btnHero = new JButton();
+		btnHero.setIcon(new ImageIcon(Assets.heroFrontStop));
+		buttonsPanel.add(btnHero);
+		
+		btnHeroArmed = new JButton();
+		btnHeroArmed.setIcon(new ImageIcon(Assets.heroFrontArmed));
+		buttonsPanel.add(btnHeroArmed);
+	}
+	
+	public void frameListeners() {
+		//KEYBOARD
 		frame.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -148,14 +257,16 @@ public class PlayGame {
 				}
 			}
 		});
+	
+		//MOUSE
 		frame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(creationMode) {
-					System.out.println("entrou!");
+					/*System.out.println("entrou!");
 					System.out.println("x: "+ xMouseMap+" y: "+yMouseMap);
 					System.out.println("xScreen: "+ arg0.getX()+" yScreen: "+arg0.getY());
-					System.out.println(currentElement);
+					System.out.println(currentElement);*/
 					if(arg0.getX() >= 21 && arg0.getX() <= 521 && arg0.getY() >= 146 && arg0.getY() <= 646) { 
 					convertCoordinates(arg0.getX(), arg0.getY());
 					boolean result = Maps.changeNewMap(xMouseMap, yMouseMap, currentElement);
@@ -168,76 +279,58 @@ public class PlayGame {
 					game.changeMapArray(Maps.getMap(level));
 					game.readMap(true);
 					printPanel.repaint();
-					System.out.println("cagou");
-					}
-					
+					//System.out.println("cagou");
+					}	
 				}
 			}
 		});
-		
-		frame.setBounds(100, 100, 800, 800);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
-		
-		lblNumberOfOgres = new JLabel("Number of Ogres");
+	}
+
+	public void labelListeners() {
+		// NUMBER OF OGRES
 		lblNumberOfOgres.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				String[] possibilities = {"1","2","3","4","5"};
-				String s = (String)JOptionPane.showInputDialog(frame, "Number of Ogres:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilities,null);
-				if (s==null) {
-					nOgres = 1;
-				}
-				else{
-					nOgres = Integer.parseInt(s);
-				}
-				
+				String[] possibilities = { "1", "2", "3", "4", "5" };
+				String s = (String) JOptionPane.showInputDialog(frame, "Number of Ogres:", "Options",
+						JOptionPane.PLAIN_MESSAGE, null, possibilities, null);
+				nOgres = s == null ? 1 : Integer.parseInt(s);
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblNumberOfOgres.setForeground(new Color(102, 205, 170));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				lblNumberOfOgres.setForeground(new Color(0, 0, 0));
 			}
 		});
-		lblNumberOfOgres.setFont(new Font("AR DARLING", Font.PLAIN, 30));
-		menuBar.add(lblNumberOfOgres);
 		
-		Component horizontalStrut = Box.createHorizontalStrut(20);
-		menuBar.add(horizontalStrut);
-		
-		lblGuardPersonality = new JLabel("Guard Personality");
+		// GUARD PERSONALITY
 		lblGuardPersonality.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String[] possibilities = {"Rookie", "Drunken", "Suspicious", "Obedient"};
-				String s = (String)JOptionPane.showInputDialog(frame, "Guard personality", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilities, "Rookie");
-				if((s != null) && (s.length() > 0)) {
-					guardPersonality = Personality.valueOf(s);
-				} else {
-					guardPersonality = Personality.valueOf("Rookie");
-				}
+				String[] possibilities = { "Rookie", "Drunken", "Suspicious", "Obedient" };
+				String s = (String) JOptionPane.showInputDialog(frame, "Guard personality", "Options",
+						JOptionPane.PLAIN_MESSAGE, null, possibilities, "Rookie");
+				guardPersonality = ((s != null) && (s.length() > 0)) ? Personality.valueOf(s)
+						: Personality.valueOf("Rookie");
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblGuardPersonality.setForeground(new Color(32, 178, 170));
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				lblGuardPersonality.setForeground(new Color(0, 0, 0));
 			}
 		});
-		lblGuardPersonality.setFont(new Font("AR DARLING", Font.PLAIN, 30));
-		menuBar.add(lblGuardPersonality);
-		
-		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-		menuBar.add(horizontalStrut_1);
-		
-		lblCreateMap = new JLabel("Create Map");
+	
+		//CREATE MAP OPTION
 		lblCreateMap.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -273,15 +366,13 @@ public class PlayGame {
 				lblCreateMap.setForeground(new Color(0, 0, 0));
 			}
 		});
-		lblCreateMap.setFont(new Font("AR DARLING", Font.PLAIN, 30));
-		menuBar.add(lblCreateMap);
-		frame.getContentPane().setLayout(null);
-		
-		JButton btnStartGame = new JButton("Start Game");
+	}
+	
+	public void buttonsListeners() {
+		//START GAME 
 		btnStartGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				gameStarted = true;
 				if(!creationMode) {
 				level = 1;
 				} else {
@@ -289,6 +380,7 @@ public class PlayGame {
 						return;
 					}
 				}
+				gameStarted = true;
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
 				game.readMap(false);
@@ -310,37 +402,24 @@ public class PlayGame {
 				
 			}
 		});
-		btnStartGame.setBounds(635, 656, 135, 43);
-		frame.getContentPane().add(btnStartGame);
-		
-		buttonsPanel = new JPanel();
-		buttonsPanel.setBounds(558, 68, 212, 500);
-		frame.getContentPane().add(buttonsPanel);
-		buttonsPanel.setLayout(new GridLayout(3, 2));
-		buttonsPanel.setVisible(false);
-		
-		btnWall = new JButton();
+	
+		//WALL BUTTON
 		btnWall.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'X';
 			}
 		});
-		btnWall.setIcon(new ImageIcon(Assets.tree1));
-		buttonsPanel.add(btnWall);
-		frame.validate();
-		
-		btnDoor = new JButton();
+	
+		//DOOR BUTTON
 		btnDoor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'I';
 			}
 		});
-		btnDoor.setIcon(new ImageIcon(Assets.door));
-		buttonsPanel.add(btnDoor);
-		
-		btnKey = new JButton();
+	
+		//KEY BUTTON
 		btnKey.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -349,71 +428,29 @@ public class PlayGame {
 				}
 			}
 		});
-		btnKey.setIcon(new ImageIcon(Assets.key));
-		buttonsPanel.add(btnKey);
-		
-		btnOgre = new JButton();
+	
+		//OGRE BUTTON
 		btnOgre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'O';
 			}
 		});
-		btnOgre.setIcon(new ImageIcon(Assets.ogreFrontStop));
-		buttonsPanel.add(btnOgre);
-		
-		btnHero = new JButton();
+	
+		//HERO BUTTON
 		btnHero.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'H';
 			}
 		});
-		btnHero.setIcon(new ImageIcon(Assets.heroFrontStop));
-		buttonsPanel.add(btnHero);
-		
-		btnHeroArmed = new JButton();
+	
+		//HERO ARMED BUTTON
 		btnHeroArmed.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'A';
 			}
 		});
-		btnHeroArmed.setIcon(new ImageIcon(Assets.heroFrontArmed));
-		buttonsPanel.add(btnHeroArmed);
-	
-		
-	}
-
-	public void updateGraphics() {
-		game.update();
-		printPanel.repaint();
-		if (game.isEndOfGame()) {
-			if (game.isVictory()) {
-				level++;
-				if (level > finalLevel) { // acabou o jogo e ganhou
-					game = null;
-					gameStarted = false;
-				} else { // proximo nivel
-					char[][] tempMap = Maps.getMap(level);
-					game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
-					game.readMap(false);
-					printPanel.setGame(game);
-					printPanel.repaint();
-				}
-			} else { // perdeu o jogo
-				game = null;
-				gameStarted = false;
-			}	
-		}
-		}
-	public void convertCoordinates(int x, int y) {
-		//coordenadas origem do mapa/painel: x = 12 ; y = 68
-		char mapArray[][] = game.getCurrentMap().getMap();
-		int width = mapArray[0].length;
-		int height = mapArray.length;
-		
-		xMouseMap = (x-21)/(500/width);
-		yMouseMap = (y-146)/(500/height);
 	}
 }

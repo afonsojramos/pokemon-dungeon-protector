@@ -1,9 +1,11 @@
 package dkeep.gui;
 
 import java.awt.image.BufferedImage;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Assets {
-	
+	private static final int yh = 32, xt = 88, yt = 96;
+	private static int[][] Trees = new int[12][12];
 	public static BufferedImage heroFrontStop, heroFrontWalk1, heroFrontWalk2, heroBackStop, heroBackWalk1, heroBackWalk2, 
 								heroLeftStop, heroLeftWalk1, heroLeftWalk2, heroRightStop, heroRightWalk1, heroRightWalk2,
 								heroFrontKey, heroBackKey, heroLeftKey, heroRightKey, heroFrontArmed, heroBackArmed, heroLeftArmed, heroRightArmed,
@@ -16,8 +18,14 @@ public class Assets {
 								clubFront, clubBack, clubLeft, clubRight, clubFrontKey, clubBackKey, clubLeftKey, clubRightKey,
 								tree1, tree2, tree3, tree4, tree5, tree6, tree7, tree8,
 								grass, door, key, pokemon;
-	private static final int yh = 32, xt = 88, yt = 96;
+	
 	public static void init(){
+		
+		for (int i = 0 ; i < Trees.length ; i++){
+			for (int j = 0 ; j < Trees[0].length ; j++){
+				Trees[i][j] = ThreadLocalRandom.current().nextInt(1, 8);
+			}
+		}
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/heroSprite.png"));
 		SpriteSheet sheet1 = new SpriteSheet(Loader.loadImage("/guardSprite.png"));
 		SpriteSheet sheet2 = new SpriteSheet(Loader.loadImage("/treeSprite.png"));
@@ -105,8 +113,8 @@ public class Assets {
 		pokemon = Loader.loadImage("/Pokemon.png");
 	}
 	
-	public static BufferedImage getTree(int treee){
-		switch (treee){
+	public static BufferedImage getTree(int x, int y){
+		switch (Trees[y][x]){
 			case 1: return tree1;
 			case 2: return tree2;
 			case 3: return tree3;

@@ -5,15 +5,17 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JPanel;
 
 import dkeep.logic.GameMap;
+import dkeep.logic.Ogre;
 /*import dkeep.logic.Guard;
 import dkeep.logic.Ogre;
 import dkeep.logic.Person;*/
+import dkeep.logic.Person;
 
 public class PrintMap extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private GameMap game = null;
 	private int xDimension, yDimension;
-	private int[][] Trees = new int[12][12];
 	
 	/**
 	 * Create the panel.
@@ -21,11 +23,6 @@ public class PrintMap extends JPanel {
 	public PrintMap() {
 		super();
 		Assets.init();
-		for (int i = 0 ; i < Trees.length ; i++){
-			for (int j = 0 ; j < Trees[0].length ; j++){
-				Trees[i][j] = ThreadLocalRandom.current().nextInt(1, 8);
-			}
-		}
 	}
 	
 	public void setGame(GameMap game) {
@@ -45,7 +42,7 @@ public class PrintMap extends JPanel {
 			if (aChar == 'k') {
 				g.drawImage(Assets.key, j*xDimension+14, i*yDimension+14, xDimension/2, yDimension/2, null);
 			} else if (aChar == 'X') {
-				g.drawImage(Assets.getTree(Trees[i][j]), j*xDimension, i*yDimension, xDimension, yDimension,null);
+				g.drawImage(Assets.getTree(j, i), j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'I') {
 				g.drawImage(Assets.door, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'S') {
@@ -61,19 +58,35 @@ public class PrintMap extends JPanel {
 			} else if (aChar == 'A') {
 				g.drawImage(Assets.heroFrontArmed, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'H') {
-				g.drawImage(Assets.heroFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
+				g.drawImage(Assets.heroFrontStop, j * xDimension, i * yDimension, xDimension, yDimension, null);
 			} else if (aChar == 'K') {
-				g.drawImage(Assets.heroFrontKey, j*xDimension, i*yDimension, xDimension, yDimension,null);
+				g.drawImage(Assets.heroFrontKey, j * xDimension, i * yDimension, xDimension, yDimension, null);
 			} else if (aChar == '$') {
-				g.drawImage(Assets.ogreFrontKey, j*xDimension, i*yDimension, xDimension, yDimension,null);
+				if (isOgreAboveKey()) {
+					g.drawImage(Assets.ogreFrontKey, j * xDimension, i * yDimension, xDimension, yDimension, null);
+				} else {
+					g.drawImage(Assets.clubFrontKey, j * xDimension, i * yDimension, xDimension, yDimension, null);
+				}
 			} else if (aChar == '8') {
-				g.drawImage(Assets.ogreStun, j*xDimension, i*yDimension, xDimension, yDimension,null);
+				g.drawImage(Assets.ogreStun, j * xDimension, i * yDimension, xDimension, yDimension, null);
 			} else if (aChar == '\n') {
 				i++;
 				j = -1;
 			}
 			j++;
 		}
+	}
+	public boolean isOgreAboveKey() {
+		boolean result = false;
+		for (Person x : game.getCharacters()) {
+			if (x instanceof Ogre) {
+				if(game.getCurrentMap().isAboveKey(((Ogre)x).getX(), ((Ogre)x).getY())) {
+					result = true;
+					break;
+				}
+			}
+		}
+		return result; 
 	}
 	public void changeImagesDimension() {
 		char mapArray[][] = game.getCurrentMap().getMap();
