@@ -1,7 +1,7 @@
 package dkeep.logic;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Guard extends Person{
+public class Guard extends Person implements java.io.Serializable{
 	
 	public enum Personality {Rookie, Drunken, Suspicious, Obedient} 
 	private static int numberOfGuards = 0;

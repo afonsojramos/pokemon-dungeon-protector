@@ -6,7 +6,7 @@ import dkeep.gui.PlayMusic;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 
-public class GameMap {
+public class GameMap implements java.io.Serializable{
 
 	Random rand = new Random();
 	private char [][] mapArray = null;

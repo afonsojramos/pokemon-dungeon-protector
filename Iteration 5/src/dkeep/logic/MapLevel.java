@@ -7,7 +7,7 @@ import dkeep.gui.PlayMusic;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 
-public class MapLevel {
+public class MapLevel implements java.io.Serializable{
 	private char currentMap [][];
 	private boolean posUsed [][];//posicoes que foram ocupadas numa jogada
 	private Vector<Integer> doorsPosX;

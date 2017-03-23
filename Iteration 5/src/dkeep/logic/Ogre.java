@@ -2,7 +2,7 @@ package dkeep.logic;
 
 import java.util.Random;
 
-public class Ogre extends Person{
+public class Ogre extends Person implements java.io.Serializable{
 	Random rand = new Random();
 	private Club club;
 	private static int nOgres = 0;

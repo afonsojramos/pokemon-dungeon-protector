@@ -95,15 +95,8 @@ public class PlayGame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frameListeners();
-		
 		setMusic();
-		
-		printPanel = new PrintMap();
-		printPanel.setBounds(12, 68, 500, 500);
-		printPanel.setVisible(false);
-		frame.getContentPane().add(printPanel);
-		frame.requestFocusInWindow();
-		
+		createPainelPrint();
 		createMenu();
 		createButtons();
 		labelListeners();
@@ -263,10 +256,6 @@ public class PlayGame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(creationMode) {
-					/*System.out.println("entrou!");
-					System.out.println("x: "+ xMouseMap+" y: "+yMouseMap);
-					System.out.println("xScreen: "+ arg0.getX()+" yScreen: "+arg0.getY());
-					System.out.println(currentElement);*/
 					if(arg0.getX() >= 21 && arg0.getX() <= 521 && arg0.getY() >= 146 && arg0.getY() <= 646) { 
 					convertCoordinates(arg0.getX(), arg0.getY());
 					boolean result = Maps.changeNewMap(xMouseMap, yMouseMap, currentElement);
@@ -279,7 +268,6 @@ public class PlayGame {
 					game.changeMapArray(Maps.getMap(level));
 					game.readMap(true);
 					printPanel.repaint();
-					//System.out.println("cagou");
 					}	
 				}
 			}
@@ -452,5 +440,13 @@ public class PlayGame {
 				currentElement = 'A';
 			}
 		});
+	}
+	
+	public void createPainelPrint() {
+		printPanel = new PrintMap();
+		printPanel.setBounds(12, 68, 500, 500);
+		printPanel.setVisible(false);
+		frame.getContentPane().add(printPanel);
+		frame.requestFocusInWindow();
 	}
 }

@@ -1,6 +1,6 @@
 package dkeep.logic;
 
-public class Key {
+public class Key implements java.io.Serializable{
 	private boolean found;
 	private int x, y;
 	

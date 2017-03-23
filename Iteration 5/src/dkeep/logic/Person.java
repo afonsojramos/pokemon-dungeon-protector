@@ -1,6 +1,6 @@
 package dkeep.logic;
 
-public class Person{
+public class Person implements java.io.Serializable{
 	
 	private String name;
 	

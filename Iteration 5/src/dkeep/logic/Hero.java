@@ -1,6 +1,6 @@
 package dkeep.logic;
 
-public class Hero extends Person{
+public class Hero extends Person implements java.io.Serializable{
 	private boolean armed = false;
 
 	public Hero(String name, int x, int y, char Ch){
