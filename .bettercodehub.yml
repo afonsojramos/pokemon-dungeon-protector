@@ -1,0 +1,9 @@
+exclude:
+- /Iteration 1/src/DungeonKeep.java
+- /Iteration 2 V2/src/dkeep/.*
+- /Iteration 2/src/dkeep/.*
+- /Iteration 3/src/dkeep/.*
+- /Iteration 5 V2/src/dkeep/.*
+component_depth: 1
+languages:
+- java
