@@ -161,6 +161,7 @@ public class PlayGame {
 					boolean result = Maps.changeNewMap(xMouseMap, yMouseMap, currentElement);
 					if(currentElement == 'k' && result) {
 						keyUsed = true;
+						currentElement = ' ';
 					} else if (currentElement == 'I' && result) {
 						doorUsed = true;
 					}
@@ -343,7 +344,9 @@ public class PlayGame {
 		btnKey.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				currentElement = 'k';
+				if(!keyUsed) {
+					currentElement = 'k';
+				}
 			}
 		});
 		btnKey.setIcon(new ImageIcon(Assets.key));

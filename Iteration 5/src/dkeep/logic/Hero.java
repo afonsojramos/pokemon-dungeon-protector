@@ -48,9 +48,13 @@ public class Hero extends Person{
 		return;
 	}
 
-	public void setArmed() {
-		armed = true;
+	public void setArmed(boolean change) {
+		armed = change;
+		if(change) {
 		Ch = 'A';
+		} else {
+			Ch = 'H';
+		}
 	}
 	
 	public boolean isArmed() {

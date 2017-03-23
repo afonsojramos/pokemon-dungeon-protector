@@ -129,7 +129,8 @@ public class Maps {
 			}
 		}
 		mapArray[y][x] = Ch;
-		System.out.println("pintou!");
+		System.out.println("pintou! :");
+		System.out.println(mapArray[y][x]);
 		return true;
 	}
 	

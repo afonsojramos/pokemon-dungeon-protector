@@ -77,6 +77,7 @@ public class GameMap {
 			for (int j = 0; j < width; j++) {
 				 if(mapArray[i][j] == 'H') {
 					hero.setX(j); hero.setY(i);
+					hero.setArmed(false);
 					mapArray[i][j] = ' ';
 				} else if(mapArray[i][j] == 'k') {
 					key = new Key(j, i);
@@ -85,7 +86,7 @@ public class GameMap {
 					doorY.add(i);
 				} else if(mapArray[i][j] == 'A') {
 					hero.setX(j); hero.setY(i);
-					hero.setArmed();
+					hero.setArmed(true);
 					mapArray[i][j] = ' ';
 				} else if(mapArray[i][j] == 'G') {
 					Person g = new Guard (j, i);
