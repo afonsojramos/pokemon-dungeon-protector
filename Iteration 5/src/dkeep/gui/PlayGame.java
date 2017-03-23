@@ -94,7 +94,8 @@ public class PlayGame {
 		frame.setBounds(100, 100, 800, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		frameListeners();
+		frameKeyboardListener();
+		frameMouseListener();
 		setMusic();
 		createPainelPrint();
 		createMenu();
@@ -161,8 +162,11 @@ public class PlayGame {
 		lblCreateMap.setFont(new Font("AR DARLING", Font.PLAIN, 30));
 		menuBar.add(lblCreateMap);
 	}
-	
 	public void createButtons() {
+		createButtons1();
+		createButtons2();
+	}
+	public void createButtons1() {
 		btnStartGame = new JButton("Start Game");
 		btnStartGame.setBounds(635, 656, 135, 43);
 		frame.getContentPane().add(btnStartGame);
@@ -177,7 +181,9 @@ public class PlayGame {
 		btnWall.setIcon(new ImageIcon(Assets.tree1));
 		buttonsPanel.add(btnWall);
 		frame.validate();
-		
+	}
+	
+	public void createButtons2() {
 		btnDoor = new JButton();
 		btnDoor.setIcon(new ImageIcon(Assets.door));
 		buttonsPanel.add(btnDoor);
@@ -199,8 +205,7 @@ public class PlayGame {
 		buttonsPanel.add(btnHeroArmed);
 	}
 	
-	public void frameListeners() {
-		//KEYBOARD
+	public void frameKeyboardListener() {
 		frame.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -250,8 +255,9 @@ public class PlayGame {
 				}
 			}
 		});
+	}
 	
-		//MOUSE
+	public void frameMouseListener() {
 		frame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -274,8 +280,7 @@ public class PlayGame {
 		});
 	}
 
-	public void labelListeners() {
-		// NUMBER OF OGRES
+	public void numberOfOgresListener() {
 		lblNumberOfOgres.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -295,8 +300,8 @@ public class PlayGame {
 				lblNumberOfOgres.setForeground(new Color(0, 0, 0));
 			}
 		});
-		
-		// GUARD PERSONALITY
+	}
+	public void guardPersonalityListener() {
 		lblGuardPersonality.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -317,8 +322,8 @@ public class PlayGame {
 				lblGuardPersonality.setForeground(new Color(0, 0, 0));
 			}
 		});
-	
-		//CREATE MAP OPTION
+	}
+	public void creatMapListener() {
 		lblCreateMap.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -355,9 +360,13 @@ public class PlayGame {
 			}
 		});
 	}
-	
-	public void buttonsListeners() {
-		//START GAME 
+	public void labelListeners() {
+		numberOfOgresListener();
+		guardPersonalityListener();
+		creatMapListener();
+	}
+
+	public void startGameListener() {
 		btnStartGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -390,56 +399,65 @@ public class PlayGame {
 				
 			}
 		});
+	}
 	
-		//WALL BUTTON
+	public void buttonsListeners1() {
+		// WALL BUTTON
 		btnWall.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'X';
 			}
 		});
-	
-		//DOOR BUTTON
+
+		// DOOR BUTTON
 		btnDoor.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'I';
 			}
 		});
-	
-		//KEY BUTTON
+
+		// KEY BUTTON
 		btnKey.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(!keyUsed) {
+				if (!keyUsed) {
 					currentElement = 'k';
 				}
 			}
 		});
-	
-		//OGRE BUTTON
+	}
+
+	public void buttonsListeners2() {
+		// OGRE BUTTON
 		btnOgre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'O';
 			}
 		});
-	
-		//HERO BUTTON
+
+		// HERO BUTTON
 		btnHero.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'H';
 			}
 		});
-	
-		//HERO ARMED BUTTON
+
+		// HERO ARMED BUTTON
 		btnHeroArmed.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'A';
 			}
 		});
+	}
+	public void buttonsListeners() {
+		startGameListener();
+		buttonsListeners1();
+		buttonsListeners2();
 	}
 	
 	public void createPainelPrint() {
