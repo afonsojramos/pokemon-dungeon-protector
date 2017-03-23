@@ -22,6 +22,11 @@ import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 //import java.util.Map;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -40,6 +45,8 @@ public class PlayGame {
 	private JLabel lblNumberOfOgres;
 	private JLabel lblGuardPersonality;
 	private JLabel lblCreateMap;
+	private JLabel lblSaveGame;
+	private JLabel lblLoadGame;
 	private JPanel buttonsPanel;
 	private JButton btnStartGame;
 	private JButton btnWall;
@@ -91,7 +98,7 @@ public class PlayGame {
 	 */
 	private void initialize() {
 		frame = new JFrame("Dungeon Protector");
-		frame.setBounds(100, 100, 800, 800);
+		frame.setBounds(100, 100, 850, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frameKeyboardListener();
@@ -149,18 +156,28 @@ public class PlayGame {
 		menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		lblNumberOfOgres = new JLabel("Number of Ogres");
-		lblNumberOfOgres.setFont(new Font("AR DARLING", Font.PLAIN, 30));
+		lblNumberOfOgres.setFont(new Font("AR DARLING", Font.PLAIN, 25));
 		menuBar.add(lblNumberOfOgres);
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		menuBar.add(horizontalStrut);
 		lblGuardPersonality = new JLabel("Guard Personality");
-		lblGuardPersonality.setFont(new Font("AR DARLING", Font.PLAIN, 30));
+		lblGuardPersonality.setFont(new Font("AR DARLING", Font.PLAIN, 25));
 		menuBar.add(lblGuardPersonality);
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		menuBar.add(horizontalStrut_1);
 		lblCreateMap = new JLabel("Create Map");
-		lblCreateMap.setFont(new Font("AR DARLING", Font.PLAIN, 30));
+		lblCreateMap.setFont(new Font("AR DARLING", Font.PLAIN, 25));
 		menuBar.add(lblCreateMap);
+		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+		menuBar.add(horizontalStrut_2);
+		lblSaveGame = new JLabel("Save Game");
+		lblSaveGame.setFont(new Font("AR DARLING", Font.PLAIN, 25));
+		menuBar.add(lblSaveGame);
+		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
+		menuBar.add(horizontalStrut_3);
+		lblLoadGame = new JLabel("Load Game");
+		lblLoadGame.setFont(new Font("AR DARLING", Font.PLAIN, 25));
+		menuBar.add(lblLoadGame);
 	}
 	public void createButtons() {
 		createButtons1();
@@ -360,10 +377,104 @@ public class PlayGame {
 			}
 		});
 	}
+	
+	public void saveGameListener() {
+		lblSaveGame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String s = (String) JOptionPane.showInputDialog(frame, "Name of the file:", "Options",
+						JOptionPane.PLAIN_MESSAGE, null, null, null);
+				try {
+			         FileOutputStream fileOut =
+			         new FileOutputStream("Utils/"+s+".txt");
+			         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			         out.writeObject(game);
+			         out.close();
+			         fileOut.close();
+			         FileOutputStream fileOut2 =
+					         new FileOutputStream("Utils/"+s+"MAPSLevel.txt");
+			         ObjectOutputStream out2 = new ObjectOutputStream(fileOut2);
+			         out2.writeObject(Maps.getCurrentLevel());
+			         out2.close();
+			         fileOut2.close();
+			         FileOutputStream fileOut3 =
+					         new FileOutputStream("Utils/"+s+"MAPSFinalLevel.txt");
+			         ObjectOutputStream out3 = new ObjectOutputStream(fileOut3);
+			         out3.writeObject(Maps.getFinalLevel());
+			         out3.close();
+			         fileOut3.close();
+			         System.out.printf("Serialized data is saved!");
+			      }catch(IOException i) {
+			         i.printStackTrace();
+			      }
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblSaveGame.setForeground(new Color(135, 215, 128));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblSaveGame.setForeground(new Color(0, 0, 0));
+			}
+		});
+	}
+	
+	public void loadGameListener() {
+		lblLoadGame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String s = (String) JOptionPane.showInputDialog(frame, "Name of the file:", "Options",
+						JOptionPane.PLAIN_MESSAGE, null, null, null);
+				try {
+			         FileInputStream fileIn = new FileInputStream("Utils/"+s+".txt");
+			         ObjectInputStream in = new ObjectInputStream(fileIn);
+			         game = (GameMap) in.readObject();
+			         in.close();
+			         fileIn.close();
+			         FileInputStream fileIn2 = new FileInputStream("Utils/"+s+"MAPSLevel.txt");
+			         ObjectInputStream in2 = new ObjectInputStream(fileIn2);
+			         level = (int) in2.readObject();
+			         System.out.println("level: "+level);
+			         in2.close();
+			         fileIn2.close();
+			         FileInputStream fileIn3 = new FileInputStream("Utils/"+s+"MAPSFinalLevel.txt");
+			         ObjectInputStream in3 = new ObjectInputStream(fileIn3);
+			         finalLevel = (int) in3.readObject();
+			         System.out.println("final level: "+finalLevel);
+			         in3.close();
+			         fileIn3.close();
+			      }catch(IOException i) {
+			         i.printStackTrace();
+			         return;
+			      }catch(ClassNotFoundException c) {
+			         System.out.println("GameMap class not found");
+			         c.printStackTrace();
+			         return;
+				}
+				setupGame();
+				gameStarted = true;
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblLoadGame.setForeground(new Color(141, 180, 90));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblLoadGame.setForeground(new Color(0, 0, 0));
+			}
+		});
+	}
+	
 	public void labelListeners() {
 		numberOfOgresListener();
 		guardPersonalityListener();
 		creatMapListener();
+		saveGameListener();
+		loadGameListener();
 	}
 
 	public void startGameListener() {
@@ -380,25 +491,28 @@ public class PlayGame {
 				gameStarted = true;
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
-				game.readMap(false);
-				game.restartVariables();//restaurar variaveis static!!!!!
-				for (int i = 0; i < game.getCharacters().size(); i++) {//percorrer as personagens
-					if (game.getCharacters().get(0) instanceof Guard) {//alterar a personalidade do guarda
-						Guard g = (Guard) game.getCharacters().get(0);
-						g.setPersonality(guardPersonality);
-					}
-				}
-				printPanel.setGame(game);
-				printPanel.setVisible(true);
-				frame.getContentPane().add(printPanel);
-				frame.requestFocusInWindow();
-				printPanel.repaint();
-				buttonsPanel.setVisible(false);
-				keyUsed = false; doorUsed = false;
-				creationMode = false;
-				
+				setupGame();				
 			}
 		});
+	}
+	
+	public void setupGame() {
+		game.readMap(false);
+		game.restartVariables();//restaurar variaveis static!!!!!
+		for (int i = 0; i < game.getCharacters().size(); i++) {//percorrer as personagens
+			if (game.getCharacters().get(0) instanceof Guard) {//alterar a personalidade do guarda
+				Guard g = (Guard) game.getCharacters().get(0);
+				g.setPersonality(guardPersonality);
+			}
+		}
+		printPanel.setGame(game);
+		printPanel.setVisible(true);
+		frame.getContentPane().add(printPanel);
+		frame.requestFocusInWindow();
+		printPanel.repaint();
+		buttonsPanel.setVisible(false);
+		keyUsed = false; doorUsed = false;
+		creationMode = false;
 	}
 	
 	public void buttonsListeners1() {

@@ -3,6 +3,8 @@ package dkeep.logic;
 import java.util.Random;
 
 public class Club implements java.io.Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	Random rand = new Random();
 	private int x, y, prevX, prevY;
 	private char Ch;

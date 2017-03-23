@@ -33,11 +33,16 @@ public class Maps implements java.io.Serializable{
 		add(map3);
 	}};																									// nivel
 																												// 3
+	static int currentLevel = 1;
+	static int finalLevel = listOfMaps.size();
 	
 	static boolean hasMultipleOgres[] = new boolean[] {false, false, false, true};// se true, criar random ogres
 	static boolean instantaneousDoorOpens[] = new boolean[] {false, true, false, false};// se true, portas abrem-se mal se apanha a chave
 	 			
-			
+	public static int getCurrentLevel() { return currentLevel; }
+	public static int getFinalLevel() {return finalLevel;}
+	public static void setCurrentLevel(int l) {currentLevel = l;}
+	public static void setFinalLevel(int l) {finalLevel = l;}
 	public static char[][] getMap(int x){
 		
 		char [][] tmpArray = new char [listOfMaps.get(x).length][listOfMaps.get(x)[0].length];
@@ -47,6 +52,7 @@ public class Maps implements java.io.Serializable{
 				tmpArray[i][j] = listOfMaps.get(x)[i][j];
 			}
 		}
+		currentLevel = x;
 		return tmpArray;
 	}
 	
@@ -62,6 +68,7 @@ public class Maps implements java.io.Serializable{
 		return instantaneousDoorOpens[x]; 
 	}
 	public static void createNewMap(int x, int y) {
+		finalLevel++;
 		char creationMap[][] = new char[y][x];
 		//PREENCHER BORDAS DO MAPA
 		for(int j = 0; j < x; j++) {
