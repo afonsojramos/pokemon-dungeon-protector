@@ -29,10 +29,6 @@ public class Ogre extends Person implements java.io.Serializable{
 		stuned = 0;
 	}
 
-	public Ogre(String name, int x, int y, char [][] mapArray) {// construtor default
-		this(name, x, y, 'O', mapArray);
-	}
-
 	public Ogre(char [][] mapArray) {
 		this("ogre" + nOgres, (pos % 6), (pos / 6) + 1, 'O', mapArray);
 	}
@@ -52,16 +48,6 @@ public class Ogre extends Person implements java.io.Serializable{
 	public int getY () { return y; }
 	
 	public char getCh () { return Ch; }
-	
-	public void setClubX (int x) { club.setX(x); }
-	
-	public void setClubY (int y) { club.setY(y); }
-	
-	public void setClubCh (char ch) { club.setCh(ch); }
-	
-    public void setX (int x) { this.x = x; }
-	
-	public void setY (int y) { this.y = y; }
 	
 	public void setCh (char ch) { this.Ch = ch; }
 	

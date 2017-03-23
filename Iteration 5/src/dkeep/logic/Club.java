@@ -26,21 +26,7 @@ public class Club implements java.io.Serializable{
 	
 	public int getY() {return y;}
 	
-	public int getPrevX() {return prevX;}
-	
-	public int getPrevY() {return prevY;}
-	
 	public char getCh() {return Ch;}
-	
-	public void setX(int x) { this.x = x;}
-	
-	public void setY(int y) { this.y = y;}
-	
-	public void setPrevX(int x) { this.prevX = x;}
-	
-	public void setPrevY(int y) { this.prevY = y;}
-	
-	public void setCh (char Ch) { this.Ch = Ch; }
 	
 	public void move (MapLevel currentMap, int xOgre, int yOgre) {
 		boolean possibleMove = false;
@@ -87,6 +73,8 @@ public class Club implements java.io.Serializable{
 					possibleMove = true;
 				}
 				break;
+			default:
+					break;
 			}
 		} while (!possibleMove);
 	}

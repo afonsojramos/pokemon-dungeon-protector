@@ -113,14 +113,6 @@ public class GameMap implements java.io.Serializable{
 		characters.add(ogre);
 	}
 	
-	public void addGuardToLevel() {
-		Guard guard = null;
-		do {
-			guard = new Guard();
-		}while(guard.isInInvalidPos(mapArray));
-		
-		characters.add(guard);
-	}
 	/**
 	 * verifica se o nivel acabou (ocorre ou quando o heroi morre ou quando chega a porta)
 	 * @return 

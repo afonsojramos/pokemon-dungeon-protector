@@ -14,12 +14,16 @@ public class Assets {
 								grass, door, key, pokemon;
 	
 	public static void init(){
-		setHero();
-		setTrees();
-		setOgre();
-		setClub();
-		setGuard();
-		setOthers();
+		try {
+			setHero();
+			setTrees();
+			setOgre();
+			setClub();
+			setGuard();
+			setOthers();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static BufferedImage getTree(int x, int y){

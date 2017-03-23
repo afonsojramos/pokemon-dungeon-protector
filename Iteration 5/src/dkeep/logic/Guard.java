@@ -30,10 +30,6 @@ public class Guard extends Person implements java.io.Serializable{
 		this(name, x, y, 'G', personality);
 	}*/
 	
-	public Guard() {
-		this("guard" + numberOfGuards, (numberOfGuards % 7), (numberOfGuards/7), 'G', Personality.values()[ThreadLocalRandom.current().nextInt(0, 3)]);
-	}
-	
 	public Guard(int x, int y) {
 		this("guard" + numberOfGuards, x, y, 'G', Personality.values()[ThreadLocalRandom.current().nextInt(0, 3)]);
 	}

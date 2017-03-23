@@ -50,6 +50,9 @@ public class TestOgreRandomness {
 		assertTrue(ogre.isStuned());
 		x = ogre.getX(); y = ogre.getY();
 		assertTrue(result);
+		ogre.lessStuned();
+		ogre.lessStuned();
+		assertFalse(ogre.isStuned());
 	}
 	
 }
