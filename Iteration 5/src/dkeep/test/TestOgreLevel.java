@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import dkeep.logic.Club;
 import dkeep.logic.GameMap;
 import dkeep.logic.Maps;
 import dkeep.logic.Ogre;
@@ -133,51 +134,6 @@ public class TestOgreLevel {
 	}
 	
 	@Test
-	public void testClubPositions(){
-		char currentMap[][] = new char[][] { { 'X', 'O', 'X'}, { 'X', ' ', 'X'},	
-			{ 'X', 'X', 'X'}}; //mapa de testes
-		GameMap game = new GameMap(currentMap, false,0, false);
-		game.readMap(false);
-		Ogre ogre = (Ogre)game.getCharacters().get(0);
-		assertEquals(ogre.getClubCh(),'*');
-		assertTrue(ogre.isClubAdjacent(ogre.getX(), ogre.getY()));
-		assertEquals(ogre.isClubVisible(game.getCurrentMap()), true);
-		char currentMap1[][] = new char[][] { { 'X', ' ', 'X'}, { 'X', 'O', 'X'},	
-			{ 'X', 'X', 'X'}}; //mapa de testes
-		GameMap game1 = new GameMap(currentMap1, false,0, false);
-		game1.readMap(false);
-		Ogre ogre1 = (Ogre)game1.getCharacters().get(0);
-		assertEquals(ogre1.getClubCh(),'*');
-		assertTrue(ogre1.isClubAdjacent(ogre1.getX(), ogre1.getY()));
-		assertEquals(ogre1.isClubVisible(game1.getCurrentMap()), true);
-		char currentMap2[][] = new char[][] { { 'X', 'X', 'X'}, { 'O', ' ', 'X'},	
-			{ 'X', 'X', 'X'}}; //mapa de testes
-		GameMap game2 = new GameMap(currentMap2, false,0, false);
-		game2.readMap(false);
-		Ogre ogre2 = (Ogre)game2.getCharacters().get(0);
-		game2.StunOgres();
-		assertEquals(ogre2.getClubCh(),'*');
-		assertTrue(ogre2.isClubAdjacent(ogre2.getX(), ogre2.getY()));
-		assertEquals(ogre2.isClubVisible(game2.getCurrentMap()), true);
-		char currentMap3[][] = new char[][] { { 'X', 'X', 'X'}, { ' ', 'O', 'X'},	
-			{ 'X', 'X', 'X'}}; //mapa de testes
-		GameMap game3 = new GameMap(currentMap3, false,0, false);
-		game3.readMap(false);
-		Ogre ogre3 = (Ogre)game3.getCharacters().get(0);
-		game3.StunOgres();
-		assertEquals(ogre3.getClubCh(),'*');
-		assertTrue(ogre3.isClubAdjacent(ogre3.getX(), ogre3.getY()));
-		assertEquals(ogre3.isClubVisible(game3.getCurrentMap()), true);
-		char currentMap4[][] = new char[][] { { 'X', 'X', 'X'}, { 'X', 'O', 'X'},	
-			{ 'X', 'X', 'X'}}; //mapa de testes
-		GameMap game4 = new GameMap(currentMap4, false,0, false);
-		game4.readMap(false);
-		game4.StunOgres();
-		Ogre ogre4 = (Ogre)game4.getCharacters().get(0);
-		
-	}
-	
-	@Test
 	public void testStunOgresAndClub(){
 		char currentMap[][] = new char[][] { { ' ', 'A', ' '}, { ' ', 'O', ' '},	
 			{ ' ', ' ', ' '}}; //mapa de testes
@@ -189,10 +145,13 @@ public class TestOgreLevel {
 		game.restartVariables();
 		game.changeMapArray(currentMap1);
 		Person hero = game.getHero();
+		Ogre ogre = (Ogre)game.getCharacters().get(0);
+		ogre.lessStuned();
+		ogre.doStep(game.getCurrentMap(), 0, 1);
+		assertFalse(hero.isAdjacent(0, 0, 0, 0));
 		assertFalse(game.startGame('s'));
 		hero.setX(1);
 		hero.setY(1);
-		Ogre ogre = (Ogre)game.getCharacters().get(0);
 		assertTrue(ogre.isAdjacent(ogre.getX(), ogre.getY(), hero.getX(), hero.getY()));
 	}
 	
@@ -203,10 +162,28 @@ public class TestOgreLevel {
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
 			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
 			{ 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
-		GameMap game = new GameMap(map3, true,0, false);
+		GameMap game = new GameMap(map3, false,0, false);
 		game.readMap(false);
 		game.addOgreToLevel();
 		game.addOgreToLevel();
+		char map4[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
+			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', 'k', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
+		GameMap game1 = new GameMap(map4, false,0, false);
+		game1.readMap(true);
+	}
+	
+	@Test
+	public void testLevel3MultipleOgres(){
+		char map3[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
+			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', 'k', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
+		GameMap game = new GameMap(map3, true,0, false);
+		game.readMap(false);
 	}
 	
 	@Test

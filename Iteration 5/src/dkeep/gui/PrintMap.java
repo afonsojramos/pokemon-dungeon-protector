@@ -1,7 +1,6 @@
 package dkeep.gui;
 
 import java.awt.Graphics;
-import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JPanel;
 
 import dkeep.logic.GameMap;

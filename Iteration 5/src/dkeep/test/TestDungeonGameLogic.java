@@ -270,6 +270,7 @@ public class TestDungeonGameLogic {
 			assertTrue(game.isEndOfGame());
 			hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 			game.update();
+			g.restartVariables();
 		}
 	}
 	

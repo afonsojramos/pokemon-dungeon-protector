@@ -12,7 +12,7 @@ public class Ogre extends Person implements java.io.Serializable{
 	public Ogre(String name, int x, int y, char Ch, char [][] mapArray){
 		super(name,x,y, Ch);
 		if (mapArray != null) {
-			if (mapArray[y][x+1] == ' ') {			club = new Club(x+1,y);
+			if (mapArray[y][x+1] == ' ') {		club = new Club(x+1,y);
 			} else if (mapArray[y][x-1] == ' ') {	club = new Club(x-1,y);
 			} else if (mapArray[y+1][x] == ' ') {	club = new Club(x,y+1);
 			} else if (mapArray[y-1][x] == ' ') {	club = new Club(x,y-1);			}
@@ -100,6 +100,7 @@ public class Ogre extends Person implements java.io.Serializable{
 		} else {// is stuned; don't move
 			currentMap.setPosUsed(x, y);
 			this.lessStuned();
+			return;
 		}
 		club.move(currentMap, x, y);
 	}
