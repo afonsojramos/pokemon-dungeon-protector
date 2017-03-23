@@ -6,111 +6,20 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Assets {
 	private static final int yh = 32, xt = 88, yt = 96;
 	private static int[][] Trees = new int[12][12];
-	public static BufferedImage heroFrontStop, heroFrontWalk1, heroFrontWalk2, heroBackStop, heroBackWalk1, heroBackWalk2, 
-								heroLeftStop, heroLeftWalk1, heroLeftWalk2, heroRightStop, heroRightWalk1, heroRightWalk2,
-								heroFrontKey, heroBackKey, heroLeftKey, heroRightKey, heroFrontArmed, heroBackArmed, heroLeftArmed, heroRightArmed,
-								heroFrontKeyArmed, heroBackKeyArmed, heroLeftKeyArmed, heroRightKeyArmed,
-								guardFrontStop, guardFrontWalk1, guardFrontWalk2, guardBackStop, guardBackWalk1, guardBackWalk2,
-								guardLeftStop, guardLeftWalk1, guardLeftWalk2, guardRightStop, guardRightWalk1, guardRightWalk2, guardSleep,
-								ogreFrontStop, ogreFrontWalk1, ogreFrontWalk2, ogreBackStop, ogreBackWalk1, ogreBackWalk2,
-								ogreLeftStop, ogreLeftWalk1, ogreLeftWalk2, ogreRightStop, ogreRightWalk1, ogreRightWalk2,
-								ogreFrontKey, ogreBackKey, ogreLeftKey, ogreRightKey, ogreStun, ogres,
-								clubFront, clubBack, clubLeft, clubRight, clubFrontKey, clubBackKey, clubLeftKey, clubRightKey,
+	public static BufferedImage heroFrontStop,heroFrontKey, heroFrontArmed, heroFrontKeyArmed,
+								guardFrontStop, guardSleep,
+								ogreFrontStop, ogreFrontKey,  ogreStun, ogres,
+								clubFront, clubFrontKey,
 								tree1, tree2, tree3, tree4, tree5, tree6, tree7, tree8,
 								grass, door, key, pokemon;
 	
 	public static void init(){
-		
-		for (int i = 0 ; i < Trees.length ; i++){
-			for (int j = 0 ; j < Trees[0].length ; j++){
-				Trees[i][j] = ThreadLocalRandom.current().nextInt(1, 8);
-			}
-		}
-		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/heroSprite.png"));
-		SpriteSheet sheet1 = new SpriteSheet(Loader.loadImage("/guardSprite.png"));
-		SpriteSheet sheet2 = new SpriteSheet(Loader.loadImage("/treeSprite.png"));
-		SpriteSheet sheet3 = new SpriteSheet(Loader.loadImage("/ogre.png"));
-		SpriteSheet sheet4 = new SpriteSheet(Loader.loadImage("/club.png"));
-		
-		heroRightStop = sheet.crop(0 , 0 , yh, yh);
-		heroRightWalk1 = sheet.crop(yh, 0 , yh, yh);
-		heroRightWalk2 = sheet.crop(2*yh, 0 , yh, yh);
-		heroRightKey = sheet.crop(3*yh, 0 , yh, yh);
-		heroRightArmed = sheet.crop(4*yh, 0 , yh, yh);
-		heroRightKeyArmed = sheet.crop(5*yh, 0 , yh, yh);
-		heroBackStop = sheet.crop(0 , yh, yh, yh);
-		heroBackWalk1 = sheet.crop(yh, yh, yh, yh);
-		heroBackWalk2 = sheet.crop(2*yh, yh, yh, yh);
-		heroBackKey = sheet.crop(3*yh, yh , yh, yh);
-		heroBackArmed = sheet.crop(4*yh, yh , yh, yh);
-		heroBackKeyArmed = sheet.crop(5*yh, yh , yh, yh);
-		heroFrontStop = sheet.crop(0 , 2*yh, yh, yh);
-		heroFrontWalk1 = sheet.crop(yh, 2*yh, yh, yh);
-		heroFrontWalk2 = sheet.crop(2*yh, 2*yh, yh, yh);
-		heroFrontKey = sheet.crop(3*yh, 2*yh , yh, yh);
-		heroFrontArmed = sheet.crop(4*yh, 2*yh , yh, yh);
-		heroFrontKeyArmed = sheet.crop(5*yh, 2*yh , yh, yh);
-		heroLeftStop = sheet.crop(0 , 3*yh, yh, yh);
-		heroLeftWalk1 = sheet.crop(yh, 3*yh, yh, yh);
-		heroLeftWalk2 = sheet.crop(2*yh, 3*yh, yh, yh);
-		heroLeftKey = sheet.crop(3*yh, 3*yh , yh, yh);
-		heroLeftArmed = sheet.crop(4*yh, 3*yh , yh, yh);
-		heroLeftKeyArmed = sheet.crop(5*yh, 3*yh , yh, yh);
-		
-		guardBackStop = sheet1.crop(0 , 0 , yh, yh);
-		guardBackWalk1 = sheet1.crop(yh, 0 , yh, yh);
-		guardBackWalk2 = sheet1.crop(2*yh, 0 , yh, yh);
-		guardFrontStop = sheet1.crop(0 , yh, yh, yh);
-		guardFrontWalk1 = sheet1.crop(yh, yh, yh, yh);
-		guardFrontWalk2 = sheet1.crop(2*yh, yh, yh, yh);
-		guardLeftStop = sheet1.crop(0 , 2*yh, yh, yh);
-		guardLeftWalk1 = sheet1.crop(yh, 2*yh, yh, yh);
-		guardLeftWalk2 = sheet1.crop(2*yh, 2*yh, yh, yh);
-		guardRightStop = sheet1.crop(0 , 3*yh, yh, yh);
-		guardRightWalk1 = sheet1.crop(yh, 3*yh, yh, yh);
-		guardRightWalk2 = sheet1.crop(2*yh, 3*yh, yh, yh);
-		guardSleep = sheet1.crop(2*yh , yh, yh, yh);
-		
-		ogreBackStop = sheet3.crop(0 , 0 , yh, yh);
-		ogreBackWalk1 = sheet3.crop(yh, 0 , yh, yh);
-		ogreBackWalk2 = sheet3.crop(2*yh, 0 , yh, yh);
-		ogreFrontStop = sheet3.crop(0 , yh, yh, yh);
-		ogreFrontWalk1 = sheet3.crop(yh, yh, yh, yh);
-		ogreFrontWalk2 = sheet3.crop(2*yh, yh, yh, yh);
-		ogreLeftStop = sheet3.crop(0 , 2*yh, yh, yh);
-		ogreLeftWalk1 = sheet3.crop(yh, 2*yh, yh, yh);
-		ogreLeftWalk2 = sheet3.crop(2*yh, 2*yh, yh, yh);
-		ogreRightStop = sheet3.crop(0 , 3*yh, yh, yh);
-		ogreRightWalk1 = sheet3.crop(yh, 3*yh, yh, yh);
-		ogreRightWalk2 = sheet3.crop(2*yh, 3*yh, yh, yh);
-		ogreBackKey = sheet3.crop(3*yh , 0 , yh, yh);
-		ogreFrontKey = sheet3.crop(3*yh , yh, yh, yh);
-		ogreLeftKey = sheet3.crop(3*yh , 2*yh, yh, yh);
-		ogreRightKey = sheet3.crop(3*yh , 3*yh, yh, yh);
-		ogreStun = sheet3.crop(4*yh , yh, yh, yh);
-		ogres = sheet3.crop(4*yh , 0, yh, yh);
-		
-		clubBack = sheet4.crop(0 , 0 , yh, yh);
-		clubFront = sheet4.crop(0 , yh, yh, yh);
-		clubLeft = sheet4.crop(0 , 2*yh, yh, yh);
-		clubRight = sheet4.crop(0 , 3*yh, yh, yh);
-		clubBackKey = sheet4.crop(yh , 0 , yh, yh);
-		clubFrontKey = sheet4.crop(yh , yh, yh, yh);
-		clubLeftKey = sheet4.crop(yh , 2*yh, yh, yh);
-		clubRightKey = sheet4.crop(yh , 3*yh, yh, yh);
-		
-		tree1 = sheet2.crop(0, 0, xt, yt);
-		tree2 = sheet2.crop(0, yt, xt, yt);
-		tree3 = sheet2.crop(0, 2*yt, xt, yt);
-		tree4 = sheet2.crop(0, 3*yt, xt, yt);
-		tree5 = sheet2.crop(xt, 0, xt, yt);
-		tree6 = sheet2.crop(xt, yt, xt, yt);
-		tree7 = sheet2.crop(xt, 2*yt, xt, yt);
-		tree8 = sheet2.crop(xt, 3*yt, xt, yt);
-		grass = Loader.loadImage("/grass.png");
-		key = Loader.loadImage("/cut.png");
-		door = Loader.loadImage("/door.png");
-		pokemon = Loader.loadImage("/Pokemon.png");
+		setHero();
+		setTrees();
+		setOgre();
+		setClub();
+		setGuard();
+		setOthers();
 	}
 	
 	public static BufferedImage getTree(int x, int y){
@@ -127,4 +36,55 @@ public class Assets {
 		}
 	}
 	
+	public static void setHero(){
+		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/heroSprite.png"));
+		heroFrontStop = sheet.crop(0 , 2*yh, yh, yh);
+		heroFrontKey = sheet.crop(3*yh, 2*yh , yh, yh);
+		heroFrontArmed = sheet.crop(4*yh, 2*yh , yh, yh);
+		heroFrontKeyArmed = sheet.crop(5*yh, 2*yh , yh, yh);
+	}
+
+	public static void setGuard(){
+		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/guardSprite.png"));
+		guardFrontStop = sheet.crop(0 , yh, yh, yh);
+		guardSleep = sheet.crop(2*yh , yh, yh, yh);
+	}
+	
+	public static void setOgre(){
+		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/ogre.png"));
+		ogreFrontStop = sheet.crop(0 , yh, yh, yh);
+		ogreFrontKey = sheet.crop(3*yh , yh, yh, yh);
+		ogreStun = sheet.crop(4*yh , yh, yh, yh);
+		ogres = sheet.crop(4*yh , 0, yh, yh);
+	}
+	
+	public static void setTrees(){
+		for (int i = 0 ; i < Trees.length ; i++){
+			for (int j = 0 ; j < Trees[0].length ; j++){
+				Trees[i][j] = ThreadLocalRandom.current().nextInt(1, 8);
+			}
+		}
+		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/treeSprite.png"));
+		tree1 = sheet.crop(0, 0, xt, yt);
+		tree2 = sheet.crop(0, yt, xt, yt);
+		tree3 = sheet.crop(0, 2*yt, xt, yt);
+		tree4 = sheet.crop(0, 3*yt, xt, yt);
+		tree5 = sheet.crop(xt, 0, xt, yt);
+		tree6 = sheet.crop(xt, yt, xt, yt);
+		tree7 = sheet.crop(xt, 2*yt, xt, yt);
+		tree8 = sheet.crop(xt, 3*yt, xt, yt);
+	}
+	
+	public static void setClub(){
+		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/club.png"));
+		clubFront = sheet.crop(0 , yh, yh, yh);
+		clubFrontKey = sheet.crop(yh , yh, yh, yh);
+	}
+	
+	public static void setOthers(){
+		grass = Loader.loadImage("/grass.png");
+		key = Loader.loadImage("/cut.png");
+		door = Loader.loadImage("/door.png");
+		pokemon = Loader.loadImage("/Pokemon.png");
+	}
 }
