@@ -176,6 +176,19 @@ public class TestDungeonGameLogic {
 	}
 	
 	@Test
+	public void testMapGetter() {
+		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', 'O', 'G', 'X'},	
+			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', '*', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
+		char currentMap2[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', 'O', 'G', 'X'},	
+			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', '*', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
+		GameMap game = new GameMap(currentMap, false,0, false);
+		game.readMap(false);
+		GameMap game2 = new GameMap(currentMap2, false,0, false);
+		game2.readMap(false);
+		assertEquals(game.getMap(),game2.getMap());
+	}
+	
+	@Test
 	public void testPreviousPositionOfGuard(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
 			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
@@ -242,6 +255,7 @@ public class TestDungeonGameLogic {
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		game.startGame('s');
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
+		assertFalse(game.isVictory());
 		if (game.getCharacters().get(0) instanceof Guard){
 			Guard g = (Guard) game.getCharacters().get(0);
 			assertFalse(g.isInInvalidPos(currentMap));
