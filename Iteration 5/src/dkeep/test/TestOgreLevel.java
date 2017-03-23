@@ -20,7 +20,7 @@ public class TestOgreLevel {
 		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
-		game.startGame('s');
+		assertTrue(game.startGame('s'));
 		assertEquals(1, game.getNewHeroX()); assertEquals(2, game.getNewHeroY()); 		
 	}
 	
@@ -32,7 +32,7 @@ public class TestOgreLevel {
 		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, hero.getX()); assertEquals(1, hero.getY()); 
-		game.startGame('w');
+		assertFalse(game.startGame('w'));
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY());  
 	}
 	
@@ -44,7 +44,7 @@ public class TestOgreLevel {
 		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
-		game.startGame('d');
+		assertTrue(game.startGame('d'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals(2, game.getNewHeroX()); assertEquals(1, game.getNewHeroY());
 		assertTrue(game.isEndOfGame());	 		
@@ -58,10 +58,10 @@ public class TestOgreLevel {
 		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
-		game.startGame('s');
+		assertTrue(game.startGame('s'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals(1, game.getNewHeroX()); assertEquals(2, game.getNewHeroY()); 
-		game.startGame('s');
+		assertTrue(game.startGame('s'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals(1, game.getNewHeroX()); assertEquals(3, game.getNewHeroY()); 
 		assertEquals('K',hero.getCh());	
@@ -76,9 +76,9 @@ public class TestOgreLevel {
 		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
-		game.startGame('s');
+		assertTrue(game.startGame('s'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
-		game.startGame('a');
+		assertFalse(game.startGame('a'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertFalse(game.isEndOfGame());		
 	}
@@ -91,14 +91,14 @@ public class TestOgreLevel {
 		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
-		game.startGame('s');
+		assertTrue(game.startGame('s'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals(1, game.getNewHeroX()); assertEquals(2, game.getNewHeroY()); 
-		game.startGame('s');
+		assertTrue(game.startGame('s'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals(1, game.getNewHeroX()); assertEquals(3, game.getNewHeroY()); 
 		assertEquals('K',hero.getCh());	
-		game.startGame('a');
+		assertTrue(game.startGame('a'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals(0, game.getNewHeroX()); assertEquals(3, game.getNewHeroY()); 
 		assertEquals('S',game.getMapPos(2,0));
@@ -113,20 +113,20 @@ public class TestOgreLevel {
 		game.readMap(false);
 		Person hero = game.getHero();
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
-		game.startGame('s');
+		assertTrue(game.startGame('s'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals(1, game.getNewHeroX()); assertEquals(2, game.getNewHeroY()); 
-		game.startGame('s');
+		assertTrue(game.startGame('s'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals(1, game.getNewHeroX()); assertEquals(3, game.getNewHeroY());
 		assertEquals('K',hero.getCh());	
-		game.startGame('a');
+		assertTrue(game.startGame('a'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals('S',game.getMapPos(2,0));
 		assertEquals('S',game.getMapPos(3,0));
 		assertEquals(0, game.getNewHeroX()); assertEquals(3, game.getNewHeroY());
 		assertEquals('K',hero.getCh());	
-		game.startGame('a');
+		assertTrue(game.startGame('a'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals(0, game.getNewHeroX()); assertEquals(3, game.getNewHeroY());
 		assertTrue(game.isEndOfGame());	
@@ -140,12 +140,16 @@ public class TestOgreLevel {
 		game.readMap(false);
 		Ogre ogre = (Ogre)game.getCharacters().get(0);
 		assertEquals(ogre.getClubCh(),'*');
+		assertTrue(ogre.isClubAdjacent(ogre.getX(), ogre.getY()));
+		assertEquals(ogre.isClubVisible(game.getCurrentMap()), true);
 		char currentMap1[][] = new char[][] { { 'X', ' ', 'X'}, { 'X', 'O', 'X'},	
 			{ 'X', 'X', 'X'}}; //mapa de testes
 		GameMap game1 = new GameMap(currentMap1, false,0, false);
 		game1.readMap(false);
 		Ogre ogre1 = (Ogre)game1.getCharacters().get(0);
 		assertEquals(ogre1.getClubCh(),'*');
+		assertTrue(ogre1.isClubAdjacent(ogre1.getX(), ogre1.getY()));
+		assertEquals(ogre1.isClubVisible(game1.getCurrentMap()), true);
 		char currentMap2[][] = new char[][] { { 'X', 'X', 'X'}, { 'O', ' ', 'X'},	
 			{ 'X', 'X', 'X'}}; //mapa de testes
 		GameMap game2 = new GameMap(currentMap2, false,0, false);
@@ -153,6 +157,8 @@ public class TestOgreLevel {
 		Ogre ogre2 = (Ogre)game2.getCharacters().get(0);
 		game2.StunOgres();
 		assertEquals(ogre2.getClubCh(),'*');
+		assertTrue(ogre2.isClubAdjacent(ogre2.getX(), ogre2.getY()));
+		assertEquals(ogre2.isClubVisible(game2.getCurrentMap()), true);
 		char currentMap3[][] = new char[][] { { 'X', 'X', 'X'}, { ' ', 'O', 'X'},	
 			{ 'X', 'X', 'X'}}; //mapa de testes
 		GameMap game3 = new GameMap(currentMap3, false,0, false);
@@ -160,11 +166,15 @@ public class TestOgreLevel {
 		Ogre ogre3 = (Ogre)game3.getCharacters().get(0);
 		game3.StunOgres();
 		assertEquals(ogre3.getClubCh(),'*');
+		assertTrue(ogre3.isClubAdjacent(ogre3.getX(), ogre3.getY()));
+		assertEquals(ogre3.isClubVisible(game3.getCurrentMap()), true);
 		char currentMap4[][] = new char[][] { { 'X', 'X', 'X'}, { 'X', 'O', 'X'},	
 			{ 'X', 'X', 'X'}}; //mapa de testes
 		GameMap game4 = new GameMap(currentMap4, false,0, false);
 		game4.readMap(false);
 		game4.StunOgres();
+		Ogre ogre4 = (Ogre)game4.getCharacters().get(0);
+		
 	}
 	
 	@Test
@@ -178,6 +188,12 @@ public class TestOgreLevel {
 		game.StunOgres();
 		game.restartVariables();
 		game.changeMapArray(currentMap1);
+		Person hero = game.getHero();
+		assertFalse(game.startGame('s'));
+		hero.setX(1);
+		hero.setY(1);
+		Ogre ogre = (Ogre)game.getCharacters().get(0);
+		assertTrue(ogre.isAdjacent(ogre.getX(), ogre.getY(), hero.getX(), hero.getY()));
 	}
 	
 	@Test
@@ -189,6 +205,8 @@ public class TestOgreLevel {
 			{ 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
 		GameMap game = new GameMap(map3, true,0, false);
 		game.readMap(false);
+		game.addOgreToLevel();
+		game.addOgreToLevel();
 	}
 	
 	@Test
@@ -235,12 +253,21 @@ public class TestOgreLevel {
 		assertTrue(Maps.changeNewMap(1, 4, 'H'));
 		assertTrue(Maps.changeNewMap(1, 0, 'I'));
 		assertTrue(Maps.changeNewMap(0, 1, 'I'));
+		assertFalse(Maps.changeNewMap(0, 1, ' '));
 		assertFalse(Maps.instantaneousDoorOpen(0));
 		assertTrue(Maps.instantaneousDoorOpen(1));
 		assertFalse(Maps.hasMultipleOgre(0));
 		assertFalse(Maps.hasMultipleOgre(1));
 		assertFalse(Maps.hasMultipleOgre(4));
 		assertFalse(Maps.instantaneousDoorOpen(4));
+		Maps.setCurrentLevel(1);
+		Maps.setFinalLevel(2);
+		assertEquals(Maps.getCurrentLevel(),1);
+		assertEquals(Maps.getFinalLevel(),2);
+		Maps.setCurrentLevel(3);
+		Maps.setFinalLevel(10);
+		assertEquals(Maps.getCurrentLevel(),3);
+		assertEquals(Maps.getFinalLevel(),10);
 	}
 
 	private boolean AssertEquals(char[][] map, char[][] map0) {
