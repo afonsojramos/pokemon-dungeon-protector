@@ -94,18 +94,14 @@ public class Maps implements java.io.Serializable{
 		char[][] mapArray = listOfMaps.get(listOfMaps.size() - 1);
 		if (Ch != ' ') {
 			if (Ch == 'H' || Ch == 'A' || Ch == 'k' || Ch == 'O') {
-				System.out.println("vai validar");
 				return validateElement(x, y, Ch);
 			} else if (Ch == 'I') {
 				mapArray[y][x] = mapArray[y][x] == 'X' ? Ch : mapArray[y][x];
-				System.out.println("pintou!");
 				return true;
 			} else {
 				mapArray[y][x] = mapArray[y][x] == ' ' ? Ch : mapArray[y][x];
-				System.out.println("pintou!");
 				return true;
-			}
-		}
+		}}	
 		return false;
 	}
 

@@ -30,9 +30,7 @@ public class GameMap implements java.io.Serializable{
 		/**
 		 * inicializar variaveis
 		 */
-		new_x = 1;
-		new_y = 1;
-		
+		new_x = 1; new_y = 1;
 		this.instantaneousDoorOpen = instantaneousDoorOpen;
 		this.mapArray = mapArray;
 		currentMap = null;
@@ -41,23 +39,14 @@ public class GameMap implements java.io.Serializable{
 		 * inicializar personagens do tabuleiro de jogo
 		 */
 		characters = new Vector<Person>();//vetor do index 0 fica vazio
-		
 		if (multipleOgres) {
 			if (nOgres == 0) {//gerar numero aleatorio de ogres
 				int randomNum = rand.nextInt(5) + 1;
 				System.out.print("\n\nNumero de ogres no nivel 3: " + randomNum + "\n\n");
-				while (randomNum > 0) {
-					this.addOgreToLevel();
-					randomNum--;
-				}
+				while (randomNum > 0) {	this.addOgreToLevel(); 	randomNum--; }
 			} else {
-				while (nOgres > 0) {
-					this.addOgreToLevel();
-					nOgres--;
-				}
-			}
-		}
-	}
+				while (nOgres > 0) {	this.addOgreToLevel();	nOgres--;
+	}}}}
 	
 	public Vector<Person> getCharacters() { return characters; }
 	 /**
@@ -65,12 +54,10 @@ public class GameMap implements java.io.Serializable{
 	  */
 	public void readMap (boolean isCreationMode) {
 		if(isCreationMode) { 	characters.clear();	}
-		int width = mapArray[0].length;
-		int height = mapArray.length;
+		int width = mapArray[0].length, height = mapArray.length;
 		char[][] tmpMapArray = mapArray.clone();
 		Key key = null;
-		Vector<Integer> doorX = new Vector<Integer>();
-		Vector<Integer> doorY = new Vector<Integer>();
+		Vector<Integer> doorX = new Vector<Integer>(), doorY = new Vector<Integer>();
 		for (int i = 0; i < height; i++){
 			for (int j = 0; j < width; j++) {
 				 if(mapArray[i][j] == 'H') {

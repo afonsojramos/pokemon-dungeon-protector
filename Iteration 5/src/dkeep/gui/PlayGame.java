@@ -201,23 +201,15 @@ public class PlayGame {
 	}
 	
 	public void createButtons2() {
-		btnDoor = new JButton();
+		btnDoor = new JButton(); btnOgre = new JButton(); btnKey = new JButton(); btnHero = new JButton(); btnHeroArmed = new JButton();
 		btnDoor.setIcon(new ImageIcon(Assets.door));
 		buttonsPanel.add(btnDoor);
-		
-		btnKey = new JButton();
 		btnKey.setIcon(new ImageIcon(Assets.key));
-		buttonsPanel.add(btnKey);
-		
-		btnOgre = new JButton();
+		buttonsPanel.add(btnKey);	
 		btnOgre.setIcon(new ImageIcon(Assets.ogreFrontStop));
-		buttonsPanel.add(btnOgre);
-		
-		btnHero = new JButton();
+		buttonsPanel.add(btnOgre);	
 		btnHero.setIcon(new ImageIcon(Assets.heroFrontStop));
-		buttonsPanel.add(btnHero);
-		
-		btnHeroArmed = new JButton();
+		buttonsPanel.add(btnHero);	
 		btnHeroArmed.setIcon(new ImageIcon(Assets.heroFrontArmed));
 		buttonsPanel.add(btnHeroArmed);
 	}
@@ -226,32 +218,16 @@ public class PlayGame {
 		frame.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (gameStarted) {
-					switch (e.getKeyCode()) {
-					case KeyEvent.VK_LEFT:
-						if (game.startGame('a')) {
-							updateGraphics();
-						}
-						break;
-					case KeyEvent.VK_RIGHT:
-						if (game.startGame('d')) {
-							updateGraphics();
-						}
-						break;
-					case KeyEvent.VK_UP:
-						if (game.startGame('w')) {
-							updateGraphics();
-						}
-						break;
-					case KeyEvent.VK_DOWN:
-						if (game.startGame('s')) {
-							updateGraphics();
-						}
-						break;
-					}
-				}
-			}
-		});
+				if (gameStarted) {	switch (e.getKeyCode()) {
+									case KeyEvent.VK_LEFT:	if (game.startGame('a')) {
+															updateGraphics();} break;
+									case KeyEvent.VK_RIGHT:	if (game.startGame('d')) {
+															updateGraphics();} break;
+									case KeyEvent.VK_UP:	if (game.startGame('w')) {
+															updateGraphics();} break;
+									case KeyEvent.VK_DOWN:	if (game.startGame('s')) {
+															updateGraphics();} break;
+					}}}});
 	}
 	
 	public void frameMouseListener() {
@@ -386,12 +362,10 @@ public class PlayGame {
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblSaveGame.setForeground(new Color(135, 215, 128));
-			}
+				lblSaveGame.setForeground(new Color(135, 215, 128));}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblSaveGame.setForeground(new Color(0, 0, 0));
-			}
+				lblSaveGame.setForeground(new Color(0, 0, 0));		}
 		});
 	}
 	
@@ -462,16 +436,13 @@ public class PlayGame {
 				if(!creationMode) {
 				level = 1;
 				} else {
-					if (!keyUsed || !doorUsed) {
-						return;
-					}
-				}
+					if (!keyUsed || !doorUsed) { return;
+				}}
 				gameStarted = true;
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
 				setupGame();				
-			}
-		});
+		}});
 	}
 	
 	public void setupGame() {
@@ -480,17 +451,14 @@ public class PlayGame {
 		for (int i = 0; i < game.getCharacters().size(); i++) {//percorrer as personagens
 			if (game.getCharacters().get(0) instanceof Guard) {//alterar a personalidade do guarda
 				Guard g = (Guard) game.getCharacters().get(0);
-				g.setPersonality(guardPersonality);
-			}
-		}
+				g.setPersonality(guardPersonality);			}}
 		printPanel.setGame(game);
 		printPanel.setVisible(true);
 		frame.getContentPane().add(printPanel);
 		frame.requestFocusInWindow();
 		printPanel.repaint();
 		buttonsPanel.setVisible(false);
-		keyUsed = false; doorUsed = false;
-		creationMode = false;
+		keyUsed = false; doorUsed = false;	creationMode = false;
 	}
 	
 	public void buttonsListeners1() {

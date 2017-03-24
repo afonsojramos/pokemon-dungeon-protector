@@ -46,17 +46,13 @@ public class Guard extends Person implements java.io.Serializable{
 		prevX = this.x; //guardar coordenadas antigas para poder apagar a personagem no mapa
 		prevY = this.y;
 		switch (personality) {
-		case Rookie:
-			rookiePath();
+		case Rookie:	rookiePath();
 			break;
-		case Drunken:
-			drunkenPath();
+		case Drunken:	drunkenPath();
 			break;
-		case Suspicious:
-			suspiciousPath();
+		case Suspicious:suspiciousPath();
 			break;
-		case Obedient:
-			break;
+		case Obedient:break;
 		}
 		currentMap.setPosUsed(x, y);
 	}
@@ -69,30 +65,20 @@ public class Guard extends Person implements java.io.Serializable{
 	}
 	
 	public void drunkenPath(){
-		if (timeAwake > 0) {
-			timeAwake--;
-			if (direction) {
-				it++;
-			} else {
-				if (it == 0) {
-					it = 23;
-				} else {
-					it--;
-				}
-			}
+		if (timeAwake > 0) { timeAwake--;
+			if (direction) { it++;
+			} else {if (it == 0) {
+						it = 23;
+					} else {it--;}}
 			it = it % 24;
-			this.x = pathX[it];
-			this.y = pathY[it];
-		} else {
-			this.setCh('g');
+			this.x = pathX[it];	this.y = pathY[it];
+		} else { this.setCh('g');
 			if (timeSleep == 0) {
 				direction = (ThreadLocalRandom.current().nextInt(0, 2) == 0) ? false : true;
 				this.setCh('G');
 				timeSleep = ThreadLocalRandom.current().nextInt(2, 7);
 				timeAwake = ThreadLocalRandom.current().nextInt(1, 7);
-			}
-			timeSleep--;
-		}
+			}timeSleep--;}
 	}
 	
 	public void suspiciousPath(){ // timeAwake = sentido certo ; timeSleep = sentido contrario

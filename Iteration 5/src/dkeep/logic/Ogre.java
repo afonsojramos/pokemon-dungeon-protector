@@ -45,29 +45,19 @@ public class Ogre extends Person implements java.io.Serializable{
 	public void setCh (char ch) { this.Ch = ch; }
 	
 	public void doStep(MapLevel currentMap, int xHero, int yHero) {
-		if (!this.isStuned()) { // is not stuned
-			boolean possibleMove = false;
+		if (!this.isStuned()) { boolean possibleMove = false;
 			do {int randomNum = rand.nextInt(4); // random entre [min, max] : int randomNum = rand.nextInt((max - min) + 1) + min;
 				switch (randomNum) {
-				case 0: // Ogre anda para cima
-					possibleMove = ogreUp(currentMap, xHero, yHero);
+				case 0: possibleMove = ogreUp(currentMap, xHero, yHero);
 					break;
-				case 1: // Ogre anda para baixo
-					possibleMove = ogreDown(currentMap, xHero, yHero);
+				case 1: possibleMove = ogreDown(currentMap, xHero, yHero);
 					break;
-				case 2: // Ogre anda para a esquerda
-					possibleMove = ogreLeft(currentMap, xHero, yHero);
+				case 2: possibleMove = ogreLeft(currentMap, xHero, yHero);
 					break;
-				case 3: // Ogre anda para a direita
-					possibleMove = ogreRight(currentMap, xHero, yHero);
-					break;
-				}
-			} while (!possibleMove);
-		} else {// is stuned; don't move
-			currentMap.setPosUsed(x, y);
-			this.lessStuned();
-			return;	
-			}
+				case 3: possibleMove = ogreRight(currentMap, xHero, yHero);
+					break; } } while (!possibleMove);
+		} else {currentMap.setPosUsed(x, y);
+				this.lessStuned(); 		return;		}
 		club.move(currentMap, x, y);
 	}
 	
