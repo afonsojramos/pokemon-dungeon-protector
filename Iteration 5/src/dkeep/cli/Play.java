@@ -19,32 +19,22 @@ public class Play {
 	}
 
 	public static void main(String[] args) {
-		/*COMECAR O JOGO*/
-		while ((currentLevel <= finalLevel) && !endOfGame) {
+		while ((currentLevel <= finalLevel) && !endOfGame) { /*COMECAR O JOGO*/
 			game = new GameMap(Maps.getMap(currentLevel), Maps.hasMultipleOgre(currentLevel), 0, Maps.instantaneousDoorOpen(currentLevel));
 			game.readMap(false);
 			System.out.print(game.getMap());
 			endOfGame = false;
 			while (!endOfGame) {
 				boolean validInput = false;
-				do {
-					char letter = askForInput();
+				do {char letter = askForInput();
 					validInput = game.startGame(letter);
 				} while(!validInput);//enquanto o input nao for valido
 				game.update();
 				System.out.print(game.getMap());
-				endOfGame = game.isEndOfGame();
-			}
+				endOfGame = game.isEndOfGame();}
 			if(game.isVictory()) {//passar para proximo nivel
 				endOfGame = false;
-				currentLevel++;
-			} 
-		}
-		if(game.isVictory()) {
-			System.out.print("\n\nVICTORY!!!\n\n");
-		} else {
-			System.out.print("\n\nGAME OVER...\n\n");
-		}
-		
-	}
+				currentLevel++;}}
+		if(game.isVictory()) {		System.out.print("\n\nVICTORY!!!\n\n");
+		} else {					System.out.print("\n\nGAME OVER...\n\n");}}
 }

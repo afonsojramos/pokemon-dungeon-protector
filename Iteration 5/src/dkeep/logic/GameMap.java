@@ -88,7 +88,6 @@ public class GameMap implements java.io.Serializable{
 		do {
 			ogre = new Ogre(null);
 		}while(ogre.isInInvalidPos(mapArray));
-		
 		characters.add(ogre);
 	}
 	
@@ -104,19 +103,15 @@ public class GameMap implements java.io.Serializable{
 				Guard g = (Guard)characters.get(i);
 				int xg = g.getX(), yg = g.getY();
 				if(g.isAdjacent(x, y, xg, yg)) { //se o guarda esta adjacente
-					return true;
-				}
+					return true;}
 			} else if (characters.get(i) instanceof Ogre) {
 				Ogre o = (Ogre)characters.get(i);
 				int xo = o.getX(), yo = o.getY();
 				if ((o.isAdjacent(x, y, xo, yo) && !hero.isArmed()) || (o.isClubAdjacent(x, y))) {
 					return true;
-				}
-			}
-		}
+				}}}
 		if(currentMap.isOnTheDoor(x, y) && currentMap.isDoorOpen()) {
-			return true;
-		}
+			return true;}
 		return false;
 	}
 	/**
@@ -198,32 +193,19 @@ public class GameMap implements java.io.Serializable{
 	 * @return
 	 */
 	public boolean startGame(char input) {
-
 		int x = hero.getX(), y = hero.getY();
 		switch(input) {
-		case 'w':
-			y--;
-			break;
-		case 's':
-			y++;
-			break;
-		case 'd':
-			x++;
-			break;
-		case 'a':
-			x--;
-			break;
+		case 'w':	y--;	break;
+		case 's':	y++;	break;
+		case 'd':	x++;	break;
+		case 'a':	x--;	break;
 		default:
-			return false;// input/letra invalido		
-		}
-
+			return false;/*input letra invalido*/}
 		if ((mapArray[y][x] == ' ') || (mapArray[y][x] == 'I' && currentMap.isKeyFound()) || mapArray[y][x] == 'S'
 				|| mapArray[y][x] == 'k') {
 			new_x = x;
 			new_y = y;
-			return true;
-		}
-
+			return true;}
 		return false;
 	}
 	

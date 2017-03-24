@@ -30,50 +30,30 @@ public class PrintMap extends JPanel {
 		repaint();
 	}
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g); // limpa fundo …
-		//DESENHAR FUNDO
-		g.drawImage(Assets.grass, 0, 0, 500, 500, null);
+		super.paintComponent(g); // limpa fundo
+		g.drawImage(Assets.grass, 0, 0, 500, 500, null);//DESENHAR FUNDO
 		String stringMap = game.getMap();
 		int j = 0, i = 0;
 		for (int index = 0; index < stringMap.length(); index++) {
 			char aChar = stringMap.charAt(index);
 			System.out.print(aChar);
-			if (aChar == 'k') {
-				g.drawImage(Assets.key, j*xDimension+14, i*yDimension+14, xDimension/2, yDimension/2, null);
-			} else if (aChar == 'X') {
-				g.drawImage(Assets.getTree(j, i), j*xDimension, i*yDimension, xDimension, yDimension,null);
-			} else if (aChar == 'I') {
-				g.drawImage(Assets.door, j*xDimension, i*yDimension, xDimension, yDimension,null);
-			} else if (aChar == 'S') {
-				g.drawImage(null, j*xDimension, i*yDimension, xDimension, yDimension,null);
-			} else if (aChar == 'O') {
-				g.drawImage(Assets.ogreFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
-			} else if (aChar == '*') {
-				g.drawImage(Assets.clubFront, j*xDimension, i*yDimension, xDimension, yDimension,null);
-			} else if (aChar == 'G') {
-				g.drawImage(Assets.guardFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
-			} else if (aChar == 'g') {
-				g.drawImage(Assets.guardSleep, j*xDimension, i*yDimension, xDimension, yDimension,null);
-			} else if (aChar == 'A') {
-				g.drawImage(Assets.heroFrontArmed, j*xDimension, i*yDimension, xDimension, yDimension,null);
-			} else if (aChar == 'H') {
-				g.drawImage(Assets.heroFrontStop, j * xDimension, i * yDimension, xDimension, yDimension, null);
-			} else if (aChar == 'K') {
-				g.drawImage(Assets.heroFrontKey, j * xDimension, i * yDimension, xDimension, yDimension, null);
-			} else if (aChar == '$') {
-				if (isOgreAboveKey()) {
-					g.drawImage(Assets.ogreFrontKey, j * xDimension, i * yDimension, xDimension, yDimension, null);
-				} else {
-					g.drawImage(Assets.clubFrontKey, j * xDimension, i * yDimension, xDimension, yDimension, null);
-				}
-			} else if (aChar == '8') {
-				g.drawImage(Assets.ogreStun, j * xDimension, i * yDimension, xDimension, yDimension, null);
+			if (aChar == 'k') {			g.drawImage(Assets.key, j*xDimension+14, i*yDimension+14, xDimension/2, yDimension/2, null);
+			} else if (aChar == 'X') {	g.drawImage(Assets.getTree(j, i), j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'I') {	g.drawImage(Assets.door, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'S') {	g.drawImage(null, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'O') {	g.drawImage(Assets.ogreFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == '*') {	g.drawImage(Assets.clubFront, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'G') {	g.drawImage(Assets.guardFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'g') {	g.drawImage(Assets.guardSleep, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'A') {	g.drawImage(Assets.heroFrontArmed, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'H') {	g.drawImage(Assets.heroFrontStop, j * xDimension, i * yDimension, xDimension, yDimension, null);
+			} else if (aChar == 'K') {	g.drawImage(Assets.heroFrontKey, j * xDimension, i * yDimension, xDimension, yDimension, null);
+			} else if (aChar == '$') {	if (isOgreAboveKey()) {g.drawImage(Assets.ogreFrontKey, j * xDimension, i * yDimension, xDimension, yDimension, null);
+									}	else {g.drawImage(Assets.clubFrontKey, j * xDimension, i * yDimension, xDimension, yDimension, null);}
+			} else if (aChar == '8') {	g.drawImage(Assets.ogreStun, j * xDimension, i * yDimension, xDimension, yDimension, null);
 			} else if (aChar == '\n') {
-				i++;
-				j = -1;
-			}
-			j++;
-		}
+				i++; j = -1;}
+			j++;}
 	}
 	public boolean isOgreAboveKey() {
 		boolean result = false;
