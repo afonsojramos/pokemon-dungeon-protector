@@ -163,16 +163,11 @@ public class GameMap implements java.io.Serializable{
 	 */
 	public String getMap() {
 		char [][] tmpArray = new char [mapArray.length][mapArray[0].length];
-		/*COPIAR O MAPA*/
-		for (int i = 0; i < mapArray.length; i++) {
+		for (int i = 0; i < mapArray.length; i++) { //COPIAR O MAPA
 			for (int j = 0; j < mapArray[0].length; j++) {
-				tmpArray[i][j] = mapArray[i][j];
-			}
-		}
-		int size = characters.size();
-		int x, y;
-		/*PREENCHER O MAPA*/
-		for (int i = 0; i < size; i++) {
+				tmpArray[i][j] = mapArray[i][j];}}
+		int size = characters.size(), x, y;	
+		for (int i = 0; i < size; i++) { //PREENCHER O MAPA
 			if (characters.get(i) instanceof Guard) {// desenhar o guarda
 				x = ((Guard) characters.get(i)).getX();
 				y = ((Guard) characters.get(i)).getY();
@@ -181,28 +176,19 @@ public class GameMap implements java.io.Serializable{
 				x = ((Ogre) characters.get(i)).getX();
 				y = ((Ogre) characters.get(i)).getY();
 				tmpArray[y][x] = ((Ogre) characters.get(i)).getCh();
-				if (((Ogre) characters.get(i)).isClubVisible(currentMap)) {// desenhar
-																			// o
-																			// club
+				if (((Ogre) characters.get(i)).isClubVisible(currentMap)) {// desenhar o club
 					x = ((Ogre) characters.get(i)).getClubX();
 					y = ((Ogre) characters.get(i)).getClubY();
 					tmpArray[y][x] = ((Ogre) characters.get(i)).getClubCh();
-				}
-			}
-		}
-		tmpArray[hero.getY()][hero.getX()] = hero.getCh();// desenhar o heroi
-
-		/*PASSAR O MAPA PARA STRING*/
-		tmpArray[hero.getY()][hero.getX()] = hero.getCh();
+		}}}
+		tmpArray[hero.getY()][hero.getX()] = hero.getCh();// desenhar o heroi	
+		tmpArray[hero.getY()][hero.getX()] = hero.getCh(); //PASSAR O MAPA PARA STRING
 		StringBuilder tmp = new StringBuilder();
 		for (int i = 0; i < mapArray.length; i++){
 			for (int j = 0; j < mapArray[0].length; j++){
 				tmp.append(tmpArray[i][j]);
-				//tmp.append(" ");
-			}
-			tmp.append('\n');
+			}tmp.append('\n');
 		}
-		
 		currentMap.clearPosUsed();
 		return tmp.toString();
 	}

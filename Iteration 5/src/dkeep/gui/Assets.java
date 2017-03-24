@@ -66,8 +66,7 @@ public class Assets {
 		for (int i = 0 ; i < Trees.length ; i++){
 			for (int j = 0 ; j < Trees[0].length ; j++){
 				Trees[i][j] = ThreadLocalRandom.current().nextInt(1, 8);
-			}
-		}
+		}}
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/treeSprite.png"));
 		tree1 = sheet.crop(0, 0, xt, yt);
 		tree2 = sheet.crop(0, yt, xt, yt);

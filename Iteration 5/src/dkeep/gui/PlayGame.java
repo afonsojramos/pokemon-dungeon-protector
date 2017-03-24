@@ -262,16 +262,12 @@ public class PlayGame {
 						JOptionPane.PLAIN_MESSAGE, null, possibilities, null);
 				nOgres = s == null ? 1 : Integer.parseInt(s);
 			}
-
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblNumberOfOgres.setForeground(new Color(102, 205, 170));
-			}
-
+				lblNumberOfOgres.setForeground(new Color(102, 205, 170));}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblNumberOfOgres.setForeground(new Color(0, 0, 0));
-			}
+				lblNumberOfOgres.setForeground(new Color(0, 0, 0));	}
 		});
 	}
 	public void guardPersonalityListener() {
@@ -281,19 +277,13 @@ public class PlayGame {
 				String[] possibilities = { "Rookie", "Drunken", "Suspicious", "Obedient" };
 				String s = (String) JOptionPane.showInputDialog(frame, "Guard personality", "Options",
 						JOptionPane.PLAIN_MESSAGE, null, possibilities, "Rookie");
-				guardPersonality = ((s != null) && (s.length() > 0)) ? Personality.valueOf(s)
-						: Personality.valueOf("Rookie");
-			}
-
+				guardPersonality = ((s != null) && (s.length() > 0)) ? Personality.valueOf(s) : Personality.valueOf("Rookie");}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblGuardPersonality.setForeground(new Color(32, 178, 170));
-			}
-
+				lblGuardPersonality.setForeground(new Color(32, 178, 170));}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblGuardPersonality.setForeground(new Color(0, 0, 0));
-			}
+				lblGuardPersonality.setForeground(new Color(0, 0, 0));}
 		});
 	}
 	public void creatMapListener() {
@@ -302,8 +292,7 @@ public class PlayGame {
 			public void mouseClicked(MouseEvent arg0) {
 				String[] possibilitiesWidth = {"5","6", "7", "8", "9", "10", "11", "12"};
 				String s = (String)JOptionPane.showInputDialog(frame, "Width:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilitiesWidth,null);
-				xMapDimension = s==null ? 5 : Integer.parseInt(s);
-				
+				xMapDimension = s==null ? 5 : Integer.parseInt(s);			
 				String[] possibilitiesHeight = {"5","6", "7", "8", "9", "10", "11", "12"};
 				String s2 = (String)JOptionPane.showInputDialog(frame, "Height:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilitiesHeight,null);
 				yMapDimension = s2==null ? 5 : Integer.parseInt(s2);
@@ -317,11 +306,9 @@ public class PlayGame {
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, false, 0, false);
 				game.readMap(true);
-				
 				printPanel.setGame(game);
 				printPanel.setVisible(true);
 				printPanel.repaint();
-				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -406,18 +393,13 @@ public class PlayGame {
 						JOptionPane.PLAIN_MESSAGE, null, null, null);
 				loader(s);
 				setupGame();
-				gameStarted = true;
-			}
-
+				gameStarted = true; }
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblLoadGame.setForeground(new Color(141, 180, 90));
-			}
-
+				lblLoadGame.setForeground(new Color(141, 180, 90));}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblLoadGame.setForeground(new Color(0, 0, 0));
-			}
+				lblLoadGame.setForeground(new Color(0, 0, 0));	}
 		});
 	}
 	
@@ -461,32 +443,24 @@ public class PlayGame {
 		keyUsed = false; doorUsed = false;	creationMode = false;
 	}
 	
-	public void buttonsListeners1() {
-		// WALL BUTTON
-		btnWall.addMouseListener(new MouseAdapter() {
+	public void buttonsListeners1() {		
+		btnWall.addMouseListener(new MouseAdapter() {// WALL BUTTON
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'X';
 			}
-		});
-
-		// DOOR BUTTON
-		btnDoor.addMouseListener(new MouseAdapter() {
+		});	
+		btnDoor.addMouseListener(new MouseAdapter() {// DOOR BUTTON
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				currentElement = 'I';
-			}
-		});
-
-		// KEY BUTTON
-		btnKey.addMouseListener(new MouseAdapter() {
+		}});
+		btnKey.addMouseListener(new MouseAdapter() {// KEY BUTTON
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (!keyUsed) {
 					currentElement = 'k';
-				}
-			}
-		});
+		}}});
 	}
 
 	public void buttonsListeners2() {

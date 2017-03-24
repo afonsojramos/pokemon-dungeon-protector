@@ -67,8 +67,7 @@ public class Guard extends Person implements java.io.Serializable{
 	public void drunkenPath(){
 		if (timeAwake > 0) { timeAwake--;
 			if (direction) { it++;
-			} else {if (it == 0) {
-						it = 23;
+			} else {if (it == 0) { it = 23;
 					} else {it--;}}
 			it = it % 24;
 			this.x = pathX[it];	this.y = pathY[it];
@@ -94,8 +93,7 @@ public class Guard extends Person implements java.io.Serializable{
 				timeAwake = ThreadLocalRandom.current().nextInt(1, 7);}
 		}
 		it = it % 24;
-		this.x = pathX[it];
-		this.y = pathY[it];
+		this.x = pathX[it]; this.y = pathY[it];
 	}
 
 	public void setPersonality (Personality p) {
