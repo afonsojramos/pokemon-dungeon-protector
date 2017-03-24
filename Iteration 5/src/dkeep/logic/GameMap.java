@@ -179,8 +179,7 @@ public class GameMap implements java.io.Serializable{
 				if (((Ogre) characters.get(i)).isClubVisible(currentMap)) {// desenhar o club
 					x = ((Ogre) characters.get(i)).getClubX();
 					y = ((Ogre) characters.get(i)).getClubY();
-					tmpArray[y][x] = ((Ogre) characters.get(i)).getClubCh();
-		}}}
+					tmpArray[y][x] = ((Ogre) characters.get(i)).getClubCh(); }}}
 		tmpArray[hero.getY()][hero.getX()] = hero.getCh();// desenhar o heroi	
 		tmpArray[hero.getY()][hero.getX()] = hero.getCh(); //PASSAR O MAPA PARA STRING
 		StringBuilder tmp = new StringBuilder();
