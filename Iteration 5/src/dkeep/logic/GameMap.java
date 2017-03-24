@@ -164,19 +164,24 @@ public class GameMap implements java.io.Serializable{
 		int size = characters.size(), x, y;	
 		for (int i = 0; i < size; i++) { //PREENCHER O MAPA
 			if (characters.get(i) instanceof Guard) {// desenhar o guarda
-				x = ((Guard) characters.get(i)).getX();
-				y = ((Guard) characters.get(i)).getY();
+				x = ((Guard) characters.get(i)).getX();			y = ((Guard) characters.get(i)).getY();
 				tmpArray[y][x] = ((Guard) characters.get(i)).getCh();
 			} else if (characters.get(i) instanceof Ogre) {// desenhar o ogre
-				x = ((Ogre) characters.get(i)).getX();
-				y = ((Ogre) characters.get(i)).getY();
+				x = ((Ogre) characters.get(i)).getX();			y = ((Ogre) characters.get(i)).getY();
 				tmpArray[y][x] = ((Ogre) characters.get(i)).getCh();
 				if (((Ogre) characters.get(i)).isClubVisible(currentMap)) {// desenhar o club
-					x = ((Ogre) characters.get(i)).getClubX();
-					y = ((Ogre) characters.get(i)).getClubY();
+					x = ((Ogre) characters.get(i)).getClubX(); 			y = ((Ogre) characters.get(i)).getClubY();
 					tmpArray[y][x] = ((Ogre) characters.get(i)).getClubCh(); }}}
 		tmpArray[hero.getY()][hero.getX()] = hero.getCh();// desenhar o heroi	
-		tmpArray[hero.getY()][hero.getX()] = hero.getCh(); //PASSAR O MAPA PARA STRING
+		return mapConverter(tmpArray);
+	}
+	
+	/**
+	 * Conversor de char[][] para string
+	 * @return
+	 */
+	
+	public String mapConverter(char[][] tmpArray){
 		StringBuilder tmp = new StringBuilder();
 		for (int i = 0; i < mapArray.length; i++){
 			for (int j = 0; j < mapArray[0].length; j++){
