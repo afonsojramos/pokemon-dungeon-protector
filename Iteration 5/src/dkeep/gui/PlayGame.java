@@ -359,45 +359,35 @@ public class PlayGame {
 	}
 	
 	public void saver(String s){
-		try {
-	         FileOutputStream fileOut =
-	         new FileOutputStream("Utils/"+s+".txt");
+		try {FileOutputStream fileOut = new FileOutputStream("Utils/"+s+".txt");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         out.writeObject(game);
 	         out.close();
 	         fileOut.close();
-	         FileOutputStream fileOut2 =
-			         new FileOutputStream("Utils/"+s+"MAPSLevel.txt");
+	         FileOutputStream fileOut2 = new FileOutputStream("Utils/"+s+"MAPSLevel.txt");
 	         ObjectOutputStream out2 = new ObjectOutputStream(fileOut2);
 	         out2.writeObject(Maps.getCurrentLevel());
 	         out2.close();
 	         fileOut2.close();
-	         FileOutputStream fileOut3 =
-			         new FileOutputStream("Utils/"+s+"MAPSFinalLevel.txt");
+	         FileOutputStream fileOut3 = new FileOutputStream("Utils/"+s+"MAPSFinalLevel.txt");
 	         ObjectOutputStream out3 = new ObjectOutputStream(fileOut3);
 	         out3.writeObject(Maps.getFinalLevel());
 	         out3.close();
 	         fileOut3.close();
-	         System.out.printf("Serialized data is saved!");
-	      }catch(IOException i) {
-	         i.printStackTrace();
-	      }
+	         System.out.printf("Serialized data is saved!"); } catch(IOException i) { i.printStackTrace();  }
 	}
 	
 	public void saveGameListener() {
 		lblSaveGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				String s = (String) JOptionPane.showInputDialog(frame, "Name of the file:", "Options",
-						JOptionPane.PLAIN_MESSAGE, null, null, null);
+				String s = (String) JOptionPane.showInputDialog(frame, "Name of the file:", "Options", JOptionPane.PLAIN_MESSAGE, null, null, null);
 				saver(s);
 			}
-
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblSaveGame.setForeground(new Color(135, 215, 128));
 			}
-
 			@Override
 			public void mouseExited(MouseEvent e) {
 				lblSaveGame.setForeground(new Color(0, 0, 0));

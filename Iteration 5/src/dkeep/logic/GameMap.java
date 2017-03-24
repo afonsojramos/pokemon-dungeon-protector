@@ -64,9 +64,7 @@ public class GameMap implements java.io.Serializable{
 	  * percorre a matriz do mapa para extrair a informacao dos seu elementos e criar os mesmos
 	  */
 	public void readMap (boolean isCreationMode) {
-		if(isCreationMode) {
-			characters.clear();
-		}
+		if(isCreationMode) { 	characters.clear();	}
 		int width = mapArray[0].length;
 		int height = mapArray.length;
 		char[][] tmpMapArray = mapArray.clone();
@@ -79,11 +77,8 @@ public class GameMap implements java.io.Serializable{
 					hero.setX(j); hero.setY(i);
 					hero.setArmed(false);
 					mapArray[i][j] = ' ';
-				} else if(mapArray[i][j] == 'k') {
-					key = new Key(j, i);
-				} else if(mapArray[i][j] == 'I') {
-					doorX.add(j);
-					doorY.add(i);
+				} else if(mapArray[i][j] == 'k') {	key = new Key(j, i);
+				} else if(mapArray[i][j] == 'I') {	doorX.add(j); doorY.add(i);
 				} else if(mapArray[i][j] == 'A') {
 					hero.setX(j); hero.setY(i);
 					hero.setArmed(true);
@@ -96,13 +91,10 @@ public class GameMap implements java.io.Serializable{
 					Person o = new Ogre (j, i, tmpMapArray);
 					characters.add(o);
 					mapArray[i][j] = ' ';
-				} else if(mapArray[i][j] == '*') {
-					mapArray[i][j] = ' ';
-				}
-			}
-		}
+				} else if(mapArray[i][j] == '*') {	mapArray[i][j] = ' ';
+		}}}
 		currentMap = new MapLevel(mapArray, key, doorX, doorY, instantaneousDoorOpen);
-		}
+	}
 	
 	public void addOgreToLevel() {
 		Ogre ogre = null;
@@ -156,11 +148,7 @@ public class GameMap implements java.io.Serializable{
 						Media hit = new Media(new File("Utils/sword.wav").toURI().toString());
 						play = new PlayMusic(hit);
 						play.playSound();
-					}
-				}
-			}
-		}
-	}
+	}}}}}
 
 	/**
 	 * verifica se o heroi venceu o nivel, ou seja, se chegou a porta

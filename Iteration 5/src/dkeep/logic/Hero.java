@@ -27,9 +27,7 @@ public class Hero extends Person implements java.io.Serializable{
 			} else {// nao alteramos as coordenadas e abrir as portas
 				currentMap.openDoors();
 				return;
-			}
-		}
-		
+		}}
 		if (currentMap.isAboveKey(xHero, yHero) && !currentMap.isKeyFound()) {// acabou de encontrar a chave
 			currentMap.setKeyFound();
 			if(!currentMap.isInstantaneousDoorOpen()) {
@@ -39,8 +37,7 @@ public class Hero extends Person implements java.io.Serializable{
 			prevY = y;
 			x = xHero;
 			y = yHero;
-			return;
-		}
+			return;}
 		prevX = x;
 		prevY = y;
 		x = xHero;

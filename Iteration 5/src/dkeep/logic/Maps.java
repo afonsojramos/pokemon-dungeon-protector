@@ -113,29 +113,16 @@ public class Maps implements java.io.Serializable{
 		char[][] mapArray = listOfMaps.get(listOfMaps.size() - 1);
 		int width = mapArray[0].length;
 		int height = mapArray.length;
-		if (mapArray[y][x] != ' ' && mapArray[y][x] != 'X') {
-			return false;
-		}
-		if (x == 0 || x == (width - 1) || y == 0 || y == (height - 1)) {
-			return false;
-		}
-		if (mapArray[y][x - 1] == 'X' && mapArray[y][x + 1] == 'X' && mapArray[y - 1][x] == 'X' && mapArray[y + 1][x] == 'X') {
-			System.out.println("nao pode apagar arvore");
-			return false;
-		}
+		if (mapArray[y][x] != ' ' && mapArray[y][x] != 'X') {return false;}
+		if (x == 0 || x == (width - 1) || y == 0 || y == (height - 1)) {return false;}
+		if (mapArray[y][x - 1] == 'X' && mapArray[y][x + 1] == 'X' && mapArray[y - 1][x] == 'X' && mapArray[y + 1][x] == 'X') {	return false;}
 		if (Ch == 'H' || Ch == 'A') {
-			for (int i = 0; i < mapArray.length; i++) { // apagar o heroi que ja
-														// existia no mapa
+			for (int i = 0; i < mapArray.length; i++) { // apagar o heroi que ja existia no mapa
 				for (int j = 0; j < mapArray[0].length; j++) {
 					if (mapArray[i][j] == 'A' || mapArray[i][j] == 'H') {
-						mapArray[i][j] = ' ';
-						System.out.println("apagou heroi");
-					}
-				}
-			}
-		}
+						mapArray[i][j] = ' '; System.out.println("apagou heroi");
+		}}}}
 		mapArray[y][x] = Ch;
-		System.out.println("pintou! :");
 		System.out.println(mapArray[y][x]);
 		return true;
 	}

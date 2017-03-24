@@ -95,17 +95,14 @@ public class Guard extends Person implements java.io.Serializable{
 		}
 	}
 	
-	public void suspiciousPath(){
-		// timeAwake = sentido certo ; timeSleep = sentido contrario
+	public void suspiciousPath(){ // timeAwake = sentido certo ; timeSleep = sentido contrario
 		if (timeAwake > 0) {
 			timeAwake--;
 			it++;
-		} else {
-			timeSleep--;
+		} else {timeSleep--;
 			if (it == 0) {
 				it = 23;
-			} else {
-				it--;}
+			} else { it--;}
 			if (timeSleep == 0) {
 				timeSleep = ThreadLocalRandom.current().nextInt(2, 7);
 				timeAwake = ThreadLocalRandom.current().nextInt(1, 7);}
