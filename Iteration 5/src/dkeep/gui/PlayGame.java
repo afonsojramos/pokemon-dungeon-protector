@@ -16,6 +16,8 @@ import javafx.scene.media.Media;
 
 import javax.swing.JLabel;
 import java.awt.Component;
+
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 
@@ -33,8 +35,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-//import java.awt.GridBagLayout;
-//import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 
 public class PlayGame {
@@ -81,9 +81,7 @@ public class PlayGame {
 					window.frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
-			}
-		});
+			}}});
 	}
 
 	/**
@@ -101,6 +99,8 @@ public class PlayGame {
 		frame.setBounds(100, 100, 850, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		try {frame.setIconImage(ImageIO.read(new File("Utils/POKEBALL.png")));
+		} catch (IOException e) {e.printStackTrace();}
 		frameKeyboardListener();
 		frameMouseListener();
 		setMusic();
