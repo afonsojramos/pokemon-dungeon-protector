@@ -30,25 +30,13 @@ public class Club implements java.io.Serializable{
 	
 	public void move (MapLevel currentMap, int xOgre, int yOgre) {
 		boolean possibleMove = false;
-		do {
-			int randomNum2 = rand.nextInt(4); // random entre [min, max] : int randomNum = rand.nextInt((max - min) + 1) + min;
+		do {int randomNum2 = rand.nextInt(4); // random entre [min, max] : int randomNum = rand.nextInt((max - min) + 1) + min;
 			switch (randomNum2) {
-			case 0: // Taco apontado para cima
-				possibleMove = clubUp(currentMap, xOgre, yOgre);
-				break;
-			case 1: // Taco apontado para baixo
-				possibleMove = clubDown(currentMap, xOgre, yOgre);
-				break;
-			case 2: // Taco apontado para a esquerda
-				possibleMove = clubLeft(currentMap, xOgre, yOgre);
-				break;
-			case 3: // Taco apontado para a direita
-				possibleMove = clubRight(currentMap, xOgre, yOgre);
-				break;
-			default:
-					break;
-			}
-		} while (!possibleMove);
+			case 0: possibleMove = clubUp(currentMap, xOgre, yOgre);			break;
+			case 1: possibleMove = clubDown(currentMap, xOgre, yOgre);			break;
+			case 2: possibleMove = clubLeft(currentMap, xOgre, yOgre);			break;
+			case 3: possibleMove = clubRight(currentMap, xOgre, yOgre);			break;
+			default:	break;} } while (!possibleMove);
 	}
 	
 	public boolean clubDown(MapLevel currentMap, int xOgre, int yOgre){

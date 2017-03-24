@@ -232,25 +232,19 @@ public class PlayGame {
 	
 	public void frameMouseListener() {
 		frame.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			@Override public void mouseClicked(MouseEvent arg0) {
 				if(creationMode) {
 					if(arg0.getX() >= 21 && arg0.getX() <= 521 && arg0.getY() >= 146 && arg0.getY() <= 646) { 
-					convertCoordinates(arg0.getX(), arg0.getY());
-					boolean result = Maps.changeNewMap(xMouseMap, yMouseMap, currentElement);
-					if(currentElement == 'k' && result) {
-						keyUsed = true;
-						currentElement = ' ';
-					} else if (currentElement == 'I' && result) {
-						doorUsed = true;
-					}
-					game.changeMapArray(Maps.getMap(level));
-					game.readMap(true);
-					printPanel.repaint();
-					}	
-				}
-			}
-		});
+						convertCoordinates(arg0.getX(), arg0.getY());
+						boolean result = Maps.changeNewMap(xMouseMap, yMouseMap, currentElement);
+						if(currentElement == 'k' && result) {
+							keyUsed = true;
+							currentElement = ' ';
+						} else if (currentElement == 'I' && result) {	doorUsed = true;}
+						game.changeMapArray(Maps.getMap(level));
+						game.readMap(true);
+						printPanel.repaint();
+					}}}});
 	}
 
 	public void numberOfOgresListener() {

@@ -28,16 +28,9 @@ public class Assets {
 	
 	public static BufferedImage getTree(int x, int y){
 		switch (Trees[y][x]){
-			case 1: return tree1;
-			case 2: return tree2;
-			case 3: return tree3;
-			case 4: return tree4;
-			case 5: return tree5;
-			case 6: return tree6;
-			case 7: return tree7;
-			case 8: return tree8;
-			default: return tree1;
-		}
+			case 1: return tree1;					case 2: return tree2;					case 3: return tree3;
+			case 4: return tree4;					case 5: return tree5;					case 6: return tree6;
+			case 7: return tree7;					case 8: return tree8;					default: return tree1;}
 	}
 	
 	public static void setHero(){

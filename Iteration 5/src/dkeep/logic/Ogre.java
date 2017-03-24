@@ -146,16 +146,10 @@ public class Ogre extends Person implements java.io.Serializable{
 	
 	public boolean isClubAdjacent(int x, int y) {
 		int xClub = club.getX(), yClub = club.getY();
-				if (x == xClub && (yClub == (y - 1) || yClub == (y + 1))) {
-					return true;
-				}
-				if (y == yClub && (xClub == (x - 1) || xClub == (x + 1))) {
-					return true;
-				}
-				if (y == yClub && x == xClub) {
-					return true;
-				}
-				return false;
+		if (x == xClub && (yClub == (y - 1) || yClub == (y + 1))) {return true;}
+		if (y == yClub && (xClub == (x - 1) || xClub == (x + 1))) {return true;}
+		if (y == yClub && x == xClub) {return true;}
+		return false;
 	}
 	
 	public void restartVariables() {
