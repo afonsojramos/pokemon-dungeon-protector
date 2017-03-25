@@ -51,6 +51,7 @@ public class PlayGame {
 	private JLabel lblCreateMap;
 	private JLabel lblSaveGame;
 	private JLabel lblLoadGame;
+	private JLabel lblGameState;
 	private JPanel buttonsPanel;
 	private JButton btnStartGame;
 	private JButton btnWall;
@@ -121,26 +122,23 @@ public class PlayGame {
 	}
 
 	public void updateGraphics() {
-		game.update();
+		game.update();lblGameState.setText("");
 		printPanel.repaint();
 		if (game.isEndOfGame()) {
 			if (game.isVictory()) {
 				level++;
 				if (level > finalLevel) { // acabou o jogo e ganhou
-					game = null;
-					gameStarted = false;
+					game = null;gameStarted = false;lblGameState.setText("YOU WON!");
 				} else { // proximo nivel
 					char[][] tempMap = Maps.getMap(level);
 					game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
 					game.readMap(false);
 					printPanel.setGame(game);
 					printPanel.repaint();
+					lblGameState.setText("You have passed to the next level");
 				}
 			} else { // perdeu o jogo
-				game = null;
-				gameStarted = false;
-			}
-		}
+				game = null;gameStarted = false; lblGameState.setText("YOU LOST THE GAME... :(");}}
 	}
 
 	public void convertCoordinates(int x, int y) {
@@ -162,6 +160,16 @@ public class PlayGame {
 	}
 	
 	public void createMenu() {
+		createMenu1();
+		createMenu2();
+		createMenu3();	
+	}
+	public void createMenu1() {
+		lblGameState = new JLabel("");
+		lblGameState.setBounds(12, 634, 300, 16);
+		frame.getContentPane().add(lblGameState);
+	}
+	public void createMenu2() {
 		menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		lblNumberOfOgres = new JLabel("Number of Ogres");
@@ -174,6 +182,8 @@ public class PlayGame {
 		menuBar.add(lblGuardPersonality);
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		menuBar.add(horizontalStrut_1);
+	}
+	public void createMenu3() {
 		lblCreateMap = new JLabel("Create Map");
 		lblCreateMap.setFont(new Font("AR DARLING", Font.PLAIN, 25));
 		menuBar.add(lblCreateMap);
@@ -264,9 +274,7 @@ public class PlayGame {
 					if(arg0.getX() >= 21 && arg0.getX() <= 521 && arg0.getY() >= 146 && arg0.getY() <= 646) { 
 						convertCoordinates(arg0.getX(), arg0.getY());
 						boolean result = Maps.changeNewMap(xMouseMap, yMouseMap, currentElement);
-						if(currentElement == 'k' && result) {
-							keyUsed = true;
-							currentElement = ' ';
+						if(currentElement == 'k' && result) {keyUsed = true;currentElement = ' ';
 						} else if (currentElement == 'I' && result) {	doorUsed = true;}
 						game.changeMapArray(Maps.getMap(level));
 						game.readMap(true);
@@ -317,7 +325,6 @@ public class PlayGame {
 				String[] possibilitiesHeight = {"5","6", "7", "8", "9", "10", "11", "12"};
 				String s2 = (String)JOptionPane.showInputDialog(frame, "Height:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilitiesHeight,null);
 				yMapDimension = s2==null ? 5 : Integer.parseInt(s2);
-				
 				gameStarted = false;
 				creationMode = true;
 				buttonsPanel.setVisible(true);
@@ -330,6 +337,7 @@ public class PlayGame {
 				printPanel.setGame(game);
 				printPanel.setVisible(true);
 				printPanel.repaint();
+				lblGameState.setText("In Creation Mode...");
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -343,6 +351,7 @@ public class PlayGame {
 	}
 	
 	public void saver(String s){
+		if(s == null) return;
 		try {FileOutputStream fileOut = new FileOutputStream("Utils/"+s+".txt");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         out.writeObject(game);
@@ -358,7 +367,7 @@ public class PlayGame {
 	         out3.writeObject(Maps.getFinalLevel());
 	         out3.close();
 	         fileOut3.close();
-	         System.out.printf("Serialized data is saved!"); } catch(IOException i) { i.printStackTrace();  }
+	         System.out.printf("Serialized data is saved!");lblGameState.setText("Your current game is saved!"); } catch(IOException i) { i.printStackTrace();  }
 	}
 	
 	public void saveGameListener() {
@@ -378,6 +387,7 @@ public class PlayGame {
 	}
 	
 	public void loader(String s){
+		if (s == null) return;
 		try {
 	         FileInputStream fileIn = new FileInputStream("Utils/"+s+".txt");
 	         ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -387,13 +397,11 @@ public class PlayGame {
 	         FileInputStream fileIn2 = new FileInputStream("Utils/"+s+"MAPSLevel.txt");
 	         ObjectInputStream in2 = new ObjectInputStream(fileIn2);
 	         level = (int) in2.readObject();
-	         System.out.println("level: "+level);
 	         in2.close();
 	         fileIn2.close();
 	         FileInputStream fileIn3 = new FileInputStream("Utils/"+s+"MAPSFinalLevel.txt");
 	         ObjectInputStream in3 = new ObjectInputStream(fileIn3);
 	         finalLevel = (int) in3.readObject();
-	         System.out.println("final level: "+finalLevel);
 	         in3.close();
 	         fileIn3.close();
 	         Maps.setCurrentLevel(level); Maps.setFinalLevel(finalLevel);
@@ -415,7 +423,7 @@ public class PlayGame {
 						JOptionPane.PLAIN_MESSAGE, null, null, null);
 				loader(s);
 				setupGame();
-				gameStarted = true; }
+				gameStarted = true; lblGameState.setText("Game is starting"); }
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblLoadGame.setForeground(new Color(141, 180, 90));}
@@ -442,7 +450,7 @@ public class PlayGame {
 				} else {
 					if (!keyUsed || !doorUsed) { return;
 				}}
-				gameStarted = true;
+				gameStarted = true; lblGameState.setText("Game is starting");
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
 				setupGame();
@@ -470,19 +478,19 @@ public class PlayGame {
 		btnWall.addMouseListener(new MouseAdapter() {// WALL BUTTON
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				currentElement = 'X';
+				currentElement = 'X';lblGameState.setText("Tree");
 			}
 		});	
 		btnDoor.addMouseListener(new MouseAdapter() {// DOOR BUTTON
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				currentElement = 'I';
+				currentElement = 'I';lblGameState.setText("Door");
 		}});
 		btnKey.addMouseListener(new MouseAdapter() {// KEY BUTTON
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (!keyUsed) {
-					currentElement = 'k';
+					currentElement = 'k';lblGameState.setText("Key");
 		}}});
 	}
 
@@ -491,7 +499,7 @@ public class PlayGame {
 		btnOgre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				currentElement = 'O';
+				currentElement = 'O';lblGameState.setText("Ogre");
 			}
 		});
 
@@ -499,7 +507,7 @@ public class PlayGame {
 		btnHero.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				currentElement = 'H';
+				currentElement = 'H';lblGameState.setText("Hero");
 			}
 		});
 
@@ -507,26 +515,26 @@ public class PlayGame {
 		btnHeroArmed.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				currentElement = 'A';
+				currentElement = 'A';lblGameState.setText("Hero Armed");
 			}
 		});
 	}
 	public void buttonsListeners3() {
 		btnLeft.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {if (game.startGame('a')) {updateGraphics();} frame.requestFocus();}
+			public void mouseClicked(MouseEvent e) {if(gameStarted){if (game.startGame('a')) {updateGraphics();}} frame.requestFocus();}
 		});
 		btnRight.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {if (game.startGame('d')) {updateGraphics();} frame.requestFocus();}
+			public void mouseClicked(MouseEvent e) {if(gameStarted){if (game.startGame('d')) {updateGraphics();}} frame.requestFocus();}
 		});
 		btnUp.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {if (game.startGame('w')) {updateGraphics();}frame.requestFocus();}
+			public void mouseClicked(MouseEvent e) {if(gameStarted){if (game.startGame('w')) {updateGraphics();}}frame.requestFocus();}
 		});
 		btnDown.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {if (game.startGame('s')) {updateGraphics();} frame.requestFocus();}
+			public void mouseClicked(MouseEvent e) {if(gameStarted){if (game.startGame('s')) {updateGraphics();}} frame.requestFocus();}
 		});
 	}
 	public void buttonsListeners() {
