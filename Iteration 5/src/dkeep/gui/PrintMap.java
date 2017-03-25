@@ -40,7 +40,7 @@ public class PrintMap extends JPanel {
 			if (aChar == 'k') {			g.drawImage(Assets.key, j*xDimension+14, i*yDimension+14, xDimension/2, yDimension/2, null);
 			} else if (aChar == 'X') {	g.drawImage(Assets.getTree(j, i), j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'I') {	g.drawImage(Assets.door, j*xDimension, i*yDimension, xDimension, yDimension,null);
-			} else if (aChar == 'S') {	g.drawImage(null, j*xDimension, i*yDimension, xDimension, yDimension,null);
+			} else if (aChar == 'S') {	openDoors(g, index, j, i);
 			} else if (aChar == 'O') {	g.drawImage(Assets.ogreFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == '*') {	g.drawImage(Assets.clubFront, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'G') {	g.drawImage(Assets.guardFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
@@ -66,6 +66,12 @@ public class PrintMap extends JPanel {
 			}
 		}
 		return result; 
+	}
+	public void openDoors(Graphics g, int index, int j, int i) {
+		if(game.getCurrentMap().isInstantaneousDoorOpen()) {
+			if (index == 55 || index == 66) {g.drawImage(null, j*xDimension, i*yDimension, xDimension, yDimension,null);} 
+			else { g.drawImage(Assets.door, j*xDimension, i*yDimension, xDimension, yDimension,null); }
+		} else { g.drawImage(null, j*xDimension, i*yDimension, xDimension, yDimension,null); }
 	}
 	public void changeImagesDimension() {
 		char mapArray[][] = game.getCurrentMap().getMap();
