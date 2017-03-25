@@ -110,7 +110,7 @@ public class GameMap implements java.io.Serializable{
 				if ((o.isAdjacent(x, y, xo, yo) && !hero.isArmed()) || (o.isClubAdjacent(x, y))) {
 					return true;
 				}}}
-		if(currentMap.isOnTheDoor(x, y) && currentMap.isDoorOpen()) {
+		if(currentMap.isOnTheDoor(x, y) && currentMap.isDoorOpen(x,y) && currentMap.isEdgeDoor(x, y)) {
 			return true;}
 		return false;
 	}
@@ -138,7 +138,7 @@ public class GameMap implements java.io.Serializable{
 	 */
 	public boolean isVictory () {
 		int x = hero.getX(), y = hero.getY();
-		if(currentMap.isOnTheDoor(x, y) && currentMap.isDoorOpen()) {
+		if(currentMap.isOnTheDoor(x, y) && currentMap.isDoorOpen(x,y) && currentMap.isEdgeDoor(x, y)) {
 			return true;
 		}
 		return false;
@@ -206,8 +206,7 @@ public class GameMap implements java.io.Serializable{
 		case 'a':	x--;	break;
 		default:
 			return false;/*input letra invalido*/}
-		if ((mapArray[y][x] == ' ') || (mapArray[y][x] == 'I' && currentMap.isKeyFound()) || mapArray[y][x] == 'S'
-				|| mapArray[y][x] == 'k') {
+		if ((mapArray[y][x] == ' ') || (mapArray[y][x] == 'I' && currentMap.isKeyFound()) || mapArray[y][x] == 'S' || mapArray[y][x] == 'k') {
 			new_x = x;
 			new_y = y;
 			return true;}

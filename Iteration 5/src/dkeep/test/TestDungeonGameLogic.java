@@ -107,11 +107,13 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testDoorsOpen() {
-		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
-			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', ' ', ' ', 'X'} , { 'X', 'X', 'X', 'X', 'X'} }; //mapa de testes
+		char currentMap[][] = new char[][] { { 'X', 'X', 'I', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'I'},	
+			{ 'I', ' ', ' ', ' ', 'X'}, { 'I', 'k', 'I', ' ', 'X'} , { 'X', 'X', 'I', 'X', 'X'} }; //mapa de testes
 		GameMap game = new GameMap(currentMap, false,0, true);
 		game.readMap(false);
 		Person hero = game.getHero();
+		if (hero instanceof Hero)
+			((Hero) hero).printElement(currentMap);
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY()); 
 		assertTrue(game.startGame('s'));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
@@ -119,7 +121,9 @@ public class TestDungeonGameLogic {
 		assertTrue(game.startGame('s'));
 		assertFalse(game.getCurrentMap().isElementAtPos(game.getCurrentMap().getKey().getX(),game.getCurrentMap().getKey().getY()));
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
-		assertEquals(1, game.getNewHeroX()); assertEquals(3, game.getNewHeroY());  
+		assertTrue(game.startGame('d'));
+		assertFalse(game.getCurrentMap().isElementAtPos(game.getCurrentMap().getKey().getX(),game.getCurrentMap().getKey().getY()));
+		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals('S',game.getMapPos(2,0));	
 		assertEquals('S',game.getMapPos(3,0));	
 		assertFalse(game.isEndOfGame());
@@ -186,6 +190,10 @@ public class TestDungeonGameLogic {
 		GameMap game2 = new GameMap(currentMap2, false,0, false);
 		game2.readMap(false);
 		assertEquals(game.getMap(),game2.getMap());
+		assertFalse(game.getCurrentMap().isEdgeDoor(2, 0));
+		assertFalse(game.getCurrentMap().isEdgeDoor(0, 0));
+		assertFalse(game.getCurrentMap().isEdgeDoor(1, 1));
+
 	}
 	
 	@Test

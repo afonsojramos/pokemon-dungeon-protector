@@ -2,7 +2,6 @@ package dkeep.gui;
 
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -24,7 +23,6 @@ import javax.swing.ImageIcon;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -39,7 +37,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import javax.swing.SwingConstants;
 
 public class PlayGame {
 
@@ -117,8 +114,8 @@ public class PlayGame {
 		createPainelPrint();
 		createMenu();
 		createButtons();
-		labelListeners();
 		buttonsListeners();
+		labelListeners();
 	}
 
 	public void updateGraphics() {
@@ -128,17 +125,17 @@ public class PlayGame {
 			if (game.isVictory()) {
 				level++;
 				if (level > finalLevel) { // acabou o jogo e ganhou
-					game = null;gameStarted = false;lblGameState.setText("YOU WON!");
+					game = null;gameStarted = false;lblGameState.setText("GREAT JOB! YOU WON!");
 				} else { // proximo nivel
 					char[][] tempMap = Maps.getMap(level);
 					game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
 					game.readMap(false);
 					printPanel.setGame(game);
 					printPanel.repaint();
-					lblGameState.setText("You have passed to the next level");
+					lblGameState.setText("Next level here we go!");
 				}
 			} else { // perdeu o jogo
-				game = null;gameStarted = false; lblGameState.setText("YOU LOST THE GAME... :(");}}
+				game = null;gameStarted = false; lblGameState.setText("You lost... Bummer :(");}}
 	}
 
 	public void convertCoordinates(int x, int y) {
@@ -172,30 +169,30 @@ public class PlayGame {
 	public void createMenu2() {
 		menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
-		lblNumberOfOgres = new JLabel("Number of Ogres");
-		lblNumberOfOgres.setFont(new Font("AR DARLING", Font.PLAIN, 25));
+		lblNumberOfOgres = new JLabel("   Number of Ogres");
+		lblNumberOfOgres.setFont(new Font("AR DARLING", Font.PLAIN, 23));
 		menuBar.add(lblNumberOfOgres);
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		menuBar.add(horizontalStrut);
 		lblGuardPersonality = new JLabel("Guard Personality");
-		lblGuardPersonality.setFont(new Font("AR DARLING", Font.PLAIN, 25));
+		lblGuardPersonality.setFont(new Font("AR DARLING", Font.PLAIN, 23));
 		menuBar.add(lblGuardPersonality);
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		menuBar.add(horizontalStrut_1);
 	}
 	public void createMenu3() {
 		lblCreateMap = new JLabel("Create Map");
-		lblCreateMap.setFont(new Font("AR DARLING", Font.PLAIN, 25));
+		lblCreateMap.setFont(new Font("AR DARLING", Font.PLAIN, 23));
 		menuBar.add(lblCreateMap);
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		menuBar.add(horizontalStrut_2);
 		lblSaveGame = new JLabel("Save Game");
-		lblSaveGame.setFont(new Font("AR DARLING", Font.PLAIN, 25));
+		lblSaveGame.setFont(new Font("AR DARLING", Font.PLAIN, 23));
 		menuBar.add(lblSaveGame);
 		Component horizontalStrut_3 = Box.createHorizontalStrut(20);
 		menuBar.add(horizontalStrut_3);
 		lblLoadGame = new JLabel("Load Game");
-		lblLoadGame.setFont(new Font("AR DARLING", Font.PLAIN, 25));
+		lblLoadGame.setFont(new Font("AR DARLING", Font.PLAIN, 23));
 		menuBar.add(lblLoadGame);
 	}
 	public void createButtons() {

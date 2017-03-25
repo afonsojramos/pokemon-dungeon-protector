@@ -31,7 +31,7 @@ public class PrintMap extends JPanel {
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // limpa fundo
-		if(game == null) { g.drawImage(Assets.pokemon, 12, 68, 450, 450, null);}
+		if(game == null) { g.drawImage(Assets.pokemon, 12, 80, 450, 250, null);}
 		else {
 		g.drawImage(Assets.grass, 0, 0, 500, 500, null);//DESENHAR FUNDO
 		String stringMap = game.getMap();
@@ -42,7 +42,7 @@ public class PrintMap extends JPanel {
 			if (aChar == 'k') {			g.drawImage(Assets.key, j*xDimension+14, i*yDimension+14, xDimension/2, yDimension/2, null);
 			} else if (aChar == 'X') {	g.drawImage(Assets.getTree(j, i), j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'I') {	g.drawImage(Assets.door, j*xDimension, i*yDimension, xDimension, yDimension,null);
-			} else if (aChar == 'S') {	openDoors(g, index, j, i);
+			} else if (aChar == 'S') {	g.drawImage(null, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'O') {	g.drawImage(Assets.ogreFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == '*') {	g.drawImage(Assets.clubFront, j*xDimension, i*yDimension, xDimension, yDimension,null);
 			} else if (aChar == 'G') {	g.drawImage(Assets.guardFrontStop, j*xDimension, i*yDimension, xDimension, yDimension,null);
@@ -69,12 +69,7 @@ public class PrintMap extends JPanel {
 		}
 		return result; 
 	}
-	public void openDoors(Graphics g, int index, int j, int i) {
-		if(game.getCurrentMap().isInstantaneousDoorOpen()) {
-			if (index == 55 || index == 66) {g.drawImage(null, j*xDimension, i*yDimension, xDimension, yDimension,null);} 
-			else { g.drawImage(Assets.door, j*xDimension, i*yDimension, xDimension, yDimension,null); }
-		} else { g.drawImage(null, j*xDimension, i*yDimension, xDimension, yDimension,null); }
-	}
+
 	public void changeImagesDimension() {
 		char mapArray[][] = game.getCurrentMap().getMap();
 		int width = mapArray[0].length;// largura do mapa

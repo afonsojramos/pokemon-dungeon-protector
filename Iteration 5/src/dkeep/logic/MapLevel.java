@@ -12,7 +12,7 @@ public class MapLevel implements java.io.Serializable{
 	private boolean posUsed [][];//posicoes que foram ocupadas numa jogada
 	private Vector<Integer> doorsPosX;
 	private Vector<Integer> doorsPosY;
-	private boolean doorsOpened = false;
+	private boolean doorsOpen [][];
 	private int width, height; //largura e altura do mapa de jogo
 	private Key key;
 	private boolean instantaneousDoorOpen;// se true, portas abrem-se mal se apanha a chave
@@ -26,9 +26,11 @@ public class MapLevel implements java.io.Serializable{
 		width = currentMap[0].length;
 		height = currentMap.length;
 		posUsed = new boolean [height][width];
+		doorsOpen = new boolean [height][width];
 		for (int i = 0; i < height; i++){
 			for (int j = 0; j < width; j++) {
 				posUsed[i][j] = false;
+				doorsOpen[i][j] = false;
 			}
 		}
 		this.key = key;
@@ -73,25 +75,42 @@ public class MapLevel implements java.io.Serializable{
 		return false;
 	}
 	
-	public boolean isDoorOpen() {
-		return doorsOpened;
+	public boolean isDoorOpen(int x, int y) {
+		return doorsOpen[y][x];
 	}
 	
-	public void openDoors () {
+	public boolean isEdgeDoor(int x, int y) {
+		if (!doorsOpen[y][x])
+			return false;
+		else if (x == doorsOpen.length-1 || y == doorsOpen[0].length-1 || x == 0 || y == 0)
+			return true;
+		else
+			return false;
+	}
+	
+	public void openDoors (int x, int y) {
 		@SuppressWarnings("unused")
 		JFXPanel fxPanel = new JFXPanel();
 		Media hit = new Media(new File("Utils/door.wav").toURI().toString());
 		play = new PlayMusic(hit);
 		play.playSound();
 		for (int i = 0; i < doorsPosX.size(); i++) {
-			currentMap[doorsPosY.get(i)][doorsPosX.get(i)] = 'S';
+			if (doorsPosX.get(i) == width - 1){
+				currentMap[doorsPosY.get(i)][width-1] = 'S';	doorsOpen[doorsPosY.get(i)][width - 1] = true;
+			} else if (doorsPosX.get(i) == 0){
+				currentMap[doorsPosY.get(i)][0] = 'S';			doorsOpen[doorsPosY.get(i)][0] = true;
+			} else if (doorsPosY.get(i) == height - 1){
+				currentMap[height-1][doorsPosX.get(i)] = 'S';	doorsOpen[height - 1][doorsPosX.get(i)] = true;	
+			} else if (doorsPosY.get(i) == 0){
+				currentMap[0][doorsPosX.get(i)] = 'S';			doorsOpen[0][doorsPosX.get(i)] = true;
+			}else if (doorsPosX.get(i) == x){
+				if (doorsPosY.get(i) == y){ currentMap[y][x] = 'S';	doorsOpen[y][x] = true;}}
 		}
-		doorsOpened = true;
 	}
 	
 	public void setKeyFound () {
 		if (instantaneousDoorOpen) { //abre logo as portas
-			this.openDoors();
+			this.openDoors(-1,-1);
 		}
 		key.setFound();
 		currentMap[key.getY()][key.getX()] = ' '; //apagar chave do mapa

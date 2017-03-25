@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import dkeep.logic.Club;
 import dkeep.logic.GameMap;
 import dkeep.logic.Maps;
 import dkeep.logic.Ogre;
@@ -209,8 +208,7 @@ public class TestOgreLevel {
 				{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', 'k', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
 				{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
 				{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-				{ 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; // mapa
-																													// do
+				{ 'X', 'A', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } }; 	
 		AssertEquals(Maps.getMap(0), map0);
 		AssertEquals(Maps.getMap(1), map1);
 		AssertEquals(Maps.getMap(2), map2);
@@ -231,6 +229,7 @@ public class TestOgreLevel {
 		assertTrue(Maps.changeNewMap(1, 0, 'I'));
 		assertTrue(Maps.changeNewMap(0, 1, 'I'));
 		assertFalse(Maps.changeNewMap(0, 1, ' '));
+		assertTrue(Maps.changeNewMap(0, 1, 'S'));
 		assertFalse(Maps.instantaneousDoorOpen(0));
 		assertTrue(Maps.instantaneousDoorOpen(1));
 		assertFalse(Maps.hasMultipleOgre(0));

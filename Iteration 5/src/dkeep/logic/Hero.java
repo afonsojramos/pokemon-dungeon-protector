@@ -16,7 +16,7 @@ public class Hero extends Person implements java.io.Serializable{
 	}
 	
 	public void doStep(MapLevel currentMap, int xHero, int yHero) {
-		if(currentMap.isOnTheDoor(xHero, yHero) && !(currentMap.isDoorOpen())) {currentMap.openDoors();return;}
+		if(currentMap.isOnTheDoor(xHero, yHero) && !(currentMap.isDoorOpen(xHero,yHero))) {currentMap.openDoors(xHero,yHero);return;}
 		if(currentMap.isAboveKey(xHero, yHero) && !currentMap.isKeyFound()) {
 			currentMap.setKeyFound();
 			if(!currentMap.isInstantaneousDoorOpen()) {Ch = 'K';}
@@ -25,7 +25,7 @@ public class Hero extends Person implements java.io.Serializable{
 		prevY = y;
 		x = xHero;
 		y = yHero;
-		if (currentMap.isOnTheDoor(xHero, yHero) && currentMap.isDoorOpen()) { currentMap.setPosUsed(x, y); }
+		if (currentMap.isOnTheDoor(xHero, yHero) && currentMap.isDoorOpen(xHero,yHero)) { currentMap.setPosUsed(x, y); }
 	}
 	
 	public void setArmed(boolean change) {
