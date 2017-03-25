@@ -38,6 +38,8 @@ import javax.swing.JPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import javax.swing.SwingConstants;
 
 public class PlayGame {
 
@@ -70,6 +72,11 @@ public class PlayGame {
 	private int xMouseMap, yMouseMap; //coodenadas do rato na tabela de jogo
 	private boolean keyUsed = false, doorUsed = false;
 	private static PlayMusic play;
+	private JPanel buttonsContrlPanel;
+	private JButton btnLeft;
+	private JButton btnRight;
+	private JButton btnUp;
+	private JButton btnDown;
 	
 	/**
 	 * Launch the application.
@@ -184,6 +191,7 @@ public class PlayGame {
 	public void createButtons() {
 		createButtons1();
 		createButtons2();
+		createButtons3();
 	}
 	public void createButtons1() {
 		btnStartGame = new JButton("Start Game");
@@ -214,6 +222,23 @@ public class PlayGame {
 		buttonsPanel.add(btnHero);	
 		btnHeroArmed.setIcon(new ImageIcon(Assets.heroFrontArmed));
 		buttonsPanel.add(btnHeroArmed);
+	}
+	
+	public void createButtons3() {
+		buttonsContrlPanel = new JPanel();
+		buttonsContrlPanel.setBounds(558, 215, 212, 200);
+		frame.getContentPane().add(buttonsContrlPanel);
+		buttonsContrlPanel.setLayout(new BorderLayout(0, 0));
+		buttonsContrlPanel.setVisible(false);
+		btnLeft = new JButton("LEFT");
+		buttonsContrlPanel.add(btnLeft, BorderLayout.WEST);
+		btnRight = new JButton("RIGHT");
+		buttonsContrlPanel.add(btnRight, BorderLayout.EAST);
+		btnUp = new JButton("UP");
+		buttonsContrlPanel.add(btnUp, BorderLayout.NORTH);
+		btnDown = new JButton("DOWN");
+		buttonsContrlPanel.add(btnDown, BorderLayout.SOUTH);
+		
 	}
 	
 	public void frameKeyboardListener() {
@@ -420,7 +445,8 @@ public class PlayGame {
 				gameStarted = true;
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
-				setupGame();				
+				setupGame();
+				buttonsContrlPanel.setVisible(true);
 		}});
 	}
 	
@@ -485,10 +511,29 @@ public class PlayGame {
 			}
 		});
 	}
+	public void buttonsListeners3() {
+		btnLeft.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {if (game.startGame('a')) {updateGraphics();} frame.requestFocus();}
+		});
+		btnRight.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {if (game.startGame('d')) {updateGraphics();} frame.requestFocus();}
+		});
+		btnUp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {if (game.startGame('w')) {updateGraphics();}frame.requestFocus();}
+		});
+		btnDown.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {if (game.startGame('s')) {updateGraphics();} frame.requestFocus();}
+		});
+	}
 	public void buttonsListeners() {
 		startGameListener();
 		buttonsListeners1();
 		buttonsListeners2();
+		buttonsListeners3();
 	}
 	
 	public void createPainelPrint() {
@@ -498,5 +543,4 @@ public class PlayGame {
 		frame.getContentPane().add(printPanel);
 		frame.requestFocusInWindow();
 		}
-
 }
