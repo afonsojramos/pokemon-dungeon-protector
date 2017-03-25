@@ -31,6 +31,8 @@ public class PrintMap extends JPanel {
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // limpa fundo
+		if(game == null) { g.drawImage(Assets.pokemon, 12, 68, 450, 450, null);}
+		else {
 		g.drawImage(Assets.grass, 0, 0, 500, 500, null);//DESENHAR FUNDO
 		String stringMap = game.getMap();
 		int j = 0, i = 0;
@@ -53,7 +55,7 @@ public class PrintMap extends JPanel {
 			} else if (aChar == '8') {	g.drawImage(Assets.ogreStun, j * xDimension, i * yDimension, xDimension, yDimension, null);
 			} else if (aChar == '\n') {
 				i++; j = -1;}
-			j++;}
+			j++;}}
 	}
 	public boolean isOgreAboveKey() {
 		boolean result = false;

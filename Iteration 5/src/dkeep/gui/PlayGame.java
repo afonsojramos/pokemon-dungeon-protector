@@ -2,6 +2,7 @@ package dkeep.gui;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Graphics;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -23,6 +24,7 @@ import javax.swing.ImageIcon;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -369,6 +371,7 @@ public class PlayGame {
 	         System.out.println("final level: "+finalLevel);
 	         in3.close();
 	         fileIn3.close();
+	         Maps.setCurrentLevel(level); Maps.setFinalLevel(finalLevel);
 	      }catch(IOException i) {
 	         i.printStackTrace();
 	         return;
@@ -491,8 +494,9 @@ public class PlayGame {
 	public void createPainelPrint() {
 		printPanel = new PrintMap();
 		printPanel.setBounds(12, 68, 500, 500);
-		printPanel.setVisible(false);
+		printPanel.setVisible(true);
 		frame.getContentPane().add(printPanel);
 		frame.requestFocusInWindow();
-	}
+		}
+
 }

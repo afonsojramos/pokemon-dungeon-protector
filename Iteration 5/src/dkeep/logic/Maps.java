@@ -34,7 +34,7 @@ public class Maps implements java.io.Serializable{
 	}};																									// nivel
 																												// 3
 	static int currentLevel = 1;
-	static int finalLevel = listOfMaps.size();
+	static int finalLevel = listOfMaps.size() -1;
 	
 	static boolean hasMultipleOgres[] = new boolean[] {false, false, false, true};// se true, criar random ogres
 	static boolean instantaneousDoorOpens[] = new boolean[] {false, true, false, false};// se true, portas abrem-se mal se apanha a chave
