@@ -16,42 +16,21 @@ public class Hero extends Person implements java.io.Serializable{
 	}
 	
 	public void doStep(MapLevel currentMap, int xHero, int yHero) {
-		if (currentMap.isOnTheDoor(xHero, yHero)) {
-			if (currentMap.isDoorOpen()) {
-				prevX = x;
-				prevY = y;
-				x = xHero;
-				y = yHero;
-				currentMap.setPosUsed(x, y);
-				return;
-			} else {// nao alteramos as coordenadas e abrir as portas
-				currentMap.openDoors();
-				return;
-		}}
-		if (currentMap.isAboveKey(xHero, yHero) && !currentMap.isKeyFound()) {// acabou de encontrar a chave
+		if(currentMap.isOnTheDoor(xHero, yHero) && !(currentMap.isDoorOpen())) {currentMap.openDoors();return;}
+		if(currentMap.isAboveKey(xHero, yHero) && !currentMap.isKeyFound()) {
 			currentMap.setKeyFound();
-			if(!currentMap.isInstantaneousDoorOpen()) {
-			Ch = 'K';
-			}
-			prevX = x;
-			prevY = y;
-			x = xHero;
-			y = yHero;
-			return;}
+			if(!currentMap.isInstantaneousDoorOpen()) {Ch = 'K';}
+		}
 		prevX = x;
 		prevY = y;
 		x = xHero;
 		y = yHero;
-		return;
+		if (currentMap.isOnTheDoor(xHero, yHero) && currentMap.isDoorOpen()) { currentMap.setPosUsed(x, y); }
 	}
-
+	
 	public void setArmed(boolean change) {
 		armed = change;
-		if(change) {
-		Ch = 'A';
-		} else {
-			Ch = 'H';
-		}
+		Ch = change ? 'A' : 'H';
 	}
 	
 	public boolean isArmed() {

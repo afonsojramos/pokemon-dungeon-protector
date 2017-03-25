@@ -386,8 +386,8 @@ public class PlayGame {
 		});
 	}
 	
-	public void loader(String s){
-		if (s == null) return;
+	public boolean loader(String s){
+		if (s == null) return false;
 		try {
 	         FileInputStream fileIn = new FileInputStream("Utils/"+s+".txt");
 	         ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -407,12 +407,13 @@ public class PlayGame {
 	         Maps.setCurrentLevel(level); Maps.setFinalLevel(finalLevel);
 	      }catch(IOException i) {
 	         i.printStackTrace();
-	         return;
+	         return false;
 	      }catch(ClassNotFoundException c) {
 	         System.out.println("GameMap class not found");
 	         c.printStackTrace();
-	         return;
+	         return false;
 	      }
+		return true;
 	}
 	
 	public void loadGameListener() {
@@ -421,7 +422,7 @@ public class PlayGame {
 			public void mouseClicked(MouseEvent arg0) {
 				String s = (String) JOptionPane.showInputDialog(frame, "Name of the file:", "Options",
 						JOptionPane.PLAIN_MESSAGE, null, null, null);
-				loader(s);
+				if(!loader(s)) return;
 				setupGame();
 				gameStarted = true; lblGameState.setText("Game is starting"); }
 			@Override

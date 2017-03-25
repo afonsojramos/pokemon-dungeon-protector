@@ -110,7 +110,7 @@ public class Maps implements java.io.Serializable{
 			for (int i = 0; i < mapArray.length; i++) { // apagar o heroi que ja existia no mapa
 				for (int j = 0; j < mapArray[0].length; j++) {
 					if (mapArray[i][j] == 'A' || mapArray[i][j] == 'H') {
-						mapArray[i][j] = ' '; System.out.println("apagou heroi"); 	}}}}
+						mapArray[i][j] = ' ';}}}}
 		mapArray[y][x] = Ch;
 		System.out.println(mapArray[y][x]);
 		return true;
