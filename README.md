@@ -7,7 +7,7 @@ Can you protect your hero from the dangers present in the various dungeons?
 
 ![Logo](https://github.com/AJRamos308/LPOO1617_T3G12/blob/master/Iteration%205/Utils/Pokemon.png)
 
-![Example](https://github.com/AJRamos308/LPOO1617_T3G12/blob/master/Iteration%205/Utils/example.png)
+![Exe](https://github.com/AJRamos308/LPOO1617_T3G12/blob/master/Iteration%205/Utils/example.png)
 
 ![EclEmma](https://github.com/AJRamos308/LPOO1617_T3G12/blob/master/Iteration%205/Utils/Eclemma.PNG)
 
