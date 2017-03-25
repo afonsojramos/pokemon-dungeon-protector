@@ -80,32 +80,22 @@ public class MapLevel implements java.io.Serializable{
 	}
 	
 	public boolean isEdgeDoor(int x, int y) {
-		if (!doorsOpen[y][x])
-			return false;
-		else if (x == doorsOpen.length-1 || y == doorsOpen[0].length-1 || x == 0 || y == 0)
-			return true;
-		else
-			return false;
+		if (!doorsOpen[y][x])	return false;
+		else if (x == doorsOpen.length-1 || y == doorsOpen[0].length-1 || x == 0 || y == 0)	return true;
+		else	return false;
 	}
 	
 	public void openDoors (int x, int y) {
 		@SuppressWarnings("unused")
 		JFXPanel fxPanel = new JFXPanel();
 		Media hit = new Media(new File("Utils/door.wav").toURI().toString());
-		play = new PlayMusic(hit);
-		play.playSound();
+		play = new PlayMusic(hit);	play.playSound();
 		for (int i = 0; i < doorsPosX.size(); i++) {
-			if (doorsPosX.get(i) == width - 1){
-				currentMap[doorsPosY.get(i)][width-1] = 'S';	doorsOpen[doorsPosY.get(i)][width - 1] = true;
-			} else if (doorsPosX.get(i) == 0){
-				currentMap[doorsPosY.get(i)][0] = 'S';			doorsOpen[doorsPosY.get(i)][0] = true;
-			} else if (doorsPosY.get(i) == height - 1){
-				currentMap[height-1][doorsPosX.get(i)] = 'S';	doorsOpen[height - 1][doorsPosX.get(i)] = true;	
-			} else if (doorsPosY.get(i) == 0){
-				currentMap[0][doorsPosX.get(i)] = 'S';			doorsOpen[0][doorsPosX.get(i)] = true;
-			}else if (doorsPosX.get(i) == x){
-				if (doorsPosY.get(i) == y){ currentMap[y][x] = 'S';	doorsOpen[y][x] = true;}}
-		}
+			if (doorsPosX.get(i) == width - 1){				currentMap[doorsPosY.get(i)][width-1] = 'S';	doorsOpen[doorsPosY.get(i)][width - 1] = true;
+			} else if (doorsPosX.get(i) == 0){				currentMap[doorsPosY.get(i)][0] = 'S';			doorsOpen[doorsPosY.get(i)][0] = true;
+			} else if (doorsPosY.get(i) == height - 1){		currentMap[height-1][doorsPosX.get(i)] = 'S';	doorsOpen[height - 1][doorsPosX.get(i)] = true;	
+			} else if (doorsPosY.get(i) == 0){				currentMap[0][doorsPosX.get(i)] = 'S';			doorsOpen[0][doorsPosX.get(i)] = true;
+			}else if (doorsPosX.get(i) == x){if (doorsPosY.get(i) == y){ currentMap[y][x] = 'S';			doorsOpen[y][x] = true;}}}
 	}
 	
 	public void setKeyFound () {

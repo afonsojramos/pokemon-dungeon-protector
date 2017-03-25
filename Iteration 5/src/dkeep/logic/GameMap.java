@@ -102,16 +102,12 @@ public class GameMap implements java.io.Serializable{
 			if (characters.get(i) instanceof Guard) {
 				Guard g = (Guard)characters.get(i);
 				int xg = g.getX(), yg = g.getY();
-				if(g.isAdjacent(x, y, xg, yg)) { //se o guarda esta adjacente
-					return true;}
+				if(g.isAdjacent(x, y, xg, yg)) { return true;}
 			} else if (characters.get(i) instanceof Ogre) {
 				Ogre o = (Ogre)characters.get(i);
 				int xo = o.getX(), yo = o.getY();
-				if ((o.isAdjacent(x, y, xo, yo) && !hero.isArmed()) || (o.isClubAdjacent(x, y))) {
-					return true;
-				}}}
-		if(currentMap.isOnTheDoor(x, y) && currentMap.isDoorOpen(x,y) && currentMap.isEdgeDoor(x, y)) {
-			return true;}
+				if ((o.isAdjacent(x, y, xo, yo) && !hero.isArmed()) || (o.isClubAdjacent(x, y))) {	return true;	}}}
+		if(currentMap.isOnTheDoor(x, y) && currentMap.isDoorOpen(x,y) && currentMap.isEdgeDoor(x, y)) {	return true;}
 		return false;
 	}
 	/**
