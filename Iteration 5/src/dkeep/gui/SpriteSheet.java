@@ -1,24 +1,26 @@
 package dkeep.gui;
 
 import java.awt.image.BufferedImage;
-
+/**
+ * SpriteSheet.java - Class that deals with the sprite sheet's reading
+ */
 public class SpriteSheet {
 
 	private BufferedImage sheet;
 	/**
-	 * vai buscar ficheriro de imagens
+	 * Constructor for the spritesheet
 	 * @param sheet
 	 */
 	public SpriteSheet(BufferedImage sheet){
 		this.sheet = sheet;
 	}
 	/**
-	 * corta ficheiro de imagens nas coordenadas e com as dimensoes especificadas nos parametros
+	 * Crops the sheet according to the provided pixel position and size
 	 * @param x
 	 * @param y
 	 * @param width
 	 * @param height
-	 * @return
+	 * @return BufferedImage
 	 */
 	public BufferedImage crop(int x, int y, int width, int height){
 		return sheet.getSubimage(x, y, width, height);

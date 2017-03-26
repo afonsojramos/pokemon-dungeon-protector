@@ -1,6 +1,10 @@
 package dkeep.logic;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**  
+* Guard.java - Class regarding the guard  
+* @see Person
+*/ 
 public class Guard extends Person implements java.io.Serializable{
 	
 	public enum Personality {Rookie, Drunken, Suspicious, Obedient} 
@@ -16,7 +20,7 @@ public class Guard extends Person implements java.io.Serializable{
 	private int it;//iterador que percorre path
 	
 	/**
-	 * construtor do guarda
+	 * guard constructor
 	 * @param name
 	 * @param x
 	 * @param y
@@ -37,7 +41,7 @@ public class Guard extends Person implements java.io.Serializable{
 		this(name, x, y, 'G', personality);
 	}*/
 	/**
-	 * construtor do guarda
+	 * Guard constructor
 	 * @param x
 	 * @param y
 	 */
@@ -46,23 +50,27 @@ public class Guard extends Person implements java.io.Serializable{
 	}
 	
 	/**
-	 * retorna x do guarda
+	 * Gets the guard's X
+	 * @return x
 	 */
 	public int getX() { return this.x; }
 	/**
-	 * retorna y do guarda
+	 * Gets the guard's Y
+	 * @return y
 	 */
 	public int getY() { return this.y; }
 	/**
-	 * altera o x do guarda
+	 * Sets the guard's X
+	 * @param x
 	 */
 	public void setX(int x) { this.x = x; }
 	/**
-	 * altera o y do guarda
+	 * Sets the guard's Y
+	 * @param y
 	 */
 	public void setY(int y) { this.y = y; }
 	/**
-	 * metodo que trata do movimento do guarda
+	 * Method that deals with guard movement
 	 */
 	public void doStep(MapLevel currentMap, int xHero, int yHero) {
 		prevX = this.x; //guardar coordenadas antigas para poder apagar a personagem no mapa
@@ -79,7 +87,7 @@ public class Guard extends Person implements java.io.Serializable{
 		currentMap.setPosUsed(x, y);
 	}
 	/**
-	 * metodo usado para o movimento do guarda quando este e Rookie
+	 * Method for rookie guard
 	 */
 	public void rookiePath(){
 		this.x = pathX[it];
@@ -88,7 +96,7 @@ public class Guard extends Person implements java.io.Serializable{
 		it = it % 24;
 	}
 	/**
-	 * metodo usado para o movimento do guarda quando este e Drunken
+	 * Method for drunk guard
 	 */
 	public void drunkenPath(){
 		if (timeAwake > 0) { timeAwake--;
@@ -105,7 +113,7 @@ public class Guard extends Person implements java.io.Serializable{
 			}timeSleep--;}
 	}
 	/**
-	 * metodo usado para o movimento do guarda quando este e Suspicious
+	 * Method for suspicious guard
 	 */
 	public void suspiciousPath(){ // timeAwake = sentido certo ; timeSleep = sentido contrario
 		if (timeAwake > 0) {
@@ -121,14 +129,15 @@ public class Guard extends Person implements java.io.Serializable{
 		this.x = pathX[it]; this.y = pathY[it];
 	}
 	/**
-	 * altera a personalidade do guarda
+	 * Changes the guard's personality
 	 * @param p
 	 */
 	public void setPersonality (Personality p) {
 		personality = p;
 	}
 	/**
-	 * verifica se o guarda esta adjacente a uma determinada posicao
+	 * Verifies if guard is adjacent
+	 * @return boolean
 	 */
 	public boolean isAdjacent(int x1, int y1, int x2, int y2) {
 		if (x1 == x2 && (y2 == (y1 - 1) || y2 == (y1 + 1))) {return true;}
@@ -137,15 +146,15 @@ public class Guard extends Person implements java.io.Serializable{
 		return false;
 	}
 	/**
-	 * verifica se o guarda esta numa posicao invalida
+	 * Verifies if guard is in invalid position
 	 * @param mapArray
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isInInvalidPos (char [][] mapArray) {
 		return (mapArray[y][x] != ' ');
 	}
 	/**
-	 * retoma variaveis static da classe Guard
+	 * Restarts guard's static variables
 	 */
 	public void restartVariables() {
 		numberOfGuards = 0;

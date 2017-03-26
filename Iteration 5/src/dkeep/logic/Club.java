@@ -1,7 +1,9 @@
 package dkeep.logic;
 
 import java.util.Random;
-
+/**
+ * Club.java - Class that deals with the club
+ */
 public class Club implements java.io.Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -9,7 +11,7 @@ public class Club implements java.io.Serializable{
 	private int x, y, prevX, prevY;
 	private char Ch;
 	/**
-	 * construtor do club
+	 * Club constructor
 	 * @param x
 	 * @param y
 	 * @param Ch
@@ -23,7 +25,7 @@ public class Club implements java.io.Serializable{
 		
 	}
 	/**
-	 * construtor do club
+	 * Club constructor
 	 * @param x
 	 * @param y
 	 */
@@ -31,22 +33,22 @@ public class Club implements java.io.Serializable{
 		this(x, y, '*');
 	}
 	/**
-	 * retorna x do club
-	 * @return
+	 * Gets club's X
+	 * @return x
 	 */
 	public int getX() {return x;}
 	/**
-	 * retorna y do club
-	 * @return
+	 * Gets club's y
+	 * @return y
 	 */
 	public int getY() {return y;}
 	/**
-	 * retorna Ch do Club
-	 * @return
+	 * Gets club's char
+	 * @return Char
 	 */
 	public char getCh() {return Ch;}
 	/**
-	 * trata da posicao em que o club vai estar aposto o movimento do seu respetivo ogre
+	 * Deals with clubs position relative to the ogre's position
 	 * @param currentMap
 	 * @param xOgre
 	 * @param yOgre
@@ -62,11 +64,11 @@ public class Club implements java.io.Serializable{
 			default:	break;} } while (!possibleMove);
 	}
 	/**
-	 * metodo para colocar  o club numa posicao abaixo do seu respetivo ogre
+	 * Places club under ogre
 	 * @param currentMap
 	 * @param xOgre
 	 * @param yOgre
-	 * @return
+	 * @return boolean
 	 */
 	public boolean clubDown(MapLevel currentMap, int xOgre, int yOgre){
 		if ((currentMap.isAboveWall(xOgre, yOgre + 1)) || (currentMap.isOnTheDoor(xOgre, yOgre + 1))) {
@@ -79,11 +81,11 @@ public class Club implements java.io.Serializable{
 		}
 	}
 	/**
-	 * metodo para colocar  o club numa posicao a esquerda do seu respetivo ogre
+	 * Places club left to ogre
 	 * @param currentMap
 	 * @param xOgre
 	 * @param yOgre
-	 * @return
+	 * @return boolean
 	 */
 	public boolean clubLeft(MapLevel currentMap, int xOgre, int yOgre){
 		if ((currentMap.isAboveWall(xOgre - 1, yOgre)) || (currentMap.isOnTheDoor(xOgre - 1, yOgre))) {
@@ -96,11 +98,11 @@ public class Club implements java.io.Serializable{
 		}
 	}
 	/**
-	 * metodo para colocar  o club numa posicao a direita do seu respetivo ogre
+	 * Places club right to ogre
 	 * @param currentMap
 	 * @param xOgre
 	 * @param yOgre
-	 * @return
+	 * @return boolean
 	 */
 	public boolean clubRight(MapLevel currentMap, int xOgre, int yOgre){
 		if ((currentMap.isAboveWall(xOgre + 1, yOgre)) || (currentMap.isOnTheDoor(xOgre + 1, yOgre))) {
@@ -113,11 +115,11 @@ public class Club implements java.io.Serializable{
 		}
 	}
 	/**
-	 * metodo para colocar  o club numa posicao a cima do seu respetivo ogre
+	 * Places club above ogre
 	 * @param currentMap
 	 * @param xOgre
 	 * @param yOgre
-	 * @return
+	 * @return boolean
 	 */
 	public boolean clubUp(MapLevel currentMap, int xOgre, int yOgre){
 		if ((currentMap.isAboveWall(xOgre, yOgre - 1)) || (currentMap.isOnTheDoor(xOgre, yOgre - 1))) {

@@ -4,7 +4,9 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.ImageIcon;
-
+/**
+ * Assets.java - Class that saves the sprites
+ */
 public class Assets {
 	private static final int yh = 32, xt = 88, yt = 96;
 	private static int[][] Trees = new int[20][20];
@@ -16,7 +18,7 @@ public class Assets {
 								grass, door, key, pokemon;
 	public static ImageIcon icon;
 	/**
-	 * inicializa a atribuicao das imagens as variaveis
+	 * Initializes Sprites attribution
 	 */
 	public static void init(){
 		try {
@@ -31,10 +33,10 @@ public class Assets {
 		}
 	}
 	/**
-	 * trata das imagens para as paredes
+	 * Get's the random tree that was attributed to that position in the map
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return BufferedImage
 	 */
 	public static BufferedImage getTree(int x, int y){
 		switch (Trees[y][x]){
@@ -43,7 +45,7 @@ public class Assets {
 			case 7: return tree7;					case 8: return tree8;					default: return tree1;}
 	}
 	/**
-	 * trata das imagens para o heroi e seus diferente estados
+	 * Deals with hero sprites
 	 */
 	public static void setHero(){
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/heroSprite.png"));
@@ -53,7 +55,7 @@ public class Assets {
 		heroFrontKeyArmed = sheet.crop(5*yh, 2*yh , yh, yh);
 	}
 	/**
-	 * trata da imagem para o guarda 
+	 * Deals with guard sprites
 	 */
 	public static void setGuard(){
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/guardSprite.png"));
@@ -61,7 +63,7 @@ public class Assets {
 		guardSleep = sheet.crop(2*yh , yh, yh, yh);
 	}
 	/**
-	 * trata de imagem para o ogre
+	 * Deals with ogre sprites
 	 */
 	public static void setOgre(){
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/ogre.png"));
@@ -71,7 +73,7 @@ public class Assets {
 		ogres = sheet.crop(4*yh , 0, yh, yh);
 	}
 	/**
-	 * trata das imagens para as arvores/paredes
+	 * Deals with tree sprites while attributing random trees to each place
 	 */
 	public static void setTrees(){
 		for (int i = 0 ; i < Trees.length ; i++){
@@ -89,7 +91,7 @@ public class Assets {
 		tree8 = sheet.crop(xt, 3*yt, xt, yt);
 	}
 	/**
-	 * trata das imagens para o club dos ogres
+	 * Deals with club sprites
 	 */
 	public static void setClub(){
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/club.png"));
@@ -97,7 +99,7 @@ public class Assets {
 		clubFrontKey = sheet.crop(yh , yh, yh, yh);
 	}
 	/**
-	 * trata das imagens para outro elementos do mapa
+	 * Deals with other game sprites
 	 */
 	public static void setOthers(){
 		grass = Loader.loadImage("/grass.png");

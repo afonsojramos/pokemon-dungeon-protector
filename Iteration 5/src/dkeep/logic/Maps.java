@@ -1,7 +1,9 @@
 package dkeep.logic;
 
 import java.util.ArrayList;
-
+/**
+ * Maps.java - Class regarding the Maps 
+ */
 public class Maps implements java.io.Serializable{
 	static char map0[][] = new char[][] {{' '}};
 	static char map1[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
@@ -31,37 +33,36 @@ public class Maps implements java.io.Serializable{
 		add(map1);
 		add(map2);
 		add(map3);
-	}};																									// nivel
-																												// 3
+	}};																									
 	static int currentLevel = 1;
 	static int finalLevel = listOfMaps.size() -1;
 	
 	static boolean hasMultipleOgres[] = new boolean[] {false, false, false, true};// se true, criar random ogres
 	static boolean instantaneousDoorOpens[] = new boolean[] {false, true, false, false};// se true, portas abrem-se mal se apanha a chave
 	/**
-	 * retorna o nivel atual do mapa a ser usado			
-	 * @return
+	 * Returns current level		
+	 * @return currentLevel
 	 */
 	public static int getCurrentLevel() { return currentLevel; }
 	/**
-	 * retorna o nivel final do jogo
-	 * @return
+	 * Returns final level
+	 * @return finalLevel
 	 */
 	public static int getFinalLevel() {return finalLevel;}
 	/**
-	 * altera o nivel atual do jogo
-	 * @param l
+	 * Sets the current level
+	 * @param level
 	 */
 	public static void setCurrentLevel(int l) {currentLevel = l;}
 	/**
-	 * altera o nivel final do jogo
-	 * @param l
+	 * Sets final level
+	 * @param level
 	 */
 	public static void setFinalLevel(int l) {finalLevel = l;}
 	/**
-	 * retorna uma copia do mapa de indice x da lista de mapas
-	 * @param x
-	 * @return
+	 * returns a copy of the level's current map
+	 * @param level
+	 * @return char[][] tmpArray
 	 */
 	public static char[][] getMap(int x){
 		
@@ -76,9 +77,9 @@ public class Maps implements java.io.Serializable{
 		return tmpArray;
 	}
 	/**
-	 * verifica se o mapa de indice x da lista de mapas precisa de criar ogres aquando da criacao do nivel de jogo que usa este mesmo mapa
-	 * @param x
-	 * @return
+	 * Verifies if the supplied level has multiple ogres
+	 * @param level
+	 * @return boolean
 	 */
 	public static boolean hasMultipleOgre(int x){
 		if (x > 3)
@@ -86,9 +87,9 @@ public class Maps implements java.io.Serializable{
 		return hasMultipleOgres[x];
 	}
 	/**
-	 * verifica se o mapa de indice x da lista de mapas abre as portas mal o heroi apanha a chave e nao apenas quando apanha a chave e depois se aproxima da porta
-	 * @param x
-	 * @return
+	 * Verifies if the supplied level opens doors instantaneously, by using a lever
+	 * @param level
+	 * @return boolean
 	 */
 	public static boolean instantaneousDoorOpen(int x){
 		if (x > 3)
@@ -96,9 +97,9 @@ public class Maps implements java.io.Serializable{
 		return instantaneousDoorOpens[x]; 
 	}
 	/**
-	 * cria array de um novo mapa de largura x e altura y e guarda-o na lista de mapas de jogo
-	 * @param x
-	 * @param y
+	 * Creates a new array with the provided size and saves it in the list of maps
+	 * @param xDimension
+	 * @param yDimension
 	 */
 	public static void createNewMap(int x, int y) {
 		finalLevel = listOfMaps.size();currentLevel = finalLevel;
@@ -118,11 +119,11 @@ public class Maps implements java.io.Serializable{
 		listOfMaps.add(creationMap);
 	}
 	/**
-	 * altera elementos do mapa de jogo que esta a ser criado pelo utilizador 
+	 * Changes map parameters based on user clicks while returning true if it allowed to do it
 	 * @param x
 	 * @param y
 	 * @param Ch
-	 * @return
+	 * @return boolean
 	 */
 	public static boolean changeNewMap(int x, int y, char Ch) {
 		char[][] mapArray = listOfMaps.get(listOfMaps.size() - 1);
@@ -139,11 +140,11 @@ public class Maps implements java.io.Serializable{
 		return false;
 	}
 	/**
-	 * verifica se um determinado elemento pode ser colocado no mapa que esta a ser criado
+	 * Verifies if the new element can be placed in the provided location
 	 * @param x
 	 * @param y
 	 * @param Ch
-	 * @return
+	 * @return boolean
 	 */
 	public static boolean validateElement(int x, int y, char Ch) {
 		char[][] mapArray = listOfMaps.get(listOfMaps.size() - 1);
@@ -160,8 +161,4 @@ public class Maps implements java.io.Serializable{
 		System.out.println(mapArray[y][x]);
 		return true;
 	}
-	
-
-	
-	
 }

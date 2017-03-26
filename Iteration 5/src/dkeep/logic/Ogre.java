@@ -1,7 +1,10 @@
 package dkeep.logic;
 
 import java.util.Random;
-
+/**  
+* Ogre.java - Class regarding the ogre  
+* @see Person
+*/ 
 public class Ogre extends Person implements java.io.Serializable{
 	Random rand = new Random();
 	private Club club;
@@ -9,7 +12,7 @@ public class Ogre extends Person implements java.io.Serializable{
 	private static int pos = 1; //posicao dos ogre criados com o construtor sem parametros
 	private int stuned;
 	/**
-	 * construtor do ogre
+	 * Ogre's constructor
 	 * @param name
 	 * @param x
 	 * @param y
@@ -29,14 +32,14 @@ public class Ogre extends Person implements java.io.Serializable{
 		stuned = 0;
 	}
 	/**
-	 * construtor do ogre
+	 * Ogre's constructor
 	 * @param mapArray
 	 */
 	public Ogre(char [][] mapArray) {
 		this("ogre" + nOgres, (pos % 6), (pos / 6) + 1, 'O', mapArray);
 	}
 	/**
-	 * construtor do ogre
+	 * Ogre's constructor
 	 * @param x
 	 * @param y
 	 * @param mapArray
@@ -45,38 +48,45 @@ public class Ogre extends Person implements java.io.Serializable{
 		this("ogre" + nOgres, x, y, 'O', mapArray);
 	}
 	/**
-	 * retorna x do club do ogre
-	 * @return
+	 * Gets club's X
+	 * @return x
 	 */
 	public int getClubX () { return club.getX(); }
 	/**
-	 * retorna y do club do ogre
-	 * @return
+	 * Gets club's y
+	 * @return y
 	 */
 	public int getClubY () { return club.getY(); }
 	/**
-	 * retorna Ch do club do ogre
-	 * @return
+	 * Gets club's char
+	 * @return char
 	 */
 	public char getClubCh () { return club.getCh(); }
 	/**
-	 * retorna x do ogre
+	 * Gets ogre's X
+	 * @return x
 	 */
 	public int getX () { return x; }
 	/**
-	 * retorna y do ogre
+	 * Gets ogre's y
+	 * @return y
 	 */
 	public int getY () { return y; }
 	/**
-	 * retorna Ch do ogre
+	 * Gets ogre's char
+	 * @return char
 	 */
 	public char getCh () { return Ch; }
 	/**
-	 * alterao Ch do ogre
+	 * Set ogre's char
+	 * @param char
 	 */
 	public void setCh (char ch) { this.Ch = ch; }
 	/**
-	 * trata do movimento aleatorio do ogre
+	 * Deals with Ogre's movement
+	 * @param currentMap
+	 * @param xHero
+	 * @param yHero
 	 */
 	public void doStep(MapLevel currentMap, int xHero, int yHero) {
 		if (!this.isStuned()) { boolean possibleMove = false;
@@ -93,11 +103,11 @@ public class Ogre extends Person implements java.io.Serializable{
 		club.move(currentMap, x, y);
 	}
 	/**
-	 * quando o ogre da um passo para cima
+	 * Ogre moves up
 	 * @param currentMap
 	 * @param xHero
 	 * @param yHero
-	 * @return
+	 * @return boolean
 	 */
 	public boolean ogreUp(MapLevel currentMap, int xHero, int yHero){
 		if ((currentMap.isAboveWall(x, y - 1)) || (currentMap.isOnTheDoor(x, y - 1))) {
@@ -111,11 +121,11 @@ public class Ogre extends Person implements java.io.Serializable{
 		}
 	}
 	/**
-	 * quando o ogre da um passo para baixo
+	 * Ogre moves down
 	 * @param currentMap
 	 * @param xHero
 	 * @param yHero
-	 * @return
+	 * @return boolean
 	 */
 	public boolean ogreDown(MapLevel currentMap, int xHero, int yHero){
 		if ((currentMap.isAboveWall(x, y + 1)) || (currentMap.isOnTheDoor(x, y + 1))) {
@@ -129,11 +139,11 @@ public class Ogre extends Person implements java.io.Serializable{
 		}
 	}
 	/**
-	 * quando o ogre da um passo para a direita
+	 * Ogre moves right
 	 * @param currentMap
 	 * @param xHero
 	 * @param yHero
-	 * @return
+	 * @return boolean
 	 */
 	public boolean ogreRight(MapLevel currentMap, int xHero, int yHero){
 		if ((currentMap.isAboveWall(x + 1, y)) || (currentMap.isOnTheDoor(x + 1, y))) {
@@ -147,11 +157,11 @@ public class Ogre extends Person implements java.io.Serializable{
 		}
 	}
 	/**
-	 * quando o ogre da um passo para a esquerda
+	 * Ogre moves left
 	 * @param currentMap
 	 * @param xHero
 	 * @param yHero
-	 * @return
+	 * @return boolean
 	 */
 	public boolean ogreLeft(MapLevel currentMap, int xHero, int yHero){
 		if ((currentMap.isAboveWall(x - 1, y)) || (currentMap.isOnTheDoor(x - 1, y))) {
@@ -165,7 +175,8 @@ public class Ogre extends Person implements java.io.Serializable{
 		}
 	}
 	/**
-	 * metodo usado para verificar se o ogre esta adjacente a uma posicao (x2, y2)
+	 * Checks if ogre is adjacent to something
+	 * @return boolean
 	 */
 	public boolean isAdjacent(int x1, int y1, int x2, int y2) {
 		if (x1 == x2 && (y2 == (y1 - 1) || y2 == (y1 + 1))) {return true;}
@@ -174,21 +185,21 @@ public class Ogre extends Person implements java.io.Serializable{
 		return false;
 	}
 	/**
-	 * verifica se o ogre esta stuned
-	 * @return
+	 * Checks if ogre is stuned
+	 * @return boolean
 	 */
 	public boolean isStuned() {
 		return stuned > 0;
 	}
 	/**
-	 * altera a condicao do ogre para ogre stuned
+	 * Changes the ogre's state to stuned
 	 */
 	public void stun() {
 		stuned = 2;
 		Ch = '8';
 	}
 	/**
-	 * diminui o tempo de stun do ogre. diminui 1 a cada jogada que passa
+	 * Decrements one to the stuned state
 	 */
 	public void lessStuned() {
 		stuned--;
@@ -197,26 +208,26 @@ public class Ogre extends Person implements java.io.Serializable{
 		}
 	}
 	/**
-	 * verifica se no mapa de jogo o club vai do ogre vai ficar visivel (devido a possiveis sobreposicoes de elementos)
+	 * Checks if club is visible
 	 * @param currentMap
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isClubVisible (MapLevel currentMap) {
 		return !currentMap.isElementAtPos(club.getX(), club.getY());
 	}
 	/**
-	 * verifica se o ogre esta numa posicao impossivel
+	 * Checks if ogre is in invalid position
 	 * @param mapArray
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isInInvalidPos (char [][] mapArray) {
 		return (mapArray[y][x] != ' ');
 	}
 	/**
-	 * verifica se o club esta adjacente a uma posicao (x, y)
+	 * Checks if club is adjacent to something
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isClubAdjacent(int x, int y) {
 		int xClub = club.getX(), yClub = club.getY();
@@ -226,7 +237,7 @@ public class Ogre extends Person implements java.io.Serializable{
 		return false;
 	}
 	/**
-	 * retoma variaveis static da classe ogre
+	 * Restarts static variables
 	 */
 	public void restartVariables() {
 		nOgres = 0;

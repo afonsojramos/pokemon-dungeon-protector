@@ -4,11 +4,13 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-
+/**
+ * PlayMusic.java - Class that deals with sounds
+ */
 public class PlayMusic {
 	public MediaPlayer mediaPlayer;
 	/**
-	 * processamento de ficheiros de som
+	 * Processing of sound files
 	 * @param media
 	 */
 	public PlayMusic(Media media){
@@ -19,7 +21,7 @@ public class PlayMusic {
 		mediaPlayer.setVolume(0.20);
 	}
 	/**
-	 * altera condicao de play das musicas
+	 * Sets sound to play continuously
 	 */
 	public void playContinuous(){
 		mediaPlayer.setAutoPlay(true);
@@ -31,7 +33,7 @@ public class PlayMusic {
 		mediaPlayer.play();
 	}
 	/**
-	 * play das musicas
+	 * Sets sound to only play once
 	 */
 	public void playSound(){
 		mediaPlayer.play();

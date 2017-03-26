@@ -6,6 +6,9 @@ import dkeep.gui.PlayMusic;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 
+/**  
+ * GameMap.java - Class regarding the game logic  
+ */ 
 public class GameMap implements java.io.Serializable{
 
 	Random rand = new Random();
@@ -18,12 +21,14 @@ public class GameMap implements java.io.Serializable{
 	private PlayMusic play;
 	
 	/**
-	 * Construtor de UM nivel de jogo.
-	 *  mapArray e a matriz com o conteudo do mapa;
-	 *   multipleOgres e um boleano para saber se este nivel gera aleatoriamente multiplos ogres
-	 *   instantaneousDoorOpen e um boleano para saber se neste nivel as portas abrem mal se apanha a chave
+	 * Constructor for a Game level
+	 * Map array is the matrix for the game map
+	 * MultipleOgres is a boolean that informs the constructor if it has to randomly generate the multiple ogres
+	 * While nOgres is self explanatory being the number of ogres
+	 * InstantaneousDoorOpen is a boolean that informs the constructor if it has to open door instantaneously, for example, with a lever
 	 * @param mapArray
 	 * @param multipleOgres
+	 * @param nOgres
 	 * @param instantaneousDoorOpen
 	 */
 	public GameMap(char [][] mapArray, boolean multipleOgres, int nOgres, boolean instantaneousDoorOpen) {
@@ -48,12 +53,13 @@ public class GameMap implements java.io.Serializable{
 				while (nOgres > 0) {	this.addOgreToLevel();	nOgres--;
 	}}}}
 	/**
-	 * retorna o vetor com as entidades do jogo
-	 * @return
+	 * Returns a vector with all the game characters
+	 * @return characters
 	 */
 	public Vector<Person> getCharacters() { return characters; }
 	 /**
-	  * percorre a matriz do mapa para extrair a informacao dos seu elementos e criar os mesmos
+	  * Goes through the matrix to extract elements information
+	  * @param isCreationMode
 	  */
 	public void readMap (boolean isCreationMode) {
 		if(isCreationMode) { 	characters.clear();	}
@@ -86,7 +92,7 @@ public class GameMap implements java.io.Serializable{
 		currentMap = new MapLevel(mapArray, key, doorX, doorY, instantaneousDoorOpen);
 	}
 	/**
-	 * metodo que adiciona um ogre ao nivel do jogo
+	 * Method that adds ogre to level
 	 */
 	public void addOgreToLevel() {
 		Ogre ogre = null;
@@ -97,8 +103,8 @@ public class GameMap implements java.io.Serializable{
 	}
 	
 	/**
-	 * verifica se o nivel acabou (ocorre ou quando o heroi morre ou quando chega a porta)
-	 * @return 
+	 * Verifies if hero loses the game or beats the last level
+	 * @return boolean
 	 */
 	public boolean isEndOfGame() {
 		int x = hero.getX(), y = hero.getY();
@@ -116,7 +122,7 @@ public class GameMap implements java.io.Serializable{
 		return false;
 	}
 	/**
-	 * Da stun nos Ogres do nivel (caso o heroi esteja armado. esta verificacao e feita em update() ...)
+	 * Stuns ogres (if the hero is armed in that level which is checked in update)
 	 */
 	public void StunOgres() {
 		int size = characters.size();
@@ -134,8 +140,8 @@ public class GameMap implements java.io.Serializable{
 	}}}}}
 
 	/**
-	 * verifica se o heroi venceu o nivel, ou seja, se chegou a porta
-	 * @return
+	 * Verifies if the hero has beaten the current level
+	 * @return true
 	 */
 	public boolean isVictory () {
 		int x = hero.getX(), y = hero.getY();
@@ -146,16 +152,18 @@ public class GameMap implements java.io.Serializable{
 	}
 	
 	/**
-	 * pinta as personagens no mapa e passa o mesmo para um sting para que haja o seu display
-	 * @return
+	 * Gets the char present in a position of the matrix
+	 * @param x
+	 * @param y
+	 * @return mapArray[x][y]
 	 */
 	public char getMapPos(int x, int y){
 		return mapArray[x][y];
 	}
 		
 	/**
-	 * pinta as personagens no mapa e passa o mesmo para um string para que haja o seu display
-	 * @return
+	 * Draws characters in their respective positions
+	 * @return String
 	 */
 	public String getMap() {
 		char [][] tmpArray = new char [mapArray.length][mapArray[0].length];
@@ -178,8 +186,9 @@ public class GameMap implements java.io.Serializable{
 	}
 	
 	/**
-	 * Conversor de char[][] para string
-	 * @return
+	 * Converts the matrix into a string
+	 * @param char[][]
+	 * @return String
 	 */
 	
 	public String mapConverter(char[][] tmpArray){
@@ -194,9 +203,9 @@ public class GameMap implements java.io.Serializable{
 	}
 	
 	/**
-	 * verifica se o input do utilizador e valido. se for extrai as novas coordenadas do heroi
+	 * Verifies if user input is valid or not while extracting new hero coordinates if it is.
 	 * @param input
-	 * @return
+	 * @return boolean
 	 */
 	public boolean startGame(char input) {
 		int x = hero.getX(), y = hero.getY();
@@ -215,42 +224,42 @@ public class GameMap implements java.io.Serializable{
 	}
 	
 	/**
-	 * retorna o heroi do jogo
-	 * @return
+	 * Returns game hero
+	 * @return hero
 	 */
 	public Person getHero(){
 		return hero;
 	}
 	/**
-	 * retorna y do heroi
-	 * @return
+	 * Returns hero new Y
+	 * @return y
 	 */
 	public int getNewHeroY(){
 		return new_y;
 	}
 	/**
-	 * retorna x do heroi
-	 * @return
+	 * Returns hero new X
+	 * @return x
 	 */
 	public int getNewHeroX(){
 		return new_x;
 	}
 	/**
-	 * retorna a classe do mapa atual do jogo
-	 * @return
+	 * Returns current level's map
+	 * @return currentMap
 	 */
 	public MapLevel getCurrentMap(){
 		return currentMap;
 	}
 	/**
-	 * retorna o primeiro guarda do jogo
-	 * @return
+	 * Returns the first guard form the game
+	 * @return Person
 	 */
 	public Person getGuard(){
 		return characters.get(0);
 	}
 	/**
-	 * onde ocorrem as chamadas para realizacao dos movimentos das personagens do jogo
+	 * Where the characters positions updaters are called
 	 */
 	public void update () {
 		hero.doStep(currentMap, new_x, new_y);
@@ -267,7 +276,7 @@ public class GameMap implements java.io.Serializable{
 		}
 	}
 	/**
-	 * Restaurar variaveis static de Ogre e Guard
+	 * Restore ogre and guard static variables
 	 */
 	public void restartVariables() {
 		int size = characters.size();
@@ -280,8 +289,8 @@ public class GameMap implements java.io.Serializable{
 		}
 	}
 	/**
-	 * altera o array do mapa do jogo
-	 * @param tmpMapArray
+	 * Changes the current map array
+	 * @param newMapArray
 	 */
 	public void changeMapArray(char[][] tmpMapArray) {
 		for (int i = 0; i < mapArray.length; i++) {

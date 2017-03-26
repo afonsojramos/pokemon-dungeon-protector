@@ -6,7 +6,9 @@ import java.util.Vector;
 import dkeep.gui.PlayMusic;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
-
+/**  
+ * MapLevel.java - Class regarding the maps structure
+ */ 
 public class MapLevel implements java.io.Serializable{
 	private char currentMap [][];
 	private boolean posUsed [][];//posicoes que foram ocupadas numa jogada
@@ -18,7 +20,7 @@ public class MapLevel implements java.io.Serializable{
 	private boolean instantaneousDoorOpen;// se true, portas abrem-se mal se apanha a chave
 	private PlayMusic play;
 	/**
-	 * construtor do mapa atual do jogo
+	 * Current map's constructor
 	 * @param currentMap
 	 * @param key
 	 * @param doorsX
@@ -43,68 +45,68 @@ public class MapLevel implements java.io.Serializable{
 		this.key = key;
 	}
 	/**
-	 * retorna a altura do mapa de jogo
-	 * @return
+	 * Gets map height
+	 * @return height
 	 */
 	public int getMapHeight(){
 		return height;
 	}
 	/**
-	 * retorna a largura do mapa de jogo
-	 * @return
+	 * Gets map width
+	 * @return width
 	 */
 	public int getMapWidth(){
 		return width;
 	}
 	/**
-	 * retorna o array do mapa atual de jogo
-	 * @return
+	 * Gets current map array
+	 * @return currentMap
 	 */
 	public char [][] getMap() {
 		return currentMap;
 	}
 	/**
-	 * verifica se neste nivel as portas abrem-se logo mal se apanhe a chave
-	 * @return
+	 * Verifies if this level instantaneously opens doors
+	 * @return instantaneousDoorOpen
 	 */
 	public boolean isInstantaneousDoorOpen() {
 		return instantaneousDoorOpen;
 	}
 	/**
-	 * verifica se um elemento na posicao (x, y) esta em cima da chave no mapa
+	 * Verifies if a certain element is above key
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isAboveKey (int x, int y) {
 		return ((key.getX() == x) && (key.getY() == y) && !key.isFound());
 	}
 	/**
-	 * retorna a chave do jogo
-	 * @return
+	 * Returns key
+	 * @return Key
 	 */
 	public Key getKey() {return key;}
 	/**
-	 * verifica se um elemento na posicao (x, y) esta em cima de uma parede no mapa
+	 * Returns if a certain element is above a wall
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isAboveWall (int x, int y) {
 		return currentMap[y][x] == 'X';
 	}
 	/**
-	 * verifica se a chave ja foi encontrada pelo heroi
-	 * @return
+	 * Checks if key has been found
+	 * @return boolean
 	 */
 	public boolean isKeyFound () {
 		return key.isFound();
 	}
 	/**
-	 * verifica se um elemento na posicao (x, y) esta em cima de uma porta no mapa
+	 * Checks if a certain element is above a door
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isOnTheDoor (int x, int y) {
 		for (int i = 0; i < doorsPosX.size(); i++) {
@@ -115,19 +117,19 @@ public class MapLevel implements java.io.Serializable{
 		return false;
 	}
 	/**
-	 * verifica se as portas estao abertas
+	 * Checks if a certain door is opened
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isDoorOpen(int x, int y) {
 		return doorsOpen[y][x];
 	}
 	/**
-	 * verifica se e uma porta nas bordas do mapa
+	 * Checks if a certain door belong to the edge
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isEdgeDoor(int x, int y) {
 		if (!doorsOpen[y][x])	return false;
@@ -135,7 +137,7 @@ public class MapLevel implements java.io.Serializable{
 		else	return false;
 	}
 	/**
-	 * metodo que abre as portas do mapa
+	 * Method that opens edge doors and certain door
 	 * @param x
 	 * @param y
 	 */
@@ -152,7 +154,7 @@ public class MapLevel implements java.io.Serializable{
 			}else if (doorsPosX.get(i) == x){if (doorsPosY.get(i) == y){ currentMap[y][x] = 'S';			doorsOpen[y][x] = true;}}}
 	}
 	/**
-	 * alterao o estado da chave para chave encontrada
+	 * Sets the key as found
 	 */
 	public void setKeyFound () {
 		if (instantaneousDoorOpen) { //abre logo as portas
@@ -162,7 +164,7 @@ public class MapLevel implements java.io.Serializable{
 		currentMap[key.getY()][key.getX()] = ' '; //apagar chave do mapa
 	}
 	/**
-	 * verifica se ja existe um elemento no mapa na posicao (x, y) - usada para verificar sobreposicao de elemento do jogo -
+	 * Checks if an element is at a certain element
 	 * @param x
 	 * @param y
 	 * @return
@@ -171,7 +173,7 @@ public class MapLevel implements java.io.Serializable{
 		return posUsed[y][x];
 	}
 	/**
-	 * guardar a informacao de que a posicao (x,y) do mapa esta agora ocupada por um elemento qualquer do jogo
+	 * Set the position as used
 	 * @param x
 	 * @param y
 	 */
@@ -179,7 +181,7 @@ public class MapLevel implements java.io.Serializable{
 		posUsed[y][x] = true;
 	}
 	/**
-	 * desocupa todas as posicoes do mapa que anteriormente estavam a ser ocupadas por elementos do jogo
+	 * Clear positions used
 	 */
 	public void clearPosUsed () {
 		for (int i = 0; i < height; i++) {

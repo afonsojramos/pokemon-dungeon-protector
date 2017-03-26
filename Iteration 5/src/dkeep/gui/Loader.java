@@ -4,12 +4,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
+/**
+ * Loader.java - Buffered Image loader
+ */
 public class Loader {
 	/**
-	 * trtat do load das imagens necessarias
+	 * Deals with image loading
 	 * @param path
-	 * @return
+	 * @return null if unable
 	 */
 	public static BufferedImage loadImage(String path){
 		try {

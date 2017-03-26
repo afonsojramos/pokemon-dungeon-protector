@@ -1,10 +1,12 @@
 package dkeep.logic;
-
+/**  
+ * Key.java - Class regarding the key
+ */ 
 public class Key implements java.io.Serializable{
 	private boolean found;
 	private int x, y;
 	/**
-	 * construtor da chave
+	 * Key constructor
 	 * @param x
 	 * @param y
 	 */
@@ -14,28 +16,28 @@ public class Key implements java.io.Serializable{
 		this.y = y;
 	}
 	/**
-	 * retorna x da chave
-	 * @return
+	 * Gets key's X
+	 * @return x
 	 */
 	public int getX () {
 		return x;
 	}
 	/**
-	 * retorna y da chave
-	 * @return
+	 * Gets key's Y
+	 * @return y
 	 */
 	public int getY () {
 		return y;
 	}
 	/**
-	 * verifica se a chave ja foi encontrada pelo heroi
-	 * @return
+	 * Checks if key has already been found
+	 * @return boolean
 	 */
 	public boolean isFound () {
 		return found;
 	}
 	/**
-	 * altera a condicao da chave para chave encontrada
+	 * Sets the key as found
 	 */
 	public void setFound () {
 		found = true;

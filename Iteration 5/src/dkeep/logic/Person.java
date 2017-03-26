@@ -1,5 +1,8 @@
 package dkeep.logic;
 
+/**
+ * Person.java - Class that deals with person
+ */
 public class Person implements java.io.Serializable{
 	
 	private String name;
@@ -10,7 +13,7 @@ public class Person implements java.io.Serializable{
 	
 	protected int prevX, prevY; //posicao anterior da personagem
 	/**
-	 * construtor de Person (classe mae)
+	 * Person's constructor
 	 * @param name
 	 * @param x
 	 * @param y
@@ -25,64 +28,63 @@ public class Person implements java.io.Serializable{
 		this.Ch = Ch;
 	}
 	/**
-	 * retorna o nome de Person
-	 * @return
+	 * Gets person name
+	 * @return name
 	 */
 	public String getName() {return name;}
 	/**
-	 * retorna o x de Person
-	 * @return
+	 * Gets person's x
+	 * @return x
 	 */
 	public int getX() {return x;}
 	/**
-	 * retorna o y de Person
-	 * @return
+	 * Gets person's y
+	 * @return y
 	 */
 	public int getY() {return y;}
 	/**
-	 * retorna o x anterior ao movimento de Person
-	 * @return
+	 * Gets person's previous x
+	 * @return Prevx
 	 */
 	public int getPrevX() {return prevX;}
 	/**
-	 * retorna o y anterior ao movimento de Person
-	 * @return
+	 * Gets person's previous y
+	 * @return Prevy
 	 */
 	public int getPrevY() {return prevY;}
 	/**
-	 * retorna o Ch de Person
-	 * @return
+	 * Gets person's char
+	 * @return char
 	 */
 	public char getCh() {return Ch;}
 	/**
-	 * altera o nome de Person
-	 * @param name
+	 * Sets person's name
 	 */
 	public void setName(String name) { this.name = name;}
 	/**
-	 * altera o x de Person
+	 * Sets person's X
 	 * @param x
 	 */
 	public void setX(int x) { this.x = x;}
 	/**
-	 * altera o y de Person
+	 * Sets person's Y
 	 * @param y
 	 */
 	public void setY(int y) { this.y = y;}
 	/**
-	 * altera o Ch de Person
-	 * @param Ch
+	 * Changes person's char
+	 * @param char
 	 */
 	public void setCh (char Ch) { this.Ch = Ch; }
 	/**
-	 * trata do movimento de Person (funcao virtual)
+	 * Virtual function that does the person's movement
 	 * @param currentMap
 	 * @param xHero
 	 * @param yHero
 	 */
 	public void doStep (MapLevel currentMap, int xHero, int yHero) {}
 	/**
-	 * verifica se (x1, y1) e adjacente a (x2, y2)
+	 * checks if something is adjacent to another
 	 * @param x1
 	 * @param y1
 	 * @param x2

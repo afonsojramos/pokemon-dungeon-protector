@@ -9,7 +9,9 @@ import dkeep.logic.Ogre;
 import dkeep.logic.Ogre;
 import dkeep.logic.Person;*/
 import dkeep.logic.Person;
-
+/**
+ * PrintMap.java - class that deals with map printing
+ */
 public class PrintMap extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -17,14 +19,14 @@ public class PrintMap extends JPanel {
 	private int xDimension, yDimension;
 	
 	/**
-	 * Create the panel.
+	 * Create the panel
 	 */
 	public PrintMap() {
 		super();
 		Assets.init();
 	}
 	/**
-	 * atribui jogo ao painel
+	 * Attributes game to panel
 	 * @param game
 	 */
 	public void setGame(GameMap game) {
@@ -33,7 +35,7 @@ public class PrintMap extends JPanel {
 		repaint();
 	}
 	/**
-	 * desenha mapa no painel
+	 * Draws the map
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // limpa fundo
@@ -64,7 +66,7 @@ public class PrintMap extends JPanel {
 			j++;}}
 	}
 	/**
-	 * verifica se ha ogre em cima da chave
+	 * Check if ogre is above key
 	 * @return
 	 */
 	public boolean isOgreAboveKey() {
@@ -80,7 +82,7 @@ public class PrintMap extends JPanel {
 		return result; 
 	}
 	/**
-	 * altera a dimensao das imagens consuante a dimensao (altura e largura) do mapa
+	 * Changes images dimension to fit the map
 	 */
 	public void changeImagesDimension() {
 		char mapArray[][] = game.getCurrentMap().getMap();

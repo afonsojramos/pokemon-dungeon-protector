@@ -1,9 +1,13 @@
 package dkeep.logic;
 
+/**  
+* Hero.java - Class regarding the hero  
+* @see Person
+*/ 
 public class Hero extends Person implements java.io.Serializable{
 	private boolean armed = false;
 	/**
-	 * construtor do heroi
+	 * Hero's constructor
 	 * @param name
 	 * @param x
 	 * @param y
@@ -13,7 +17,7 @@ public class Hero extends Person implements java.io.Serializable{
 		super(name,x,y, Ch);
 	}
 	/**
-	 * construtor do heroi
+	 * Hero's constructor
 	 * @param name
 	 * @param x
 	 * @param y
@@ -22,14 +26,17 @@ public class Hero extends Person implements java.io.Serializable{
 		this(name, x, y, 'H');
 	}
 	/**
-	 * desenha o Ch do heroi no array do mapa atual
-	 * @param currentMap
+	 * Draws hero's element
+	 * @param currentMap[yHero][xHero]
 	 */
 	public void printElement (char currentMap [][]) {
 		currentMap[y][x] = Ch;
 	}
 	/**
-	 * trata do movimento do heroi no mapa de jogo
+	 * Deals with hero's movement
+	 * @param currentMap
+	 * @param xHero
+	 * @param yHero
 	 */
 	public void doStep(MapLevel currentMap, int xHero, int yHero) {
 		if(currentMap.isOnTheDoor(xHero, yHero) && !(currentMap.isDoorOpen(xHero,yHero))) {currentMap.openDoors(xHero,yHero);return;}
@@ -44,7 +51,7 @@ public class Hero extends Person implements java.io.Serializable{
 		if (currentMap.isOnTheDoor(xHero, yHero) && currentMap.isDoorOpen(xHero,yHero)) { currentMap.setPosUsed(x, y); }
 	}
 	/**
-	 * altera o estado armed do heroi. poe-lo ou nao armado
+	 * Switches between armed and unarmed state for the hero
 	 * @param change
 	 */
 	public void setArmed(boolean change) {
@@ -52,8 +59,8 @@ public class Hero extends Person implements java.io.Serializable{
 		Ch = change ? 'A' : 'H';
 	}
 	/**
-	 * verifica se o heroi esta armado
-	 * @return
+	 * Verifies if hero is armed
+	 * @return boolean
 	 */
 	public boolean isArmed() {
 		return armed;

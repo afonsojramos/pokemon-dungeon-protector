@@ -4,6 +4,10 @@ import java.util.Scanner;
 import dkeep.logic.GameMap;
 import dkeep.logic.Maps;
 
+
+/**
+ * Play.java - Class regarding the console version of the game
+ */
 public class Play {
 
 	private static int currentLevel = 1;
@@ -11,8 +15,8 @@ public class Play {
 	private static boolean endOfGame = false;
 	private static GameMap game = null;
 	/**
-	 * recebe o input do jogador
-	 * @return
+	 * Receives user input
+	 * @return char
 	 */
 	private static char askForInput() {
 		@SuppressWarnings("resource")
@@ -21,7 +25,7 @@ public class Play {
 		return letter;
 	}
 	/**
-	 * funcao principal que faz correr o jogo
+	 * Function that runs the game
 	 * @param args
 	 */
 	public static void main(String[] args) {
