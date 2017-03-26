@@ -68,7 +68,7 @@ public class Maps implements java.io.Serializable{
 		return instantaneousDoorOpens[x]; 
 	}
 	public static void createNewMap(int x, int y) {
-		finalLevel++;
+		finalLevel = listOfMaps.size();currentLevel = finalLevel;
 		char creationMap[][] = new char[y][x];
 		//PREENCHER BORDAS DO MAPA
 		for(int j = 0; j < x; j++) {

@@ -340,7 +340,7 @@ public class PlayGame {
 				creationMode = true;
 				buttonsPanel.setVisible(true);
 				Maps.createNewMap(MapDimension, MapDimension);
-				finalLevel++;
+				finalLevel = Maps.getFinalLevel();
 				level = finalLevel;
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, false, 0, false);
@@ -372,7 +372,7 @@ public class PlayGame {
 	}
 	
 	public void saver(String s){
-		if(s == null) return;
+		if(s == null || creationMode) return;
 		try {FileOutputStream fileOut = new FileOutputStream("Utils/"+s+".txt");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         out.writeObject(game);
@@ -426,6 +426,7 @@ public class PlayGame {
 	         in3.close();
 	         fileIn3.close();
 	         Maps.setCurrentLevel(level); Maps.setFinalLevel(finalLevel);
+	         System.out.println("level: "+level); System.out.println("final: "+finalLevel);
 	      }catch(IOException i) {
 	         i.printStackTrace();
 	         return false;
@@ -468,20 +469,20 @@ public class PlayGame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(!creationMode) {
-				level = 1;
+				level = 1; Maps.setCurrentLevel(1);finalLevel = 3; Maps.setFinalLevel(3);
 				} else {
 					if (!keyUsed || !doorUsed) { return;
 				}}
 				gameStarted = true; lblGameState.setText("Game is starting");
 				char [][] tempMap = Maps.getMap(level);
 				game = new GameMap(tempMap, Maps.hasMultipleOgre(level), nOgres, Maps.instantaneousDoorOpen(level));
+				game.readMap(false);
 				setupGame();
 				buttonsContrlPanel.setVisible(true);
 		}});
 	}
 	
 	public void setupGame() {
-		game.readMap(false);
 		game.restartVariables();//restaurar variaveis static!!!!!
 		for (int i = 0; i < game.getCharacters().size(); i++) {//percorrer as personagens
 			if (game.getCharacters().get(0) instanceof Guard) {//alterar a personalidade do guarda
