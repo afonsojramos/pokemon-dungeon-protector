@@ -7,7 +7,10 @@ import javafx.util.Duration;
 
 public class PlayMusic {
 	public MediaPlayer mediaPlayer;
-	
+	/**
+	 * processamento de ficheiros de som
+	 * @param media
+	 */
 	public PlayMusic(Media media){
 		@SuppressWarnings("unused")
 		JFXPanel fxPanel = new JFXPanel();
@@ -15,7 +18,9 @@ public class PlayMusic {
 		mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setVolume(0.20);
 	}
-	
+	/**
+	 * altera condicao de play das musicas
+	 */
 	public void playContinuous(){
 		mediaPlayer.setAutoPlay(true);
 		mediaPlayer.setOnEndOfMedia(new Runnable() {
@@ -25,7 +30,9 @@ public class PlayMusic {
 		   });
 		mediaPlayer.play();
 	}
-	
+	/**
+	 * play das musicas
+	 */
 	public void playSound(){
 		mediaPlayer.play();
 	}

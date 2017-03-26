@@ -10,14 +10,20 @@ public class Play {
 	private static int finalLevel = 3;
 	private static boolean endOfGame = false;
 	private static GameMap game = null;
-	
+	/**
+	 * recebe o input do jogador
+	 * @return
+	 */
 	private static char askForInput() {
 		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
 		char letter = input.next().charAt(0);
 		return letter;
 	}
-
+	/**
+	 * funcao principal que faz correr o jogo
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		while ((currentLevel <= finalLevel) && !endOfGame) { /*COMECAR O JOGO*/
 			game = new GameMap(Maps.getMap(currentLevel), Maps.hasMultipleOgre(currentLevel), 0, Maps.instantaneousDoorOpen(currentLevel));

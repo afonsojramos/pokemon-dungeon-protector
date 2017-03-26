@@ -6,7 +6,9 @@ import org.junit.Test;
 import dkeep.logic.*;
 import dkeep.logic.Guard.Personality;
 public class TestDungeonGameLogic {
-	
+	/**
+	 * verifica movimento do heroi para celula livre
+	 */
 	@Test
 	public void testMoveHeroToFreeCell() {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -18,7 +20,9 @@ public class TestDungeonGameLogic {
 		assertTrue(game.startGame('s'));
 		assertEquals(1, game.getNewHeroX()); assertEquals(2, game.getNewHeroY()); 		
 	}
-	
+	/**
+	 * verifica de o heroi nao se pode mexer devido a existencia de uma parede
+	 */
 	@Test
 	public void testHeroBlockedByWall(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -30,6 +34,9 @@ public class TestDungeonGameLogic {
 		assertFalse(game.startGame('w'));
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY());  
 	}
+	/**
+	 * verifica se o heroi e apanhado pelo guarda
+	 */
 	@Test
 	public void testHeroLosesByGuard(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -43,7 +50,9 @@ public class TestDungeonGameLogic {
 		assertEquals(2, game.getNewHeroX()); assertEquals(1, game.getNewHeroY());  
 		assertTrue(game.isEndOfGame());	 
 	}
-	
+	/**
+	 * verifica se o heroi e apanhado pelo guarda
+	 */
 	@Test
 	public void testHeroLosesByGuardAbove(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -63,7 +72,9 @@ public class TestDungeonGameLogic {
 		assertEquals(3, game.getNewHeroX()); assertEquals(2, game.getNewHeroY());  
 		assertTrue(game.isEndOfGame());	 
 	}
-	
+	/**
+	 * verifica se a saida do heroi e realizada
+	 */
 	@Test
 	public void testHeroTriesToExitWithDoorsClosed() {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -80,7 +91,9 @@ public class TestDungeonGameLogic {
 		assertFalse(game.isEndOfGame());
 	}
 	
-	
+	/**
+	 * verifica se o heroi consegue sair pela porta
+	 */
 	@Test
 	public void testHeroTriesToExitAndPasses() {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -104,7 +117,9 @@ public class TestDungeonGameLogic {
 		assertTrue(game.isEndOfGame());	
 		assertTrue(game.isVictory());	
 	}
-	
+	/**
+	 * verifica se as portas estao abertas
+	 */
 	@Test
 	public void testDoorsOpen() {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'I', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'I'},	
@@ -128,7 +143,9 @@ public class TestDungeonGameLogic {
 		assertEquals('S',game.getMapPos(3,0));	
 		assertFalse(game.isEndOfGame());
 	}
-	
+	/**
+	 * verifica se a nova posicao do heroi foi bem guardada
+	 */
 	@Test
 	public void testPositioningSave() {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -153,7 +170,9 @@ public class TestDungeonGameLogic {
 		assertEquals('I',game.getMapPos(3,0));
 		assertTrue(game.getCurrentMap().isAboveKey(1, 3));
 	}
-	
+	/**
+	 * testa as condicoes das paredes do mapa
+	 */
 	@Test
 	public void testWalls() {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -178,7 +197,9 @@ public class TestDungeonGameLogic {
 		assertEquals('I',game.getMapPos(3,0));
 		assertTrue(game.getCurrentMap().isAboveKey(1, 3));
 	}
-	
+	/**
+	 * testa se o o mapa de jogo e bem retornado 
+	 */
 	@Test
 	public void testMapGetter() {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', 'O', 'G', 'X'},	
@@ -195,7 +216,9 @@ public class TestDungeonGameLogic {
 		assertFalse(game.getCurrentMap().isEdgeDoor(1, 1));
 
 	}
-	
+	/**
+	 * testa o movimento do guarda
+	 */
 	@Test
 	public void testPreviousPositionOfGuard(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -211,7 +234,9 @@ public class TestDungeonGameLogic {
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertEquals(3, game.getCharacters().get(0).getPrevX()); assertEquals(1, game.getCharacters().get(0).getPrevY());
 	}
-	
+	/**
+	 * verifica se o heroi esta adjacente o guarda
+	 */
 	@Test
 	public void testHeroAdjacentToGuard(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -227,7 +252,9 @@ public class TestDungeonGameLogic {
 		assertTrue(game.getCharacters().get(0).isAdjacent(game.getCharacters().get(0).getPrevX(), game.getCharacters().get(0).getPrevY(), hero.getX(), hero.getY()));
 		assertTrue(game.getCharacters().get(0).isAdjacent(hero.getX(), hero.getY(), hero.getX(), hero.getY()));
 	}
-	
+	/**
+	 * testa se e bem realizada a alteracao do nome da personagem 
+	 */
 	@Test
 	public void testNameChanging(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -252,7 +279,9 @@ public class TestDungeonGameLogic {
 		game.getGuard().setCh('G');
 		assertEquals('G',game.getGuard().getCh());
 	}
-	
+	/**
+	 * testa se o heroi perde devido ao guarda
+	 */
 	@Test
 	public void testHeroLoseToMovingGuard(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'A', ' ', 'G', 'X'},	
@@ -281,7 +310,9 @@ public class TestDungeonGameLogic {
 			g.restartVariables();
 		}
 	}
-	
+	/**
+	 * testa o movimento do guarda
+	 */
 	@Test
 	public void testGuardFollowingPath(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },

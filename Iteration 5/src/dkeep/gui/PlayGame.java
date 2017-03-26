@@ -121,6 +121,9 @@ public class PlayGame {
 		labelListeners();
 	}
 
+	/**
+	 * Faz update do nivel que estamos a jogar
+	 */
 	public void updateGraphics() {
 		game.update();lblGameState.setText("");
 		printPanel.repaint();
@@ -139,7 +142,11 @@ public class PlayGame {
 			} else { // perdeu o jogo
 				game = null;gameStarted = false; lblGameState.setText("You lost... Bummer :(");		deathSound();}}
 	}
-
+	/**
+	 * converte as coordenadas no ecra para coordenadas x y na tabela de jogo
+	 * @param x
+	 * @param y
+	 */
 	public void convertCoordinates(int x, int y) {
 		//coordenadas origem do mapa/painel: x = 12 ; y = 68
 		char mapArray[][] = game.getCurrentMap().getMap();
@@ -150,6 +157,9 @@ public class PlayGame {
 		yMouseMap = (y-146)/(500/height);
 	}
 	
+	/**
+	 * poe a musica de fundo a dar
+	 */
 	public void setMusic() {
 		@SuppressWarnings("unused")
 		JFXPanel fxPanel = new JFXPanel();
@@ -158,6 +168,9 @@ public class PlayGame {
 		play.playContinuous();
 	}
 	
+	/**
+	 * inicializa/gera o som de quando perdemos o jogo
+	 */
 	public void deathSound(){
 		@SuppressWarnings("unused")
 		JFXPanel fxPanel = new JFXPanel();
@@ -166,16 +179,25 @@ public class PlayGame {
 		play.playSound();
 	}
 	
+	/**
+	 * funcao que cria todas as componentes do menu
+	 */
 	public void createMenu() {
 		createMenu1();
 		createMenu2();
 		createMenu3();	
 	}
+	/**
+	 * primeira funcao para criar componentes do menu
+	 */
 	public void createMenu1() {
 		lblGameState = new JLabel("");
 		lblGameState.setBounds(12, 634, 300, 16);
 		frame.getContentPane().add(lblGameState);
 	}
+	/**
+	 * segunda funcao para criar componentes do menu
+	 */
 	public void createMenu2() {
 		menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -190,6 +212,9 @@ public class PlayGame {
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
 		menuBar.add(horizontalStrut_1);
 	}
+	/**
+	 * terceira funcao para criar componentes do menu
+	 */
 	public void createMenu3() {
 		lblCreateMap = new JLabel("Create Map");
 		lblCreateMap.setFont(new Font("AR DARLING", Font.PLAIN, 23));
@@ -205,11 +230,17 @@ public class PlayGame {
 		lblLoadGame.setFont(new Font("AR DARLING", Font.PLAIN, 23));
 		menuBar.add(lblLoadGame);
 	}
+	/**
+	 * cria todos os butoes do jogo
+	 */
 	public void createButtons() {
 		createButtons1();
 		createButtons2();
 		createButtons3();
 	}
+	/**
+	 * primeira funcao para criar os butoes do jogo
+	 */
 	public void createButtons1() {
 		btnStartGame = new JButton("Start Game");
 		btnStartGame.setBounds(635, 656, 135, 43);
@@ -226,7 +257,9 @@ public class PlayGame {
 		buttonsPanel.add(btnWall);
 		frame.validate();
 	}
-	
+	/**
+	 * segunda funcao para criar os butoes do jogo
+	 */
 	public void createButtons2() {
 		btnDoor = new JButton(); btnOgre = new JButton(); btnKey = new JButton(); btnHero = new JButton(); btnHeroArmed = new JButton();
 		btnDoor.setIcon(new ImageIcon(Assets.door));
@@ -240,7 +273,9 @@ public class PlayGame {
 		btnHeroArmed.setIcon(new ImageIcon(Assets.heroFrontArmed));
 		buttonsPanel.add(btnHeroArmed);
 	}
-	
+	/**
+	 * terceira funcao para criar os butoes do jogo
+	 */
 	public void createButtons3() {
 		buttonsContrlPanel = new JPanel();
 		buttonsContrlPanel.setBounds(558, 215, 212, 200);
@@ -257,7 +292,9 @@ public class PlayGame {
 		buttonsContrlPanel.add(btnDown, BorderLayout.SOUTH);
 		
 	}
-	
+	/**
+	 * funcao com a resposta do programa em relacao ao input dado pelo teclado
+	 */
 	public void frameKeyboardListener() {
 		frame.addKeyListener(new KeyAdapter() {
 			@Override
@@ -273,7 +310,9 @@ public class PlayGame {
 															updateGraphics();} break;
 					}}}});
 	}
-	
+	/**
+	 * funcao com a resposta do programa em relacao ao input dado pelo rato
+	 */
 	public void frameMouseListener() {
 		frame.addMouseListener(new MouseAdapter() {
 			@Override public void mouseClicked(MouseEvent arg0) {
@@ -289,6 +328,9 @@ public class PlayGame {
 					}}}});
 	}
 
+	/**
+	 * resposta do programa em relacao a selecao do numero de ogres a partir do menu
+	 */
 	public void numberOfOgresListener() {
 		lblNumberOfOgres.addMouseListener(new MouseAdapter() {
 			@Override
@@ -306,6 +348,9 @@ public class PlayGame {
 				lblNumberOfOgres.setForeground(new Color(0, 0, 0));	}
 		});
 	}
+	/**
+	 * resposta do programa em relacao a selecao da personalidade do guarda a partir do menu
+	 */
 	public void guardPersonalityListener() {
 		lblGuardPersonality.addMouseListener(new MouseAdapter() {
 			@Override
@@ -322,6 +367,9 @@ public class PlayGame {
 				lblGuardPersonality.setForeground(new Color(0, 0, 0));}
 		});
 	}
+	/**
+	 * funcao que gera e controla o momento de criacao de um novo mapa de jogo
+	 */
 	public void creatMapListener() {
 		lblCreateMap.addMouseListener(new MouseAdapter() {
 			@Override
@@ -371,6 +419,10 @@ public class PlayGame {
 		});
 	}
 	
+	/**
+	 * funcao que recebe o nome de um ficheiro e guarda o jogo atual no mesmo
+	 * @param s
+	 */
 	public void saver(String s){
 		if(s == null || creationMode) return;
 		try {FileOutputStream fileOut = new FileOutputStream("Utils/"+s+".txt");
@@ -390,7 +442,9 @@ public class PlayGame {
 	         fileOut3.close();
 	         System.out.printf("Serialized data is saved!");lblGameState.setText("Your current game is saved!"); } catch(IOException i) { i.printStackTrace();  }
 	}
-	
+	/**
+	 * funcao chamada para guardar o jogo atual
+	 */
 	public void saveGameListener() {
 		lblSaveGame.addMouseListener(new MouseAdapter() {
 			@Override
@@ -406,7 +460,11 @@ public class PlayGame {
 				lblSaveGame.setForeground(new Color(0, 0, 0));		}
 		});
 	}
-	
+	/**
+	 * funcao que recebe o nome de um ficheiro e faz o load do jogo guardado no mesmo. retorna false se nao for possivel abrir o ficheiro de nome s
+	 * @param s
+	 * @return
+	 */
 	public boolean loader(String s){
 		if (s == null) return false;
 		try {
@@ -437,7 +495,9 @@ public class PlayGame {
 	      }
 		return true;
 	}
-	
+	/**
+	 * funcao chama para fazer o load de  um jogo
+	 */
 	public void loadGameListener() {
 		lblLoadGame.addMouseListener(new MouseAdapter() {
 			@Override
@@ -455,7 +515,9 @@ public class PlayGame {
 				lblLoadGame.setForeground(new Color(0, 0, 0));	}
 		});
 	}
-	
+	/**
+	 * funcao que cria todos os setores da barra de Menu
+	 */
 	public void labelListeners() {
 		numberOfOgresListener();
 		guardPersonalityListener();
@@ -464,6 +526,9 @@ public class PlayGame {
 		loadGameListener();
 	}
 
+	/**
+	 * metodo que trata do arranque/comeco de um jogo
+	 */
 	public void startGameListener() {
 		btnStartGame.addMouseListener(new MouseAdapter() {
 			@Override
@@ -481,7 +546,9 @@ public class PlayGame {
 				buttonsContrlPanel.setVisible(true);
 		}});
 	}
-	
+	/**
+	 * metodo necessario para estabelecer alguma condicoes de inicio de um jogo
+	 */
 	public void setupGame() {
 		game.restartVariables();//restaurar variaveis static!!!!!
 		for (int i = 0; i < game.getCharacters().size(); i++) {//percorrer as personagens
@@ -496,7 +563,9 @@ public class PlayGame {
 		buttonsPanel.setVisible(false);
 		keyUsed = false; doorUsed = false;	creationMode = false;
 	}
-	
+	/**
+	 * metodo que trata de resposta de alguns butoes
+	 */
 	public void buttonsListeners1() {		
 		btnWall.addMouseListener(new MouseAdapter() {// WALL BUTTON
 			@Override
@@ -516,7 +585,9 @@ public class PlayGame {
 					currentElement = 'k';lblGameState.setText("Key");
 		}}});
 	}
-
+	/**
+	 * metodo que trata de resposta de alguns butoes
+	 */
 	public void buttonsListeners2() {
 		// OGRE BUTTON
 		btnOgre.addMouseListener(new MouseAdapter() {
@@ -542,6 +613,9 @@ public class PlayGame {
 			}
 		});
 	}
+	/**
+	 * metodo que trata de resposta de alguns butoes
+	 */
 	public void buttonsListeners3() {
 		btnLeft.addMouseListener(new MouseAdapter() {
 			@Override
@@ -560,13 +634,18 @@ public class PlayGame {
 			public void mouseClicked(MouseEvent e) {if(gameStarted){if (game.startGame('s')) {updateGraphics();}} frame.requestFocus();}
 		});
 	}
+	/**
+	 * metodo que atribui aos butoes a maneira como respondem no decorrer do programa
+	 */
 	public void buttonsListeners() {
 		startGameListener();
 		buttonsListeners1();
 		buttonsListeners2();
 		buttonsListeners3();
 	}
-	
+	/**
+	 * metodo que inicializa o painel que pinta o mapa do jogo
+	 */
 	public void createPainelPrint() {
 		printPanel = new PrintMap();
 		printPanel.setBounds(12, 68, 500, 500);

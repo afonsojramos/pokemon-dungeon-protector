@@ -15,7 +15,9 @@ public class Assets {
 								tree1, tree2, tree3, tree4, tree5, tree6, tree7, tree8,
 								grass, door, key, pokemon;
 	public static ImageIcon icon;
-	
+	/**
+	 * inicializa a atribuicao das imagens as variaveis
+	 */
 	public static void init(){
 		try {
 			setHero();
@@ -28,14 +30,21 @@ public class Assets {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * trata das imagens para as paredes
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public static BufferedImage getTree(int x, int y){
 		switch (Trees[y][x]){
 			case 1: return tree1;					case 2: return tree2;					case 3: return tree3;
 			case 4: return tree4;					case 5: return tree5;					case 6: return tree6;
 			case 7: return tree7;					case 8: return tree8;					default: return tree1;}
 	}
-	
+	/**
+	 * trata das imagens para o heroi e seus diferente estados
+	 */
 	public static void setHero(){
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/heroSprite.png"));
 		heroFrontStop = sheet.crop(0 , 2*yh, yh, yh);
@@ -43,13 +52,17 @@ public class Assets {
 		heroFrontArmed = sheet.crop(4*yh, 2*yh , yh, yh);
 		heroFrontKeyArmed = sheet.crop(5*yh, 2*yh , yh, yh);
 	}
-
+	/**
+	 * trata da imagem para o guarda 
+	 */
 	public static void setGuard(){
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/guardSprite.png"));
 		guardFrontStop = sheet.crop(0 , yh, yh, yh);
 		guardSleep = sheet.crop(2*yh , yh, yh, yh);
 	}
-	
+	/**
+	 * trata de imagem para o ogre
+	 */
 	public static void setOgre(){
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/ogre.png"));
 		ogreFrontStop = sheet.crop(0 , yh, yh, yh);
@@ -57,7 +70,9 @@ public class Assets {
 		ogreStun = sheet.crop(4*yh , yh, yh, yh);
 		ogres = sheet.crop(4*yh , 0, yh, yh);
 	}
-	
+	/**
+	 * trata das imagens para as arvores/paredes
+	 */
 	public static void setTrees(){
 		for (int i = 0 ; i < Trees.length ; i++){
 			for (int j = 0 ; j < Trees[0].length ; j++){
@@ -73,13 +88,17 @@ public class Assets {
 		tree7 = sheet.crop(xt, 2*yt, xt, yt);
 		tree8 = sheet.crop(xt, 3*yt, xt, yt);
 	}
-	
+	/**
+	 * trata das imagens para o club dos ogres
+	 */
 	public static void setClub(){
 		SpriteSheet sheet = new SpriteSheet(Loader.loadImage("/club.png"));
 		clubFront = sheet.crop(0 , yh, yh, yh);
 		clubFrontKey = sheet.crop(yh , yh, yh, yh);
 	}
-	
+	/**
+	 * trata das imagens para outro elementos do mapa
+	 */
 	public static void setOthers(){
 		grass = Loader.loadImage("/grass.png");
 		key = Loader.loadImage("/cut.png");

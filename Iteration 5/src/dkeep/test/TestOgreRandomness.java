@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import dkeep.logic.*;
 public class TestOgreRandomness {
+	/**
+	 * testa o movimento aleatorio do ogre
+	 */
 	@Test
 	public void TestOgreRandomMove(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
@@ -134,7 +137,9 @@ public class TestOgreRandomness {
 		ogre.lessStuned();
 		assertFalse(ogre.isStuned());
 	}
-	
+	/**
+	 * testa o movimento de um club em relacao ao seu ogre
+	 */
 	@Test
 	public void testClubPositions(){
 		char currentMap0[][] = new char[][] { { 'X', 'O', 'X'}, { 'X', ' ', 'X'},	

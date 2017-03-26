@@ -12,6 +12,9 @@ import dkeep.logic.Ogre;
 import dkeep.logic.Person;
 
 public class TestOgreLevel {
+	/**
+	 * testa movimento do heroi para celula livre
+	 */
 	@Test
 	public void testMoveHeroToFreeCell() {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -23,7 +26,9 @@ public class TestOgreLevel {
 		assertTrue(game.startGame('s'));
 		assertEquals(1, game.getNewHeroX()); assertEquals(2, game.getNewHeroY()); 		
 	}
-	
+	/**
+	 * testa se o heroi nao se pode mexer devido a existencia de uma parede
+	 */
 	@Test
 	public void testHeroBlockedByWall(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'G', 'X'},	
@@ -35,7 +40,9 @@ public class TestOgreLevel {
 		assertFalse(game.startGame('w'));
 		assertEquals(1, game.getNewHeroX()); assertEquals(1, game.getNewHeroY());  
 	}
-	
+	/**
+	 * testa se heroi perde por causa do ogre
+	 */
 	@Test
 	public void testMoveHeroToOgre() {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
@@ -49,7 +56,9 @@ public class TestOgreLevel {
 		assertEquals(2, game.getNewHeroX()); assertEquals(1, game.getNewHeroY());
 		assertTrue(game.isEndOfGame());	 		
 	}
-	
+	/**
+	 * testa se heroi altera a sua condicao de chave apanhada
+	 */
 	@Test
 	public void testHeroChangeToK() {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
@@ -67,7 +76,9 @@ public class TestOgreLevel {
 		assertEquals('K',hero.getCh());	
 		assertFalse(game.isEndOfGame());
 	}
-	
+	/**
+	 * testa se a tentativa de o heroi acabar o nivel e falhada
+	 */
 	@Test
 	public void testHeroFailToExit(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
@@ -82,7 +93,9 @@ public class TestOgreLevel {
 		hero.doStep(game.getCurrentMap(), game.getNewHeroX(), game.getNewHeroY());
 		assertFalse(game.isEndOfGame());		
 	}
-	
+	/**
+	 * testa se o heroi abre as portas
+	 */
 	@Test
 	public void testHeroSucceedsToOpenDoor(){
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
@@ -104,7 +117,9 @@ public class TestOgreLevel {
 		assertEquals('S',game.getMapPos(2,0));
 		assertEquals('S',game.getMapPos(3,0));		
 	}
-	
+	/**
+	 * testa se o heroi consegue abrir as porta e depois sair/acabar o nivel
+	 */
 	@Test
 	public void testHeroSucceedsToOpenDoorAndExits() {
 		char currentMap[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X'}, { 'X', 'H', ' ', 'O', 'X'},	
@@ -131,7 +146,9 @@ public class TestOgreLevel {
 		assertEquals(0, game.getNewHeroX()); assertEquals(3, game.getNewHeroY());
 		assertTrue(game.isEndOfGame());	
 	}
-	
+	/**
+	 * testa se o heroi da stun ao ogre
+	 */
 	@Test
 	public void testStunOgresAndClub(){
 		char currentMap[][] = new char[][] { { ' ', 'A', ' '}, { ' ', 'O', ' '},	
@@ -153,7 +170,9 @@ public class TestOgreLevel {
 		hero.setY(1);
 		assertTrue(ogre.isAdjacent(ogre.getX(), ogre.getY(), hero.getX(), hero.getY()));
 	}
-	
+	/**
+	 * testa se sao criados varios ogres
+	 */
 	@Test
 	public void testMultipleOgres(){
 		char map3[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
@@ -173,7 +192,9 @@ public class TestOgreLevel {
 		GameMap game1 = new GameMap(map4, false,0, false);
 		game1.readMap(true);
 	}
-	
+	/**
+	 * testa o mapa de jogo do nivel 3
+	 */
 	@Test
 	public void testLevel3MultipleOgres(){
 		char map3[][] = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
@@ -184,7 +205,9 @@ public class TestOgreLevel {
 		GameMap game = new GameMap(map3, true,0, false);
 		game.readMap(false);
 	}
-	
+	/**
+	 * testa os mapas de jogo guardados
+	 */
 	@Test
 	public void testMaps() {
 		char map0[][] = new char[][] {{' '}};

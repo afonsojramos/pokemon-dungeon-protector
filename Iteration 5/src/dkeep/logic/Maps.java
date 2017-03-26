@@ -38,11 +38,31 @@ public class Maps implements java.io.Serializable{
 	
 	static boolean hasMultipleOgres[] = new boolean[] {false, false, false, true};// se true, criar random ogres
 	static boolean instantaneousDoorOpens[] = new boolean[] {false, true, false, false};// se true, portas abrem-se mal se apanha a chave
-	 			
+	/**
+	 * retorna o nivel atual do mapa a ser usado			
+	 * @return
+	 */
 	public static int getCurrentLevel() { return currentLevel; }
+	/**
+	 * retorna o nivel final do jogo
+	 * @return
+	 */
 	public static int getFinalLevel() {return finalLevel;}
+	/**
+	 * altera o nivel atual do jogo
+	 * @param l
+	 */
 	public static void setCurrentLevel(int l) {currentLevel = l;}
+	/**
+	 * altera o nivel final do jogo
+	 * @param l
+	 */
 	public static void setFinalLevel(int l) {finalLevel = l;}
+	/**
+	 * retorna uma copia do mapa de indice x da lista de mapas
+	 * @param x
+	 * @return
+	 */
 	public static char[][] getMap(int x){
 		
 		char [][] tmpArray = new char [listOfMaps.get(x).length][listOfMaps.get(x)[0].length];
@@ -55,18 +75,31 @@ public class Maps implements java.io.Serializable{
 		currentLevel = x;
 		return tmpArray;
 	}
-	
+	/**
+	 * verifica se o mapa de indice x da lista de mapas precisa de criar ogres aquando da criacao do nivel de jogo que usa este mesmo mapa
+	 * @param x
+	 * @return
+	 */
 	public static boolean hasMultipleOgre(int x){
 		if (x > 3)
 			return false;
 		return hasMultipleOgres[x];
 	}
-	
+	/**
+	 * verifica se o mapa de indice x da lista de mapas abre as portas mal o heroi apanha a chave e nao apenas quando apanha a chave e depois se aproxima da porta
+	 * @param x
+	 * @return
+	 */
 	public static boolean instantaneousDoorOpen(int x){
 		if (x > 3)
 			return false;
 		return instantaneousDoorOpens[x]; 
 	}
+	/**
+	 * cria array de um novo mapa de largura x e altura y e guarda-o na lista de mapas de jogo
+	 * @param x
+	 * @param y
+	 */
 	public static void createNewMap(int x, int y) {
 		finalLevel = listOfMaps.size();currentLevel = finalLevel;
 		char creationMap[][] = new char[y][x];
@@ -84,7 +117,13 @@ public class Maps implements java.io.Serializable{
 		}}}
 		listOfMaps.add(creationMap);
 	}
-
+	/**
+	 * altera elementos do mapa de jogo que esta a ser criado pelo utilizador 
+	 * @param x
+	 * @param y
+	 * @param Ch
+	 * @return
+	 */
 	public static boolean changeNewMap(int x, int y, char Ch) {
 		char[][] mapArray = listOfMaps.get(listOfMaps.size() - 1);
 		if (Ch != ' ') {
@@ -99,7 +138,13 @@ public class Maps implements java.io.Serializable{
 		}}	
 		return false;
 	}
-
+	/**
+	 * verifica se um determinado elemento pode ser colocado no mapa que esta a ser criado
+	 * @param x
+	 * @param y
+	 * @param Ch
+	 * @return
+	 */
 	public static boolean validateElement(int x, int y, char Ch) {
 		char[][] mapArray = listOfMaps.get(listOfMaps.size() - 1);
 		int width = mapArray[0].length; 	int height = mapArray.length;

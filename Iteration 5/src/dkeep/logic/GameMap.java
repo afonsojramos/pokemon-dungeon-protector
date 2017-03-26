@@ -47,7 +47,10 @@ public class GameMap implements java.io.Serializable{
 			} else {
 				while (nOgres > 0) {	this.addOgreToLevel();	nOgres--;
 	}}}}
-	
+	/**
+	 * retorna o vetor com as entidades do jogo
+	 * @return
+	 */
 	public Vector<Person> getCharacters() { return characters; }
 	 /**
 	  * percorre a matriz do mapa para extrair a informacao dos seu elementos e criar os mesmos
@@ -82,7 +85,9 @@ public class GameMap implements java.io.Serializable{
 		}}}
 		currentMap = new MapLevel(mapArray, key, doorX, doorY, instantaneousDoorOpen);
 	}
-	
+	/**
+	 * metodo que adiciona um ogre ao nivel do jogo
+	 */
 	public void addOgreToLevel() {
 		Ogre ogre = null;
 		do {
@@ -210,25 +215,37 @@ public class GameMap implements java.io.Serializable{
 	}
 	
 	/**
-	 * Retorna o herói
+	 * retorna o heroi do jogo
+	 * @return
 	 */
-	
 	public Person getHero(){
 		return hero;
 	}
-	
+	/**
+	 * retorna y do heroi
+	 * @return
+	 */
 	public int getNewHeroY(){
 		return new_y;
 	}
-	
+	/**
+	 * retorna x do heroi
+	 * @return
+	 */
 	public int getNewHeroX(){
 		return new_x;
 	}
-	
+	/**
+	 * retorna a classe do mapa atual do jogo
+	 * @return
+	 */
 	public MapLevel getCurrentMap(){
 		return currentMap;
 	}
-	
+	/**
+	 * retorna o primeiro guarda do jogo
+	 * @return
+	 */
 	public Person getGuard(){
 		return characters.get(0);
 	}
@@ -262,7 +279,10 @@ public class GameMap implements java.io.Serializable{
 			}
 		}
 	}
-	
+	/**
+	 * altera o array do mapa do jogo
+	 * @param tmpMapArray
+	 */
 	public void changeMapArray(char[][] tmpMapArray) {
 		for (int i = 0; i < mapArray.length; i++) {
 			for (int j = 0; j < mapArray[0].length; j++) {

@@ -23,12 +23,18 @@ public class PrintMap extends JPanel {
 		super();
 		Assets.init();
 	}
-	
+	/**
+	 * atribui jogo ao painel
+	 * @param game
+	 */
 	public void setGame(GameMap game) {
 		this.game = game;
 		changeImagesDimension();
 		repaint();
 	}
+	/**
+	 * desenha mapa no painel
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // limpa fundo
 		if(game == null) { g.drawImage(Assets.pokemon, 12, 80, 450, 250, null);}
@@ -57,6 +63,10 @@ public class PrintMap extends JPanel {
 				i++; j = -1;}
 			j++;}}
 	}
+	/**
+	 * verifica se ha ogre em cima da chave
+	 * @return
+	 */
 	public boolean isOgreAboveKey() {
 		boolean result = false;
 		for (Person x : game.getCharacters()) {
@@ -69,7 +79,9 @@ public class PrintMap extends JPanel {
 		}
 		return result; 
 	}
-
+	/**
+	 * altera a dimensao das imagens consuante a dimensao (altura e largura) do mapa
+	 */
 	public void changeImagesDimension() {
 		char mapArray[][] = game.getCurrentMap().getMap();
 		int width = mapArray[0].length;// largura do mapa
