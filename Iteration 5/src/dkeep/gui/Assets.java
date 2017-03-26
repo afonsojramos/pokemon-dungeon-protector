@@ -3,15 +3,18 @@ package dkeep.gui;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.swing.ImageIcon;
+
 public class Assets {
 	private static final int yh = 32, xt = 88, yt = 96;
-	private static int[][] Trees = new int[12][12];
+	private static int[][] Trees = new int[20][20];
 	public static BufferedImage heroFrontStop,heroFrontKey, heroFrontArmed, heroFrontKeyArmed,
 								guardFrontStop, guardSleep,
 								ogreFrontStop, ogreFrontKey,  ogreStun, ogres,
 								clubFront, clubFrontKey,
 								tree1, tree2, tree3, tree4, tree5, tree6, tree7, tree8,
 								grass, door, key, pokemon;
+	public static ImageIcon icon;
 	
 	public static void init(){
 		try {
@@ -82,5 +85,6 @@ public class Assets {
 		key = Loader.loadImage("/cut.png");
 		door = Loader.loadImage("/door.png");
 		pokemon = Loader.loadImage("/Pokemon.png");
+		icon = new ImageIcon("Utils/Example2.PNG");
 	}
 }

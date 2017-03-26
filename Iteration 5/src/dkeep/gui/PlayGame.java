@@ -32,7 +32,10 @@ import java.io.ObjectOutputStream;
 //import java.util.Map;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.GridLayout;
@@ -65,7 +68,7 @@ public class PlayGame {
 	private Personality guardPersonality = Personality.valueOf("Rookie");
 	private boolean gameStarted = false;
 	private boolean creationMode = false;
-	private int xMapDimension = 10, yMapDimension = 10;
+	private int MapDimension = 10;
 	private char currentElement = ' ';
 	private int xMouseMap, yMouseMap; //coodenadas do rato na tabela de jogo
 	private boolean keyUsed = false, doorUsed = false;
@@ -132,10 +135,9 @@ public class PlayGame {
 					game.readMap(false);
 					printPanel.setGame(game);
 					printPanel.repaint();
-					lblGameState.setText("Next level here we go!");
-				}
+					lblGameState.setText("Next level here we go!");}
 			} else { // perdeu o jogo
-				game = null;gameStarted = false; lblGameState.setText("You lost... Bummer :(");}}
+				game = null;gameStarted = false; lblGameState.setText("You lost... Bummer :(");		deathSound();}}
 	}
 
 	public void convertCoordinates(int x, int y) {
@@ -154,6 +156,14 @@ public class PlayGame {
 		Media hit = new Media(new File("Utils/Music.mp3").toURI().toString());
 		play = new PlayMusic(hit);
 		play.playContinuous();
+	}
+	
+	public void deathSound(){
+		@SuppressWarnings("unused")
+		JFXPanel fxPanel = new JFXPanel();
+		Media hit = new Media(new File("Utils/death.mp3").toURI().toString());
+		play = new PlayMusic(hit);
+		play.playSound();
 	}
 	
 	public void createMenu() {
@@ -316,16 +326,20 @@ public class PlayGame {
 		lblCreateMap.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				String[] possibilitiesWidth = {"5","6", "7", "8", "9", "10", "11", "12"};
-				String s = (String)JOptionPane.showInputDialog(frame, "Width:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilitiesWidth,null);
-				xMapDimension = s==null ? 5 : Integer.parseInt(s);			
-				String[] possibilitiesHeight = {"5","6", "7", "8", "9", "10", "11", "12"};
-				String s2 = (String)JOptionPane.showInputDialog(frame, "Height:", "Options", JOptionPane.PLAIN_MESSAGE,null, possibilitiesHeight,null);
-				yMapDimension = s2==null ? 5 : Integer.parseInt(s2);
+				JFrame parent = new JFrame();
+			    JOptionPane optionPane = new JOptionPane();
+			    optionPane.setIcon(Assets.icon);
+			    JSlider slider = getSlider(optionPane);
+			    optionPane.setMessage(new Object[] { "Select a dimension for the map:", slider });
+			    optionPane.setMessageType(JOptionPane.QUESTION_MESSAGE);
+			    optionPane.setOptionType(JOptionPane.OK_CANCEL_OPTION);
+			    JDialog dialog = optionPane.createDialog(parent, "Settings");
+			    dialog.setVisible(true);
+			    MapDimension = slider.getValue();	
 				gameStarted = false;
 				creationMode = true;
 				buttonsPanel.setVisible(true);
-				Maps.createNewMap(xMapDimension, yMapDimension);
+				Maps.createNewMap(MapDimension, MapDimension);
 				finalLevel++;
 				level = finalLevel;
 				char [][] tempMap = Maps.getMap(level);
@@ -336,6 +350,16 @@ public class PlayGame {
 				printPanel.repaint();
 				lblGameState.setText("In Creation Mode...");
 			}
+
+			public JSlider getSlider(final JOptionPane optionPane) {
+				JSlider slider = new JSlider();
+				slider.setMinimum(5); slider.setMaximum(20);
+				slider.setMinorTickSpacing(1); slider.setMajorTickSpacing(5);
+				slider.setValue(7);
+				slider.setPaintTicks(true);	slider.setPaintLabels(true);
+				return slider;
+			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblCreateMap.setForeground(new Color(46, 139, 87));
