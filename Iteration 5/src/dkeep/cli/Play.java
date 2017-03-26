@@ -15,6 +15,7 @@ public class Play {
 	private static boolean endOfGame = false;
 	private static GameMap game = null;
 	/**
+	 * 
 	 * Receives user input
 	 * @return char
 	 */
